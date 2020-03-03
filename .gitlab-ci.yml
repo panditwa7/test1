@@ -1,0 +1,11 @@
+stages:
+  - ansiblehost
+  - cpsplatform
+  - emmplatform
+  - emmaddnode
+  - mgrappinstall
+  - mgrappaddnode
+  - femappinstall
+  - femappaddnode
+  - olmappinstall
+  - olmappaddnode
