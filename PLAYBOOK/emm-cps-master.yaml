@@ -1,0 +1,4 @@
+---
+- import_playbook: emm-cps1.yaml
+- import_playbook: emm-cps2.yaml
+- import_playbook: emm-cps3.yaml

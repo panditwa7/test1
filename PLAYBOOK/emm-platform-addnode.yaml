@@ -1,0 +1,4 @@
+---
+- hosts: emm_worker
+  roles:
+    - platform_emm_addnode

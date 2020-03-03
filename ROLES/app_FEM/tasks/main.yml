@@ -1,0 +1,24 @@
+---
+# tasks file for platform_cps
+- name: Load variable file
+  include_vars: fem.yml
+- name: Go to template path & create platform nfs ini
+  shell:
+    chdir: /install/CXP9034012_R8S/templates/Linux
+    cmd: cp config_template_FEM.eric config_template_FEM.ini
+- name: Copy the app installation script
+  copy: src=Install_App.sh dest=/install/CXP9034012_R8S/
+- name: Update the nfs ini file for Interface IP
+  ini_file:
+    path: /install/CXP9034012_R8S/templates/Linux/config_template_FEM.ini
+    section: null
+    option: "{{item.key}}"
+    value: "{{item.value}}"
+    no_extra_spaces: yes
+  with_dict: {FMServer_PG_DB_USER: "{{ FMServer_PG_DB_USER }}",FMServer_PG_DB_PASSWD: "{{ FMServer_PG_DB_PASSWD }}",FMServer_IP: "{{ FMServer_IP }}",FMServer_Netmask: "{{ FMServer_Netmask }}",Manager_IP: "{{ Manager_IP }}",FMReport_PG_DB_PASSWD: "{{ FMReport_PG_DB_PASSWD }}"}
+- name: Copy automation script
+  copy: src=install_FEM.sh dest=/opt/install_FEM.sh
+- name: Execute the FEM app installation script
+  shell: sh /opt/install_FEM.sh
+    
+ 

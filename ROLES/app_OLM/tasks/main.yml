@@ -1,0 +1,24 @@
+---
+# tasks file for platform_cps
+- name: Load variable file
+  include_vars: olm.yml
+- name: Go to template path & create platform nfs ini
+  shell:
+    chdir: /install/CXP9034012_R8S/templates/Linux
+    cmd: cp config_template_OLM.eric config_template_OLM.ini
+- name: Copy the app installation script
+  copy: src=Install_App.sh dest=/install/CXP9034012_R8S/
+- name: Update the nfs ini file for Interface IP
+  ini_file:
+    path: /install/CXP9034012_R8S/templates/Linux/config_template_OLM.ini
+    section: null
+    option: "{{item.key}}"
+    value: "{{item.value}}"
+    no_extra_spaces: yes
+  with_dict: {OLMServer_PG_DB_PASSWD: "{{ OLMServer_PG_DB_PASSWD }}",OLMServer_IP: "{{ OLMServer_IP }}",OLMServer_Netmask: "{{ OLMServer_Netmask }}",Manager_IP: "{{ Manager_IP }}",OLMTracer_IP: "{{ OLMTracer_IP }}"}
+- name: Copy automation script
+  copy: src=install_OLM.sh dest=/opt/install_OLM.sh
+- name: Execute the OLM app installation script
+  shell: sh /opt/install_OLM.sh
+    
+ 

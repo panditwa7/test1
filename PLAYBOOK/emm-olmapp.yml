@@ -1,0 +1,4 @@
+---
+- hosts: emm_master
+  roles:
+    - app_OLM
