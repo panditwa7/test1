@@ -2,3 +2,4 @@
 - hosts: EMM_CPS2
   roles:
     - role: ../ROLES/platform_cps2
+      ignore_errors: yes
