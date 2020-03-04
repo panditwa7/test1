@@ -1,4 +1,5 @@
 ---
 - hosts: emm_master
   roles:
-    - platform_emm
+    - role: ../ROLES/platform_emm
+      ignore_errors: yes

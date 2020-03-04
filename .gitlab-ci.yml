@@ -15,10 +15,12 @@ cpsplatforminstall:
        - emm-cluster
      script:
         - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-cps-master.yaml
-.emmplatforminstall:
+     allow_failure: true
+emmplatforminstall:
      stage: emmplatform
      script:
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform.yaml
+     allow_failure: true
 .emmplatformaddnode:
      stage: emmaddnode
      script:

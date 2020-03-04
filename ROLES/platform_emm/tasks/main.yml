@@ -2,12 +2,17 @@
 # tasks file for platform_cps
 - name: Load variable file
   include_vars: emm.yml
+- name: Update the hostname
+  hostname: name=emm1-001
+  
 - name: Go to template path & create platform nfs ini
   shell:
     chdir: /install/CXP9034012_R8S/templates/Linux
     cmd: cp platform_cluster_nfs.ini.eric platform_cluster_nfs.ini
 - name: Copy the platform script
   copy: src=Install_Platform.sh dest=/install/CXP9034012_R8S/
+- name: Copy hosts file
+  copy: src=hosts dest=/etc/hosts backup=yes
 - name: Update the cps ini file for ONM Bond
   ini_file:
     path: /install/CXP9034012_R8S/templates/Linux/platform_cluster_nfs.ini
@@ -37,7 +42,7 @@
   copy: src=libfunc_cps_platform.sh dest=/install/CXP9034012_R8S/lib/Linux/
 - name: Copy the cps text file with IPs
   copy: src=cps.txt dest=/install/CXP9034012_R8S/lib/Linux/
-# - name: Execute the CPS platform script
-  # shell: sh /opt/install_updated.sh
+- name: Execute the CPS platform script
+  shell: sh /opt/install_updated.sh
     
  
