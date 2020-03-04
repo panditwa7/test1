@@ -18,6 +18,8 @@ cpsplatforminstall:
      allow_failure: true
 emmplatforminstall:
      stage: emmplatform
+     tags:
+       - emm-cluster
      script:
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform.yaml
      allow_failure: true
