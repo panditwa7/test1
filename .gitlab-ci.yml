@@ -11,6 +11,8 @@ stages:
   - olmappaddnode
 cpsplatforminstall:
      stage: cpsplatform
+     tags:
+       - emm-cluster
      script:
         - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-cps-master.yaml
 .emmplatforminstall:
