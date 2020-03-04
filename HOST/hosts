@@ -1,12 +1,13 @@
 [EMM_CPS2]
 root@10.223.140.29
-
+[EMM_CPS1]
+root@10.223.140.29
 [EMM_CPS1:vars]
 ansible_password=emm123
 ansible_connection=ssh
 
 [EMM_CPS2]
-root@10.223.140.29
+root@10.223.140.30
 
 [EMM_CPS2:vars]
 ansible_password=emm123
