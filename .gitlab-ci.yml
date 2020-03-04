@@ -13,24 +13,24 @@ cpsplatforminstall:
      stage: cpsplatform
      script:
         - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-cps-master.yaml
-emmplatforminstall:
+.emmplatforminstall:
      stage: emmplatform
      script:
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform.yaml
-emmplatformaddnode:
+.emmplatformaddnode:
      stage: emmaddnode
      script:
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform-addnode.yaml
-mgrappinstall:
+.mgrappinstall:
      stage: mgrappinstall
      script:
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-mgrapp.yml
-femappinstall:
+.femappinstall:
      stage: femappinstall
      script:
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-femapp.yml
-olmappinstall:
-     stage: femappinstall
+.olmappinstall:
+     stage: olmappinstall
      script:
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-olmapp.yml
 

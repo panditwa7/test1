@@ -33,7 +33,7 @@
   with_dict: {cps_virtual_IP: "{{ cps_virtual_IP }}",other_hosts_ONM: "{{ other_hosts_ONM }}"}
 - name: Copy automation script
   copy: src=install_updated.sh dest=/opt/
-#- name: Execute the CPS platform script
-#  shell: sh /opt/install_updated.sh
+- name: Execute the CPS platform script
+  shell: sh /opt/install_updated.sh
     
  

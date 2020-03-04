@@ -5,9 +5,9 @@ CPS1:
  ONM Bond:
    bonding_interface_primary_ONM: ens224
  Interface IP:
-   bonding_interface_ip_ONM: 192.168.50.10
+   bonding_interface_ip_ONM: 192.168.50.4
    netmask_ONM: 255.255.255.0
    default_gateway_ip_ONM: 192.168.50.1
  Cluster:
-  cps_virtual_IP: 192.168.50.11
-  other_hosts_ONM: 192.168.50.14
+  cps_virtual_IP: 192.168.50.10
+  other_hosts_ONM: 192.168.50.11
