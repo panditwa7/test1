@@ -42,7 +42,7 @@
   copy: src=libfunc_cps_platform.sh dest=/install/CXP9034012_R8S/lib/Linux/
 - name: Copy the cps text file with IPs
   copy: src=cps.txt dest=/install/CXP9034012_R8S/lib/Linux/
-- name: Execute the CPS platform script
+- name: Execute the EMM platform script
   shell: sh /opt/install_updated.sh
     
  
