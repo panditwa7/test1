@@ -35,5 +35,7 @@
   copy: src=install_updated.sh dest=/opt/
 - name: Execute the CPS platform script
   shell: sh /opt/install_updated.sh
+  ignore_errors: true
+  ignore_unreachable: true
     
  
