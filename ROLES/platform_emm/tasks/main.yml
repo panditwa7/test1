@@ -44,5 +44,7 @@
   copy: src=cps.txt dest=/install/CXP9034012_R8S/lib/Linux/
 - name: Execute the EMM platform script
   shell: sh /opt/install_updated.sh
+  ignore_errors: true
+  ignore_unreachable: true
     
  
