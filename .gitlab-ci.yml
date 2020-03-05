@@ -16,6 +16,7 @@ cpsplatforminstall:
      script:
         - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-cps-master.yaml
      allow_failure: true
+     when: manual
 emmplatforminstall:
      stage: emmplatform
      tags:
@@ -23,6 +24,7 @@ emmplatforminstall:
      script:
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform.yaml
      allow_failure: true
+     when: manual
 .emmplatformaddnode:
      stage: emmaddnode
      script:
