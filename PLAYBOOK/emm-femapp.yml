@@ -1,4 +1,5 @@
 ---
 - hosts: emm_master
   roles:
-    - app_FEM
+    - role: ../ROLES/app_FEM
+      ignore_errors: yes
