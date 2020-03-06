@@ -5,7 +5,7 @@ bonding_interface_ip_ONM: 192.168.50.2
 netmask_ONM: 255.255.255.0
 default_gateway_ip_ONM: 192.168.50.1
 Cluster_ID: 250
-Cluster_Name: devops1
+Cluster_Name: devops2
 HeartBeat_Link_1: ens193
 HeartBeat_Link_2: ens224
 IO_Fencing_Type: CPS
