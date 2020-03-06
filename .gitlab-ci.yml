@@ -27,6 +27,8 @@ emmplatforminstall:
      when: manual
 emmplatformaddnode:
      stage: emmaddnode
+     tags:
+       - emm-cluster
      script:
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform-addnode.yaml
      allow_failure: true
