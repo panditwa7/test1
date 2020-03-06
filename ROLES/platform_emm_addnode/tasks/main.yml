@@ -6,6 +6,8 @@
   shell:
     chdir: /install/CXP9034012_R8S/templates/Linux
     cmd: cp platform_addnode.ini.eric platform_addnode.ini
+- name: Update the hostname
+  hostname: name=emm2-001
 - name: Copy the platform script
   copy: src=Install_Platform.sh dest=/install/CXP9034012_R8S/
 - name: Copy hosts file
@@ -35,7 +37,9 @@
   with_dict: {Clus_Node_IP: "{{ Clus_Node_IP }}",HeartBeat_Link_1: "{{ HeartBeat_Link_1 }}",HeartBeat_Link_2: "{{ HeartBeat_Link_2 }}"}
 - name: Copy automation script
   copy: src=install_updated.sh dest=/opt/install_addnode.sh
-# - name: Execute the CPS platform script
-  # shell: sh /opt/install_updated.sh
+- name: Execute the CPS platform script
+  shell: sh /opt/install_addnode.sh
+  ignore_errors: true
+  ignore_unreachable: true
     
  

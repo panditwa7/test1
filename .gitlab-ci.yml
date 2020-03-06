@@ -25,10 +25,12 @@ emmplatforminstall:
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform.yaml
      allow_failure: true
      when: manual
-.emmplatformaddnode:
+emmplatformaddnode:
      stage: emmaddnode
      script:
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform-addnode.yaml
+     allow_failure: true
+     when: manual
 .mgrappinstall:
      stage: mgrappinstall
      script:
