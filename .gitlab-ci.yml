@@ -49,9 +49,13 @@ femappinstall:
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-femapp.yml
      allow_failure: true
      when: manual
-.olmappinstall:
+olmappinstall:
      stage: olmappinstall
+     tags:
+       - emm-cluster
      script:
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-olmapp.yml
+     allow_failure: true
+     when: manual
 
      
