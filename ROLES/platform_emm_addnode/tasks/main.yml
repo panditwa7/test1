@@ -37,7 +37,7 @@
   with_dict: {Clus_Node_IP: "{{ Clus_Node_IP }}",HeartBeat_Link_1: "{{ HeartBeat_Link_1 }}",HeartBeat_Link_2: "{{ HeartBeat_Link_2 }}"}
 - name: Copy automation script
   copy: src=install_updated.sh dest=/opt/install_addnode.sh
-- name: Execute the CPS platform script
+- name: Execute the EMM Addnode platform script
   shell: sh /opt/install_addnode.sh
   ignore_errors: true
   ignore_unreachable: true

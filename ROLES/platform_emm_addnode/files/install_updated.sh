@@ -3,6 +3,8 @@ cd /install/CXP9034012_R8S/
 
 y
 y
+y
+
 EOF
 
 
