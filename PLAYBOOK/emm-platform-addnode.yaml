@@ -1,4 +1,5 @@
 ---
 - hosts: emm_worker
   roles:
-    - platform_emm_addnode
+    - role: ../ROLES/platform_emm_addnode
+      ignore_errors: yes
