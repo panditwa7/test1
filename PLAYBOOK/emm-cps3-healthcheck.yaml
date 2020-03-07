@@ -1,6 +1,6 @@
 ---
 - hosts: EMM_CPS3
-    tasks:
+  tasks:
   - name: healthcheck CPS3 Group
     shell: hastatus -sum
     register: status
