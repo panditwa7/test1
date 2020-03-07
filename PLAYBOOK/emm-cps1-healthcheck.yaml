@@ -1,0 +1,10 @@
+---
+- hosts: EMM_CPS1
+  tasks:
+  - name: healthcheck CPS1 Group
+    shell: hastatus -sum
+    register: status
+  - name: healthcheck status
+    debug:
+      msg: "CPS1 is working fine"
+    when: status.stdout is search('ONLINE')

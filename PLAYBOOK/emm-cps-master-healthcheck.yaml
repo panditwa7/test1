@@ -1,0 +1,7 @@
+---
+- import_playbook: emm-cps1-healthcheck.yaml
+ 
+- import_playbook: emm-cps2-healthcheck.yaml
+  
+- import_playbook: emm-cps3-healthcheck.yaml
+  
