@@ -3,6 +3,8 @@
   tasks:
   - name: healthcheck CPS2 Group
     shell: hastatus -sum
+    args:
+      executable: /bin/bash
     register: status
   - name: healthcheck status
     debug:
