@@ -2,9 +2,7 @@
 - hosts: EMM_CPS1
   tasks:
   - name: healthcheck CPS1 Group
-    shell: hastatus -sum
-    args:
-      executable: /bin/bash
+    shell: sh /opt/health.sh
     register: status
   - name: healthcheck status
     debug:
