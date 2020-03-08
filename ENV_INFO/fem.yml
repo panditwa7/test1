@@ -1,0 +1,8 @@
+---
+# vars file for platform_cps
+FMServer_PG_DB_USER: "mmsuper"
+FMServer_PG_DB_PASSWD: "mmsuper"
+FMServer_IP: 192.168.50.24
+Manager_IP: 192.168.50.22 
+FMServer_Netmask: 255.255.255.0 
+FMReport_PG_DB_PASSWD: "mmsuper"
