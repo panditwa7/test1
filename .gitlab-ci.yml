@@ -15,9 +15,9 @@ cpsplatforminstall:
      tags:
        - emm-cluster
      script:
-        - cp ./ENV-INFO/cps1.yml ./ROLES/platform_cps1/vars/
-        - cp ./ENV-INFO/cps2.yml ./ROLES/platform_cps2/vars/
-        - cp ./ENV-INFO/cps3.yml ./ROLES/platform_cps3/vars/
+        - cp ./ENV_INFO/cps1.yml ./ROLES/platform_cps1/vars/
+        - cp ./ENV_INFO/cps2.yml ./ROLES/platform_cps2/vars/
+        - cp ./ENV_INFO/cps3.yml ./ROLES/platform_cps3/vars/
         - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-cps-master.yaml
      allow_failure: true
      when: manual
@@ -33,7 +33,7 @@ emmplatforminstall:
      tags:
        - emm-cluster
      script:
-       - cp ./ENV-INFO/emm-platform.yml ./ROLES/platform_emm/vars/emm.yml
+       - cp ./ENV_INFO/emm-platform.yml ./ROLES/platform_emm/vars/emm.yml
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform.yaml
      allow_failure: true
      when: manual
@@ -42,7 +42,7 @@ emmplatformaddnode:
      tags:
        - emm-cluster
      script:
-       - cp ./ENV-INFO/emm-addnode.yml ./ROLES/platform_emm_addnode/vars/emm.yml
+       - cp ./ENV_INFO/emm-addnode.yml ./ROLES/platform_emm_addnode/vars/emm.yml
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform-addnode.yaml
      allow_failure: true
      when: manual
@@ -51,7 +51,7 @@ mgrappinstall:
      tags:
        - emm-cluster
      script:
-       - cp ./ENV-INFO/mgr.yml ./ROLES/app_MGR/vars/mgr.yml
+       - cp ./ENV_INFO/mgr.yml ./ROLES/app_MGR/vars/mgr.yml
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-mgrapp.yml
      allow_failure: true
      when: manual
@@ -60,7 +60,7 @@ femappinstall:
      tags:
        - emm-cluster
      script:
-       - cp ./ENV-INFO/fem.yml ./ROLES/app_FEM/vars/fem.yml
+       - cp ./ENV_INFO/fem.yml ./ROLES/app_FEM/vars/fem.yml
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-femapp.yml
      allow_failure: true
      when: manual
@@ -69,7 +69,7 @@ olmappinstall:
      tags:
        - emm-cluster
      script:
-       - cp ./ENV-INFO/olm.yml ./ROLES/app_OLM/vars/olm.yml
+       - cp ./ENV_INFO/olm.yml ./ROLES/app_OLM/vars/olm.yml
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-olmapp.yml
      allow_failure: true
      when: manual
