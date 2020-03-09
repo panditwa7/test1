@@ -7,6 +7,7 @@ stages:
   - emmaddnode
   - emmworkerhealthcheck
   - mgrappinstall
+  - mgrhealthcheck
   - mgrappaddnode
   - femappinstall
   - femappaddnode
@@ -73,6 +74,14 @@ mgrappinstall:
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-mgrapp.yml
      allow_failure: true
      when: manual
+mgrhealthcheck:
+      stage: mgrhealthcheck
+      tags:
+       - emm-cluster
+      script:
+        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-MGR-healthcheck.yaml
+      when: manual
+      
 femappinstall:
      stage: femappinstall
      tags:
