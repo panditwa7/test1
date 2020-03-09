@@ -5,6 +5,7 @@ stages:
   - emmplatform
   - emmmasterhealthcheck
   - emmaddnode
+  - emmworkerhealthcheck
   - mgrappinstall
   - mgrappaddnode
   - femappinstall
@@ -55,6 +56,13 @@ emmplatformaddnode:
        - cp ./ENV_INFO/emm-addnode.yml ./ROLES/platform_emm_addnode/vars/emm.yml
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform-addnode.yaml
      allow_failure: true
+     when: manual
+emmworkerhealthcheck:
+     stage: emmworkerhealthcheck
+     tags:
+       - emm-cluster
+     script:
+        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-worker-healthcheck.yaml
      when: manual
 mgrappinstall:
      stage: mgrappinstall
