@@ -3,6 +3,7 @@ stages:
   - cpsplatform
   - cpsplatformhealthcheck
   - emmplatform
+  - emmmasterhealthcheck
   - emmaddnode
   - mgrappinstall
   - mgrappaddnode
@@ -27,6 +28,7 @@ cpshealthcheck:
        - emm-cluster
      script:
         - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-cps-master-healthcheck.yaml
+     when: manual
 
 emmplatforminstall:
      stage: emmplatform
@@ -37,6 +39,12 @@ emmplatforminstall:
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform.yaml
      allow_failure: true
      when: manual
+emmmasterhealthcheck:
+     stage: emmmasterhealthcheck
+     script:
+        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-master-healthcheck.yaml
+     when: manual
+     
 emmplatformaddnode:
      stage: emmaddnode
      tags:
