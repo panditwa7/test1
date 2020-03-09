@@ -41,6 +41,8 @@ emmplatforminstall:
      when: manual
 emmmasterhealthcheck:
      stage: emmmasterhealthcheck
+     tags:
+       - emm-cluster
      script:
         - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-master-healthcheck.yaml
      when: manual
