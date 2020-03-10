@@ -84,7 +84,7 @@ mgrhealthcheck:
         - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-MGR-healthcheck.yaml
       when: manual
 mgraddnode:
-     stage: mgraddnode
+     stage: mgrappaddnode
      tags:
        - emm-cluster
      script:
