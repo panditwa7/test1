@@ -1,0 +1,7 @@
+---
+- hosts: emm_worker
+  tasks:
+  - name: MGR app add node
+    shell:
+      cmd: ./Install_App.sh -P MGR -C ADDTOSG -M NFS
+      chdir: /install/CXP9034012_R8S

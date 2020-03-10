@@ -83,7 +83,13 @@ mgrhealthcheck:
       script:
         - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-MGR-healthcheck.yaml
       when: manual
-      
+mgraddnode:
+     stage: mgraddnode
+     tags:
+       - emm-cluster
+     script:
+       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-mgrapp-addnode.yml
+     when: manual       
 femappinstall:
      stage: femappinstall
      tags:
