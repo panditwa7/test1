@@ -1,0 +1,9 @@
+---
+# tasks file for platform_cps
+
+- name: Copy automation script
+  copy: src=install_OLM_Addnode.sh dest=/opt/install_OLM_Addnode.sh
+- name: Execute the OLM Add node script
+  shell: sh /opt/install_OLM_Addnode.sh
+    
+ 

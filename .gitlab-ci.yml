@@ -129,4 +129,11 @@ olmhealthcheck:
      script:
         - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-OLM-healthcheck.yaml
      when: manual
+olmaddnode:
+     stage: olmappaddnode
+     tags:
+       - emm-cluster
+     script:
+       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-olmapp-addnode.yml
+     when: manual
      
