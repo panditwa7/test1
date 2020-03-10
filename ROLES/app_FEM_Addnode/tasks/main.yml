@@ -1,0 +1,9 @@
+---
+# tasks file for platform_cps
+
+- name: Copy automation script
+  copy: src=install_FEM_Addnode.sh dest=/opt/install_FEM_Addnode.sh
+- name: Execute the FEM Add node script
+  shell: sh /opt/install_FEM_Addnode.sh
+    
+ 

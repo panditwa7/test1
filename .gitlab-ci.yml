@@ -106,6 +106,13 @@ femhealthcheck:
       script:
         - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-FEM-healthcheck.yaml
       when: manual
+femaddnode:
+     stage: femappaddnode
+     tags:
+       - emm-cluster
+     script:
+       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-femapp-addnode.yml
+     when: manual 
 olmappinstall:
      stage: olmappinstall
      tags:

@@ -1,0 +1,4 @@
+---
+- hosts: emm_worker
+  roles:
+    - role: ../ROLES/app_FEM_Addnode
