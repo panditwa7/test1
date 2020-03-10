@@ -1,0 +1,9 @@
+---
+# tasks file for platform_cps
+
+- name: Copy automation script
+  copy: src=install_MGR_Addnode.sh dest=/opt/install_MGR_Addnode.sh
+- name: Execute the MGR App Installation script
+  shell: sh /opt/install_MGR_Addnode.sh
+    
+ 
