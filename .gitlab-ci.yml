@@ -115,5 +115,5 @@ olmhealthcheck:
        - emm-cluster
      script:
         - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-OLM-healthcheck.yaml
-      when: manual
+     when: manual
      
