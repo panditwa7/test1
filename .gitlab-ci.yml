@@ -13,6 +13,7 @@ stages:
   - femhealthcheck
   - femappaddnode
   - olmappinstall
+  - olmhealthcheck
   - olmappaddnode
 cpsplatforminstall:
      stage: cpsplatform
@@ -108,5 +109,11 @@ olmappinstall:
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-olmapp.yml
      allow_failure: true
      when: manual
-
+olmhealthcheck:
+     stage: olmhealthcheck
+     tags:
+       - emm-cluster
+     script:
+        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-OLM-healthcheck.yaml
+      when: manual
      
