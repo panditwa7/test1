@@ -23,7 +23,7 @@ cpsplatforminstall:
         - cp ./ENV_INFO/cps1.yml ./ROLES/platform_cps1/vars/
         - cp ./ENV_INFO/cps2.yml ./ROLES/platform_cps2/vars/
         - cp ./ENV_INFO/cps3.yml ./ROLES/platform_cps3/vars/
-        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-cps-master.yaml
+        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-cps-master.yaml -v
      allow_failure: true
      when: manual
 cpshealthcheck:
@@ -31,7 +31,7 @@ cpshealthcheck:
      tags:
        - emm-cluster
      script:
-        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-cps-master-healthcheck.yaml
+        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-cps-master-healthcheck.yaml -v
      when: manual
 
 emmplatforminstall:
@@ -40,7 +40,7 @@ emmplatforminstall:
        - emm-cluster
      script:
        - cp ./ENV_INFO/emm-platform.yml ./ROLES/platform_emm/vars/emm.yml
-       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform.yaml
+       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform.yaml -v
      allow_failure: true
      when: manual
 emmmasterhealthcheck:
@@ -48,7 +48,7 @@ emmmasterhealthcheck:
      tags:
        - emm-cluster
      script:
-        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-master-healthcheck.yaml
+        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-master-healthcheck.yaml -v
      when: manual
      
 emmplatformaddnode:
@@ -57,7 +57,7 @@ emmplatformaddnode:
        - emm-cluster
      script:
        - cp ./ENV_INFO/emm-addnode.yml ./ROLES/platform_emm_addnode/vars/emm.yml
-       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform-addnode.yaml
+       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform-addnode.yaml -v
      allow_failure: true
      when: manual
 emmworkerhealthcheck:
@@ -65,7 +65,7 @@ emmworkerhealthcheck:
      tags:
        - emm-cluster
      script:
-        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-worker-healthcheck.yaml
+        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-worker-healthcheck.yaml -v
      when: manual
 mgrappinstall:
      stage: mgrappinstall
@@ -73,7 +73,7 @@ mgrappinstall:
        - emm-cluster
      script:
        - cp ./ENV_INFO/mgr.yml ./ROLES/app_MGR/vars/mgr.yml
-       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-mgrapp.yml
+       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-mgrapp.yml -v
      allow_failure: true
      when: manual
 mgrhealthcheck:
@@ -81,21 +81,21 @@ mgrhealthcheck:
       tags:
        - emm-cluster
       script:
-        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-MGR-healthcheck.yaml
+        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-MGR-healthcheck.yaml -v
       when: manual
 mgraddnode:
      stage: mgrappaddnode
      tags:
        - emm-cluster
      script:
-       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-mgrapp-addnode.yml
+       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-mgrapp-addnode.yml -v
      when: manual       
 femappinstall:
      stage: femappinstall
      tags:
        - emm-cluster
      script:
-       - cp ./ENV_INFO/fem.yml ./ROLES/app_FEM/vars/fem.yml
+       - cp ./ENV_INFO/fem.yml ./ROLES/app_FEM/vars/fem.yml -v
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-femapp.yml
      allow_failure: true
      when: manual
@@ -104,14 +104,14 @@ femhealthcheck:
       tags:
        - emm-cluster
       script:
-        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-FEM-healthcheck.yaml
+        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-FEM-healthcheck.yaml -v
       when: manual
 femaddnode:
      stage: femappaddnode
      tags:
        - emm-cluster
      script:
-       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-femapp-addnode.yml
+       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-femapp-addnode.yml -v
      when: manual 
 olmappinstall:
      stage: olmappinstall
@@ -119,7 +119,7 @@ olmappinstall:
        - emm-cluster
      script:
        - cp ./ENV_INFO/olm.yml ./ROLES/app_OLM/vars/olm.yml
-       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-olmapp.yml
+       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-olmapp.yml -v
      allow_failure: true
      when: manual
 olmhealthcheck:
@@ -127,13 +127,13 @@ olmhealthcheck:
      tags:
        - emm-cluster
      script:
-        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-OLM-healthcheck.yaml
+        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-OLM-healthcheck.yaml -v
      when: manual
 olmaddnode:
      stage: olmappaddnode
      tags:
        - emm-cluster
      script:
-       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-olmapp-addnode.yml
+       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-olmapp-addnode.yml -v
      when: manual
      

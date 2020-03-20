@@ -35,7 +35,7 @@
     no_extra_spaces: yes
   with_dict: {cps_virtual_IP: "{{ cps_virtual_IP }}",other_hosts_ONM: "{{ other_hosts_ONM }}"}
 - name: Copy automation script
-  copy: src=install_updated.sh dest=-/{{ version.stdout }}/
+  copy: src=install_updated.sh dest=./{{ version.stdout }}/
 - name: Execute the CPS platform script
   shell: sudo sh ./{{ version.stdout }}/install_updated.sh
   ignore_errors: true
