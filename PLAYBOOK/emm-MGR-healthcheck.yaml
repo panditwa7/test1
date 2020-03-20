@@ -2,7 +2,7 @@
 - hosts: emm_master
   tasks:
   - name: CLI status
-    shell: /usr/bin/MMControl status | grep CLI
+    shell: sudo /usr/bin/MMControl status | grep CLI
     register: clistatus
   - name: NodeManager status
     shell: /usr/bin/MMControl status | grep NodeManager
