@@ -1,5 +1,7 @@
-cd /install/CXP9034012_R8S/
-./Install_Platform.sh -C CLUSTER -E external -F NFS << EOF
+exit 0
+version=`ls -td ./CX* | head -1`
+cd ./$version/
+sudo ./Install_Platform.sh -C CLUSTER -E external -F NFS << EOF
 
 y
 y

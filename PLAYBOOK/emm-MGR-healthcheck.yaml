@@ -8,16 +8,16 @@
     shell: /usr/bin/MMControl status | grep NodeManager
     register: NodeManager
   - name: Manager status
-    shell: /usr/bin/MMControl status | grep Manager
+    shell: sudo /usr/bin/MMControl status | grep Manager
     register: Manager
   - name: Database status
-    shell: /usr/bin/MMControl status | grep Database
+    shell: sudo /usr/bin/MMControl status | grep Database
     register: Database
   - name: Sentinel status
-    shell: /usr/bin/MMControl status | grep Sentinel
+    shell: sudo /usr/bin/MMControl status | grep Sentinel
     register: Sentinel
   - name: Tomcat status
-    shell: /usr/bin/MMControl status | grep Tomcat
+    shell: sudo /usr/bin/MMControl status | grep Tomcat
     register: Tomcat
   - name: healthcheck status
     debug:

@@ -2,7 +2,7 @@
 - hosts: emm_master
   tasks:
   - name: healthcheck EMM master Group
-    shell: /opt/VRTSvcs/bin/hastatus -sum | grep emm1-001
+    shell: sudo /opt/VRTSvcs/bin/hastatus -sum | grep emm1-001
     register: status
   - name: healthcheck status
     debug:

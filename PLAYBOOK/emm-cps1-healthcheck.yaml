@@ -2,7 +2,7 @@
 - hosts: EMM_CPS1
   tasks:
   - name: healthcheck CPS1 Group
-    shell: /opt/VRTSvcs/bin/hastatus -sum
+    shell: sudo /opt/VRTSvcs/bin/hastatus -sum
     register: status
   - name: healthcheck status
     debug:

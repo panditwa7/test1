@@ -1,9 +1,12 @@
 ---
 # tasks file for platform_cps
 
+- name: Get EM20 Installation Tool version
+  shell: ls -td CXP* | head -1
+  register: version  
 - name: Copy automation script
-  copy: src=install_MGR_Addnode.sh dest=/opt/install_MGR_Addnode.sh
+  copy: src=install_MGR_Addnode.sh dest=./{{ version.stdout }}/install_MGR_Addnode.sh
 - name: Execute the MGR App Installation script
-  shell: sh /opt/install_MGR_Addnode.sh
+  shell: sh ./{{ version.stdout }}/install_MGR_Addnode.sh
     
  

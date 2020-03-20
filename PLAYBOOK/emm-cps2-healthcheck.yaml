@@ -2,7 +2,7 @@
 - hosts: EMM_CPS2
   tasks:
   - name: healthcheck CPS2 Group
-    shell: /opt/VRTSvcs/bin/hastatus -sum
+    shell: sudo /opt/VRTSvcs/bin/hastatus -sum
     args:
       executable: /bin/bash
     register: status

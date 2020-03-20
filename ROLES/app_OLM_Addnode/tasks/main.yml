@@ -1,9 +1,11 @@
 ---
 # tasks file for platform_cps
-
+- name: Get EM20 Installation Tool version
+  shell: ls -td CXP* | head -1
+  register: version  
 - name: Copy automation script
-  copy: src=install_OLM_Addnode.sh dest=/opt/install_OLM_Addnode.sh
+  copy: src=install_OLM_Addnode.sh dest=./{{ version.stdout }}/install_OLM_Addnode.sh
 - name: Execute the OLM Add node script
-  shell: sh /opt/install_OLM_Addnode.sh
+  shell: sudo sh ./{{ version.stdout }}/install_OLM_Addnode.sh
     
  

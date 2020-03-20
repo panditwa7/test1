@@ -2,7 +2,7 @@
 - hosts: emm_master
   tasks:
   - name: fm_db_Server1 status
-    shell: /usr/bin/MMControl status | grep fm_db_Server1
+    shell: sudo /usr/bin/MMControl status | grep fm_db_Server1
     register: femstatus
   
   - name: healthcheck status

@@ -1,35 +1,35 @@
 [EMM_CPS1]
-root@10.223.140.29
+emmuser@10.223.141.226
 [EMM_CPS1:vars]
-ansible_password=emm123
+ansible_password=Mmuser1!
 ansible_connection=ssh
 
 [EMM_CPS2]
-root@10.223.140.30
+emmuser@10.223.141.227
 
 [EMM_CPS2:vars]
-ansible_password=emm123
+ansible_password=Mmuser1!
 ansible_connection=ssh
 
 [EMM_CPS3]
-root@10.223.140.31
+emmuser@10.223.141.238
 
 [EMM_CPS3:vars]
-ansible_password=emm123
+ansible_password=Mmuser1!
 ansible_connection=ssh
 
 [emm_master]
-root@10.223.140.32
+emmuser@10.223.141.223
 
 [emm_master:vars]
-ansible_password=emm123
+ansible_password=Mmuser1!
 ansible_connection=ssh
 
 [emm_worker]
-root@10.223.140.33
+emmuser@10.223.141.237
 
 [emm_worker:vars]
-ansible_password=emm123
+ansible_password=Mmuser1!
 ansible_connection=ssh
 
 

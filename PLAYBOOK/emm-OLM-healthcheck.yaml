@@ -2,16 +2,16 @@
 - hosts: emm_master
   tasks:
   - name: OnlineServer status
-    shell: /usr/bin/MMControl status | grep OnlineServer
+    shell: sudo /usr/bin/MMControl status | grep OnlineServer
     register: OnlineServer
   - name: om_db_SERVER status
-    shell: /usr/bin/MMControl status | grep om_db_SERVER
+    shell: sudo /usr/bin/MMControl status | grep om_db_SERVER
     register: om_db_SERVER
   - name: Tracer status
-    shell: /usr/bin/MMControl status | grep Tracer
+    shell: sudo /usr/bin/MMControl status | grep Tracer
     register: Tracer
   - name: om_db_Tracer status
-    shell: /usr/bin/MMControl status | grep om_db_Tracer
+    shell: sudo /usr/bin/MMControl status | grep om_db_Tracer
     register: om_db_Tracer
   
   - name: healthcheck status
