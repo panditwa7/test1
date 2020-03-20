@@ -10,8 +10,7 @@
     chdir: ./{{ version.stdout }}/templates/Linux
     cmd: cp config_template_MGR.eric config_template_MGR.ini
 - name: Copy the app installation script
-  copy: src=Install_App.sh dest=./{{ version.stdout }}/
-  backup: yes
+  copy: src=Install_App.sh dest=./{{ version.stdout }}/ backup=yes
 - name: Update the nfs ini file for Interface IP
   ini_file:
     path: ./{{ version.stdout }}/templates/Linux/config_template_MGR.ini

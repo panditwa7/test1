@@ -12,8 +12,7 @@
     chdir: ./{{ version.stdout }}/templates/Linux
     cmd: cp platform_cluster_nfs.ini.eric platform_cluster_nfs.ini
 - name: Copy the platform script
-  copy: src=Install_Platform.sh dest=./{{ version.stdout }}/
-  backup: yes
+  copy: src=Install_Platform.sh dest=./{{ version.stdout }}/ backup=yes
 - name: Copy hosts file
   copy: src=hosts dest=/etc/hosts backup=yes
 - name: Update the cps ini file for ONM Bond
@@ -42,8 +41,7 @@
 - name: Copy automation script
   copy: src=install_updated.sh dest=./{{ version.stdout }}/
 - name: Copy the cps libfunc script
-  copy: src=libfunc_cps_platform.sh dest=./{{ version.stdout }}/lib/Linux/
-  backup: yes
+  copy: src=libfunc_cps_platform.sh dest=./{{ version.stdout }}/lib/Linux/ backup=yes
 - name: Copy the cps text file with IPs
   copy: src=cps.txt dest=./{{ version.stdout }}/lib/Linux/
 - name: Execute the EMM platform script
