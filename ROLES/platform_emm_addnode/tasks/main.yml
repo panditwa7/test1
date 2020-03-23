@@ -17,7 +17,7 @@
 #- name: Copy hosts file
 #  copy: src=hosts dest=/etc/hosts backup=yes
 - name: Update hosts file
-  shell: sudo chmod 666 /etc/hosts; sudo echo "{{ hostname }} {{ bonding_interface_ip_ONM }}" >> /etc/hosts; sudo chmod 644 /etc/hosts
+  shell: sudo chmod 666 /etc/hosts; sudo echo "{{ bonding_interface_ip_ONM }} {{ hostname }}" >> /etc/hosts; sudo chmod 644 /etc/hosts
 - name: Update the cps ini file for ONM Bond
   ini_file:
     path: ./{{ version.stdout }}/templates/Linux/platform_addnode.ini
