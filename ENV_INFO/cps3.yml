@@ -6,5 +6,3 @@ netmask_ONM: 255.255.255.0
 default_gateway_ip_ONM: 10.61.100.1
 cps_virtual_IP: 10.61.100.113
 other_hosts_ONM: 10.61.100.7
-# hostname
-hostname: em20-cps3
