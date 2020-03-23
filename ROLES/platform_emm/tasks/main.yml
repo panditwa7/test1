@@ -1,9 +1,10 @@
 ---
-# tasks file for platform_cps
+# tasks file for master
 - name: Load variable file
   include_vars: emm.yml
 - name: Update the hostname
-  hostname: name=emm1-001
+  #hostname: name=emm1-001
+  shell: sudo hostnamectl set-hostname {{ hostname }}
 - name: Get EM20 Installation Tool version
   shell: ls -td CXP* | head -1
   register: version  
@@ -13,8 +14,10 @@
     cmd: cp platform_cluster_nfs.ini.eric platform_cluster_nfs.ini
 - name: Copy the platform script
   copy: src=Install_Platform.sh dest=./{{ version.stdout }}/ backup=yes
-- name: Copy hosts file
-  copy: src=hosts dest=/etc/hosts backup=yes
+#- name: Copy hosts file
+#  copy: src=hosts dest=/etc/hosts backup=yes
+- name: Update hosts file
+  shell: sudo cat "{{ hostname }} {{ bonding_interface_ip_ONM }}" >> /etc/hosts
 - name: Update the cps ini file for ONM Bond
   ini_file:
     path: ./{{ version.stdout }}/templates/Linux/platform_cluster_nfs.ini

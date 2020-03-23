@@ -1,6 +1,5 @@
 ---
-# tasks file for platform_cps
-
+# tasks file for fem
 - name: Get EM20 Installation Tool version
   shell: ls -td CXP* | head -1
   register: version  

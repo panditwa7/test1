@@ -1,5 +1,5 @@
 ---
-# tasks file for platform_cps
+# tasks file for fem
 - name: Load variable file
   include_vars: fem.yml
 - name: Get EM20 Installation Tool version

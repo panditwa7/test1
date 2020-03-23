@@ -1,5 +1,5 @@
 ---
-# vars file for platform_cps
+# vars file for olm
 OLMServer_PG_DB_PASSWD: "mmsuper"
 OLMServer_IP: 10.61.100.103
 Manager_IP: 10.61.100.100

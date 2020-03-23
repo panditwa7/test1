@@ -1,5 +1,5 @@
 ---
-# vars file for platform_cps
+# vars file for mgr
 MANAGER_PG_DB_USER: "mmsuper"
 MANAGER_PG_DB_PASSWD: "mmsuper"
 MANAGER_PG_DB_Port: "5445"

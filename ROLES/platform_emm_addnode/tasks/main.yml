@@ -1,5 +1,5 @@
 ---
-# tasks file for platform_cps
+# tasks file for worker
 - name: Load variable file
   include_vars: emm.yml
 - name: Get EM20 Installation Tool version
@@ -10,11 +10,14 @@
     chdir: ./{{ version.stdout }}/templates/Linux
     cmd: cp platform_addnode.ini.eric platform_addnode.ini
 - name: Update the hostname
-  hostname: name=emm2-001
+  #hostname: name=emm1-001
+  shell: sudo hostnamectl set-hostname {{ hostname }}
 - name: Copy the platform script
   copy: src=Install_Platform.sh dest=./{{ version.stdout }}/ backup=yes
-- name: Copy hosts file
-  copy: src=hosts dest=/etc/hosts backup=yes
+#- name: Copy hosts file
+#  copy: src=hosts dest=/etc/hosts backup=yes
+- name: Update hosts file
+  shell: sudo cat "{{ hostname }} {{ bonding_interface_ip_ONM }}" >> /etc/hosts
 - name: Update the cps ini file for ONM Bond
   ini_file:
     path: ./{{ version.stdout }}/templates/Linux/platform_addnode.ini

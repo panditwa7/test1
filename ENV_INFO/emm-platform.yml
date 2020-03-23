@@ -1,5 +1,5 @@
 ---
-# vars file for platform_cps
+# vars file for master emm
 bonding_interface_primary_ONM: ens192
 bonding_interface_ip_ONM: 10.61.100.7
 netmask_ONM: 255.255.255.0
@@ -16,3 +16,5 @@ NFS_Server_Version_for_MMStorage: nfs4
 NFS_Share_IP_for_MMStorage: 10.61.100.4
 MMStorage_NFS_Share_Name: /data
 other_hosts_ONM: 10.61.100.11
+# hostname
+hostname: em20-master
