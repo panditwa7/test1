@@ -580,7 +580,7 @@ Get_And_Validate_Input_CPS() {
         else
                 ${ECHO} "\n*** Virtual IP selection for CPS Based I/O Fencing ***\n"
                 [ -s /var/tmp/all_cps ] && rm -f /var/tmp/all_cps >/dev/null 2>&1
-				input=`find . -name cps.txt`
+		input="/home/emmuser/CXP9036929_R1Z/lib/Linux/cps.txt"
                 for i in {1,2,3}; do
                         case $i in
                         1) cps_name_i="1st" ;;
