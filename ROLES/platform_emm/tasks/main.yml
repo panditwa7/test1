@@ -3,10 +3,6 @@
 - name: Load variable file
   include_vars: emm.yml
 - name: Update the hostname
-  shell: sudo hostnamectl set-hostname {{ hostname }}
-- name: Update hosts file
-  shell: sudo chmod 666 /etc/hosts; sudo echo "{{ bonding_interface_ip_ONM }} {{ hostname }}" >> /etc/hosts; sudo chmod 644 /etc/hosts  
-- name: Update the hostname
   #hostname: name=emm1-001
   shell: sudo hostnamectl set-hostname {{ hostname }}
 - name: Get EM20 Installation Tool version

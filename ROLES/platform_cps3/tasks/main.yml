@@ -5,6 +5,10 @@
   - name: Get EM20 Installation Tool version
     shell: ls -td CXP* | head -1
     register: version  
+  - name: Update the hostname
+    shell: sudo hostnamectl set-hostname {{ hostname }}
+  - name: Update hosts file
+    shell: sudo chmod 666 /etc/hosts; sudo echo "{{ bonding_interface_ip_ONM }} {{ hostname }}" >> /etc/hosts; sudo chmod 644 /etc/hosts  
   - name: Go to template path & create cps ini
     shell:
       chdir: ./{{ version.stdout }}/templates/Linux
