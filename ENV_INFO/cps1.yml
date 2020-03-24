@@ -1,8 +1,8 @@
 ---
 # vars file for platform_cps
-bonding_interface_primary_ONM: ens192
-bonding_interface_ip_ONM: 10.61.100.11
+bonding_interface_primary_ONM: ens256
+bonding_interface_ip_ONM: 192.168.50.11
 netmask_ONM: 255.255.255.0
-default_gateway_ip_ONM: 10.61.100.1
-cps_virtual_IP: 10.61.100.111
-other_hosts_ONM: 10.61.100.7
+default_gateway_ip_ONM: 192.168.50.1
+cps_virtual_IP: 192.168.50.100
+other_hosts_ONM: 192.168.50.15

@@ -1,7 +1,7 @@
 ---
 # vars file for olm
 OLMServer_PG_DB_PASSWD: "mmsuper"
-OLMServer_IP: 10.61.100.103
-Manager_IP: 10.61.100.100
+OLMServer_IP: 192.168.50.105
+Manager_IP: 192.168.50.103
 OLMServer_Netmask: 255.255.255.0
-OLMTracer_IP: 10.61.100.104
+OLMTracer_IP: 192.168.50.107
