@@ -12,7 +12,7 @@ ansible_password=Mmuser1!
 ansible_connection=ssh
 
 [EMM_CPS3]
-emmuser@10.223.141.238
+emmuser@10.223.141.229
 
 [EMM_CPS3:vars]
 ansible_password=Mmuser1!
@@ -26,7 +26,7 @@ ansible_password=Mmuser1!
 ansible_connection=ssh
 
 [emm_worker]
-emmuser@10.223.141.237
+emmuser@10.223.141.224
 
 [emm_worker:vars]
 ansible_password=Mmuser1!
