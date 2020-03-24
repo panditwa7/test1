@@ -2,6 +2,10 @@
 # tasks file for platform_cps
 - name: Load variable file
   include_vars: cps1.yml
+- name: Update the hostname
+  shell: sudo hostnamectl set-hostname {{ hostname }}
+- name: Update hosts file
+  shell: sudo chmod 666 /etc/hosts; sudo echo "{{ bonding_interface_ip_ONM }} {{ hostname }}" >> /etc/hosts; sudo chmod 644 /etc/hosts
 - name: Get EM20 Installation Tool version
   shell: ls -td CXP* | head -1
   register: version  
