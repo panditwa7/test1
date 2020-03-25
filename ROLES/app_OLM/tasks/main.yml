@@ -20,7 +20,7 @@
     no_extra_spaces: yes
   with_dict: {OLMServer_PG_DB_PASSWD: "{{ OLMServer_PG_DB_PASSWD }}",OLMServer_IP: "{{ OLMServer_IP }}",OLMServer_Netmask: "{{ OLMServer_Netmask }}",Manager_IP: "{{ Manager_IP }}",OLMTracer_IP: "{{ OLMTracer_IP }}"}
 - name: Copy automation script
-  copy: src=install_OLM.sh dest=./{{ version.stdout }}/install_OLM.sh
+  copy: src=install_OLM.sh dest=./{{ version.stdout }}/install_OLM.sh mode=u+rwx
 - name: Execute the OLM app installation script
   shell: sudo sh ./{{ version.stdout }}/install_OLM.sh
     

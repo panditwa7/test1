@@ -20,7 +20,7 @@
     no_extra_spaces: yes
   with_dict: {FMServer_PG_DB_USER: "{{ FMServer_PG_DB_USER }}",FMServer_PG_DB_PASSWD: "{{ FMServer_PG_DB_PASSWD }}",FMServer_IP: "{{ FMServer_IP }}",FMServer_Netmask: "{{ FMServer_Netmask }}",Manager_IP: "{{ Manager_IP }}",FMReport_PG_DB_PASSWD: "{{ FMReport_PG_DB_PASSWD }}"}
 - name: Copy automation script
-  copy: src=install_FEM.sh dest=./{{ version.stdout }}/install_FEM.sh
+  copy: src=install_FEM.sh dest=./{{ version.stdout }}/install_FEM.sh mode=u+rwx
 - name: Execute the FEM app installation script
   shell: sudo sh ./{{ version.stdout }}/install_FEM.sh
     

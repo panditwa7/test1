@@ -1,10 +1,10 @@
 ---
-- hosts: emm_master
-  tasks:
-  - name: healthcheck EMM master Group
-    shell: sudo /opt/VRTSvcs/bin/hastatus -sum | grep emm1-001
-    register: status
-  - name: healthcheck status
-    debug:
-      msg: "EMM master is working fine"
-    when: status.stdout is search('RUNNING')
+  - hosts: emm_master
+    tasks:
+    - name: healthcheck EMM master Group
+      shell: sudo /opt/VRTSvcs/bin/hastatus -sum
+      register: status
+    - name: healthcheck status
+      debug:
+        msg: "EMM master is working fine"
+      when: status.stdout is search('RUNNING')  

@@ -11,7 +11,7 @@
 - name: Go to template path & create platform nfs ini
   shell:
     chdir: ./{{ version.stdout }}/templates/Linux
-    cmd: cp platform_cluster_nfs.ini.eric platform_cluster_nfs.ini
+    cmd: cp -p platform_cluster_nfs.ini.eric platform_cluster_nfs.ini
 - name: Copy the platform script
   copy: src=Install_Platform.sh dest=./{{ version.stdout }}/ backup=yes
 #- name: Copy hosts file

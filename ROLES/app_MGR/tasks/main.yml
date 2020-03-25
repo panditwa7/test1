@@ -20,7 +20,7 @@
     no_extra_spaces: yes
   with_dict: {MANAGER_PG_DB_USER: "{{ MANAGER_PG_DB_USER }}",MANAGER_PG_DB_PASSWD: "{{ MANAGER_PG_DB_PASSWD }}",MANAGER_PG_DB_Port: "{{ MANAGER_PG_DB_Port }}",Manager_IP: "{{ Manager_IP }}",Manager_Netmask: "{{ Manager_Netmask }}",LIC_IP: "{{ LIC_IP }}",LIC_Netmask: "{{ LIC_Netmask }}"}
 - name: Copy automation script
-  copy: src=install_MGR.sh dest=./{{ version.stdout }}/install_MGR.sh
+  copy: src=install_MGR.sh dest=./{{ version.stdout }}/install_MGR.sh mode=u+rwx
 - name: Execute the MGR App Installation script
   shell: sudo sh ./{{ version.stdout }}/install_MGR.sh
     

@@ -5,7 +5,7 @@
   shell: ls -td CXP* | head -1
   register: version  
 - name: Copy automation script
-  copy: src=install_MGR_Addnode.sh dest=./{{ version.stdout }}/install_MGR_Addnode.sh
+  copy: src=install_MGR_Addnode.sh dest=./{{ version.stdout }}/install_MGR_Addnode.sh  mode=u+rwx
 - name: Execute the MGR App Installation script
   shell: sh ./{{ version.stdout }}/install_MGR_Addnode.sh
     

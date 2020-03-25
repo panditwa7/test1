@@ -4,7 +4,7 @@
   shell: ls -td CXP* | head -1
   register: version  
 - name: Copy automation script
-  copy: src=install_OLM_Addnode.sh dest=./{{ version.stdout }}/install_OLM_Addnode.sh
+  copy: src=install_OLM_Addnode.sh dest=./{{ version.stdout }}/install_OLM_Addnode.sh mode=u+rwx
 - name: Execute the OLM Add node script
   shell: sudo sh ./{{ version.stdout }}/install_OLM_Addnode.sh
     
