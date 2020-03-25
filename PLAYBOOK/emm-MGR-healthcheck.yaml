@@ -5,7 +5,7 @@
     shell: sudo /usr/bin/MMControl status | grep CLI
     register: clistatus
   - name: NodeManager status
-    shell: /usr/bin/MMControl status | grep NodeManager
+    shell: sudo /usr/bin/MMControl status | grep NodeManager
     register: NodeManager
   - name: Manager status
     shell: sudo /usr/bin/MMControl status | grep Manager

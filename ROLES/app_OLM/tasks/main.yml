@@ -22,6 +22,6 @@
 - name: Copy automation script
   copy: src=install_OLM.sh dest=./{{ version.stdout }}/install_OLM.sh mode=u+rwx
 - name: Execute the OLM app installation script
-  shell: sudo sh ./{{ version.stdout }}/install_OLM.sh
+  shell: sh ./{{ version.stdout }}/install_OLM.sh
     
  

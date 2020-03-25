@@ -6,6 +6,6 @@
 - name: Copy automation script
   copy: src=install_FEM_Addnode.sh dest=./{{ version.stdout }}/install_FEM_Addnode.sh mode=u+rwx
 - name: Execute the FEM Add node script
-  shell: sudo sh ./{{ version.stdout }}/install_FEM_Addnode.sh
+  shell: sh ./{{ version.stdout }}/install_FEM_Addnode.sh
     
  
