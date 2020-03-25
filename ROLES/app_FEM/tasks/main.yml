@@ -22,6 +22,6 @@
 - name: Copy automation script
   copy: src=install_FEM.sh dest=./{{ version.stdout }}/install_FEM.sh mode=u+rwx
 - name: Execute the FEM app installation script
-  shell: sudo sh ./{{ version.stdout }}/install_FEM.sh
+  shell: sh ./{{ version.stdout }}/install_FEM.sh
     
  
