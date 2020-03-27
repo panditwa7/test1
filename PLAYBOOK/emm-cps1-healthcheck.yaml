@@ -10,4 +10,4 @@
     when: status.stdout is search('ONLINE')
   - name: IMPORTANT MESSAGE
     debug:
-      msg: "Remember to configure MANUALLY the password-less conectiviy from EMM Nodes towards CPS VIP: {{ cps_virtual_IP }}"
+      msg: "Remember to configure MANUALLY the password-less conectiviy from EMM Nodes towards all CPS VIPs"

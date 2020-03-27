@@ -41,11 +41,12 @@
     value: "{{item.value}}"
     no_extra_spaces: yes
   with_dict: {Clus_Node_IP: "{{ Clus_Node_IP }}",HeartBeat_Link_1: "{{ HeartBeat_Link_1 }}",HeartBeat_Link_2: "{{ HeartBeat_Link_2 }}"}
+- name: Copy the cfs libfunc script
+  copy: src=libfunc_cfs_platform.sh dest=./{{ version.stdout }}/lib/Linux/ backup=yes
 - name: Copy automation script
   copy: src=install_updated.sh dest=./{{ version.stdout }}/install_addnode.sh
 - name: Execute the EMM Addnode platform script
   shell: sh ./{{ version.stdout }}/install_addnode.sh
   ignore_errors: true
   ignore_unreachable: true
-    
- 
+
