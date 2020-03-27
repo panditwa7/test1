@@ -82,7 +82,7 @@ mgrappinstall:
      allow_failure: true
      #when: manual
 
-     mgrhealthcheck:
+mgrhealthcheck:
       stage: mgrhealthcheck
       tags:
        - emm-cluster
