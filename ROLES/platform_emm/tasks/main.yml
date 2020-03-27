@@ -45,10 +45,10 @@
   copy: src=install_updated.sh dest=./{{ version.stdout }}/
 - name: Copy the cps libfunc script
   copy: src=libfunc_cps_platform.sh dest=./{{ version.stdout }}/lib/Linux/ backup=yes
-- name: Copy the cps text file with IPs
-  copy: src=cps.txt dest=./{{ version.stdout }}/lib/Linux/
+- name: Copy the cps.txt file with the CPS IPs (required by libfunc_cps_platform.sh)
+  shell: sudo cp -p cps.txt /etc/cp_server_ip
 - name: Execute the EMM platform script
-  shell: sudo sh ./{{ version.stdout }}/install_updated.sh
+  shell: sh ./{{ version.stdout }}/install_updated.sh
   ignore_errors: true
   ignore_unreachable: true
     

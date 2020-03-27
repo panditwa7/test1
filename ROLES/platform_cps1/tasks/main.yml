@@ -41,7 +41,7 @@
 - name: Copy automation script
   copy: src=install_updated.sh dest=./{{ version.stdout }}/
 - name: Execute the CPS platform script
-  shell: sudo sh ./{{ version.stdout }}/install_updated.sh
+  shell: sh ./{{ version.stdout }}/install_updated.sh
   ignore_errors: true
   ignore_unreachable: true
     
