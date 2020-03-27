@@ -14,7 +14,7 @@
 - name: Copy the platform script
   copy: src=Install_Platform.sh dest=./{{ version.stdout }}/ backup=yes
 - name: Update hosts file
-  shell: sudo chmod 666 /etc/hosts; sudo echo "{{ bonding_interface_ip_ONM }} {{ hostname }}" >> /etc/hosts; sudo chmod 644 /etc/hosts
+  shell: grep -q {{ hostname }} /etc/hosts  || (sudo chmod 666 /etc/hosts; sudo echo "{{ bonding_interface_ip_ONM }} {{ hostname }}" >> /etc/hosts; sudo chmod 644 /etc/hosts)
 - name: Update the cps ini file for ONM Bond
   ini_file:
     path: ./{{ version.stdout }}/templates/Linux/platform_cluster_nfs.ini
