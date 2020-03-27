@@ -33,6 +33,7 @@ cpshealthcheck:
      script:
         - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-cps-master-healthcheck.yaml -v
      #when: manual
+     allow_failure: true # remove later
 
 emmplatforminstall:
      stage: emmplatform
@@ -43,6 +44,7 @@ emmplatforminstall:
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform.yaml -v
      allow_failure: true
      #when: manual
+
 emmmasterhealthcheck:
      stage: emmmasterhealthcheck
      tags:
@@ -50,6 +52,7 @@ emmmasterhealthcheck:
      script:
         - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-master-healthcheck.yaml -v
      #when: manual
+     allow_failure: true # remove later
      
 emmplatformaddnode:
      stage: emmaddnode
@@ -67,6 +70,8 @@ emmworkerhealthcheck:
      script:
         - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-worker-healthcheck.yaml -v
      #when: manual
+     allow_failure: true # remove later
+
 mgrappinstall:
      stage: mgrappinstall
      tags:
@@ -76,13 +81,16 @@ mgrappinstall:
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-mgrapp.yml -v
      allow_failure: true
      #when: manual
-mgrhealthcheck:
+
+     mgrhealthcheck:
       stage: mgrhealthcheck
       tags:
        - emm-cluster
       script:
         - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-MGR-healthcheck.yaml -v
       #when: manual
+      allow_failure: true # remove later
+
 mgraddnode:
      stage: mgrappaddnode
      tags:
@@ -99,6 +107,7 @@ femappinstall:
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-femapp.yml
      allow_failure: true
      #when: manual
+
 femhealthcheck:
       stage: femhealthcheck
       tags:
@@ -106,6 +115,8 @@ femhealthcheck:
       script:
         - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-FEM-healthcheck.yaml -v
       #when: manual
+      allow_failure: true # remove later
+
 femaddnode:
      stage: femappaddnode
      tags:
@@ -113,6 +124,7 @@ femaddnode:
      script:
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-femapp-addnode.yml -v
      #when: manual 
+
 olmappinstall:
      stage: olmappinstall
      tags:
@@ -122,6 +134,7 @@ olmappinstall:
        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-olmapp.yml -v
      allow_failure: true
      #when: manual
+
 olmhealthcheck:
      stage: olmhealthcheck
      tags:
@@ -129,6 +142,8 @@ olmhealthcheck:
      script:
         - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-OLM-healthcheck.yaml -v
      #when: manual
+     allow_failure: true # remove later
+
 olmaddnode:
      stage: olmappaddnode
      tags:
