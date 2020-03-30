@@ -5,7 +5,6 @@ sudo ./Install_Platform.sh -C ADDNODE -E external -F NFS << EOF
 y
 y
 y
-
 EOF
 
 
