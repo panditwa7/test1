@@ -10,4 +10,4 @@
       when: status.stdout is search('RUNNING')
     - name: IMPORTANT MESSAGE
       debug:
-        msg: "Remember to configure MANUALLY the password-less conectiviy between EMM Nodes"
+        msg: "Remember to configure MANUALLY the password-less connectiviy between EMM Nodes"
