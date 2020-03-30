@@ -5,6 +5,8 @@ sudo ./Install_Platform.sh -C CLUSTER -E external -F NFS << EOF
 y
 y
 y
+y
+
 EOF
 
 
