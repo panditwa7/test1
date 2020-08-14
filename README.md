@@ -17,8 +17,7 @@ The Pipeline automates process described in:
 1. SW Installation is being executed in "1-Click"
 2. Multiple hosts can be installed in parallel
 3. Follow same WoW in all EMM being installed
-4. Supports both Cluster and Standalone deployments
-5. Supports Platform, Manager, File and Event Mediation and Online Mediation modules
+4. Reduces Human Errors
 
 # Asset Access
 Open a request to [SA BSS Service Desk](https://eteamproject.ericsson.net/servicedesk/customer/portal/61).
@@ -85,32 +84,32 @@ Open a request to [SA BSS Service Desk](https://eteamproject.ericsson.net/servic
 4. Automation of Hardening requires Java to be installed, In EM standard installation the CP Servers are not having Java, so EM Hardening playbook will NOT execute Hardening in EMM_CPS nodes. Either configure EM Hardening in CPS Manually, or install java from 3PP and then modify Hardening playbook to execute hardening in CPS as well.
 
 # Stages
-**backupdata:** runs in master node to backup shared directories (MMDB, MMStorage …) and to execute immediate backup with bnrUtility
-**backuproot:** runs in master and workers to internal directories (/home, /etc ...) and execute to immediate backup of root disk with bnrUtility 
-**uploadsoftwaretocps:** uploads SW to CP Servers either from DDS or Jfrog
-**uploadsoftwaretoemm:** uploads SW to EM Servers either from DDS or Jfrog
-**emmplatformospatches:** performs OS Patches installation in master, workers and cp servers.
-**cpsplatformveritas:** performs veritas instalallation in CP servers
-**cpsplatform :** This stage will install the CPS platform in 3 CP servers automatically.
-**cpsplatformhealthcheck:** This stage will check if the CP servers are running with service group online.
-**emmplatformveritas:** performs Veritas installation in master and workers
-**emmplatform3pp:** performs 3PP SW installation in master and workers
-**emmupgradecreatedg20:** in Fresh Installation for EM Upgrade scenario (-O NODG), creates Disk Groups and their **respective Cluster Service Groups
-**emmplatform:** This stage will install emm platform in master server.
-**emmmasterhealthcheck:** This stage will check the emm platform is running with service group online.
-**emmaddnode:** This stage will join the emm platform in worker node in cluster. 
-**emmworkerhealthcheck:** This stage will check the emm worker node is running properly in cluster or not.
-**mgrappinstall:** This stage will install the MGR app in master node.
-**mgrhealthcheck:** This stage will check the MGR app installed properrly or not with resources are online.
-**mgrappaddnode:** This stage will install MGR in worker node for failover scenario.
-**femappinstall:** This stage will install the FEM app in master node
-**femhealthcheck:** This stage will check the FEM app installed properrly or not with resources are online.
-**femappaddnode:** This stage will install FEM in worker node for failover scenario.
-**olmappinstall:** This stage will install the OLM app in master node
-**olmhealthcheck:** This stage will check the OLM app installed properrly or not with resources are online.
-**olmappaddnode:** This stage will install OLM in worker node for failover scenario.
-**emmcreatelogicalservers:** creates additional Logical Servers (Server2, SERVER2 …) and Optional Components (DRRF, DRViewer …)
-**emmupgradedbapp:** can be use to upgrade additional database (DRRF, DRViewer, Reporting Database, Custom Report)
-**ntp:** peforms NTP Configuration
-**systemhardening:** performs system hardening with MM_UTILITY in master and workers (not in CPS)
-**restoredata:** only for standalone, restores data from backup taken in backupdata stage
+* **backupdata:** runs in master node to backup shared directories (MMDB, MMStorage …) and to execute immediate backup with bnrUtility
+* **backuproot:** runs in master and workers to internal directories (/home, /etc ...) and execute to immediate backup of root disk with bnrUtility 
+* **uploadsoftwaretocps:** uploads SW to CP Servers either from DDS or Jfrog
+* **uploadsoftwaretoemm:** uploads SW to EM Servers either from DDS or Jfrog
+* **emmplatformospatches:** performs OS Patches installation in master, workers and cp servers.
+* **cpsplatformveritas:** performs veritas instalallation in CP servers
+* **cpsplatform :** This stage will install the CPS platform in 3 CP servers automatically.
+* **cpsplatformhealthcheck:** This stage will check if the CP servers are running with service group online.
+* **emmplatformveritas:** performs Veritas installation in master and workers
+* **emmplatform3pp:** performs 3PP SW installation in master and workers
+* **emmupgradecreatedg20:** in Fresh Installation for EM Upgrade scenario (-O NODG), creates Disk Groups and their **respective Cluster Service Groups
+* **emmplatform:** This stage will install emm platform in master server.
+* **emmmasterhealthcheck:** This stage will check the emm platform is running with service group online.
+* **emmaddnode:** This stage will join the emm platform in worker node in cluster. 
+* **emmworkerhealthcheck:** This stage will check the emm worker node is running properly in cluster or not.
+* **mgrappinstall:** This stage will install the MGR app in master node.
+* **mgrhealthcheck:** This stage will check the MGR app installed properrly or not with resources are online.
+* **mgrappaddnode:** This stage will install MGR in worker node for failover scenario.
+* **femappinstall:** This stage will install the FEM app in master node
+* **femhealthcheck:** This stage will check the FEM app installed properrly or not with resources are online.
+* **femappaddnode:** This stage will install FEM in worker node for failover scenario.
+* **olmappinstall:** This stage will install the OLM app in master node
+* **olmhealthcheck:** This stage will check the OLM app installed properrly or not with resources are online.
+* **olmappaddnode:** This stage will install OLM in worker node for failover scenario.
+* **emmcreatelogicalservers:** creates additional Logical Servers (Server2, SERVER2 …) and Optional Components (DRRF, DRViewer …)
+* **emmupgradedbapp:** can be use to upgrade additional database (DRRF, DRViewer, Reporting Database, Custom Report)
+* **ntp:** peforms NTP Configuration
+* **systemhardening:** performs system hardening with MM_UTILITY in master and workers (not in CPS)
+* **restoredata:** only for standalone, restores data from backup taken in backupdata stage
