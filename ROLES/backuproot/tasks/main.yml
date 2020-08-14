@@ -1,0 +1,67 @@
+---
+  # tasks file
+- name: Load variable file
+  include_vars: ../../../ENV_INFO/emm.yml
+
+- name: Create directory '{{ upgrade_dir }}'
+  file:
+   path: "{{ upgrade_dir }}"
+   state: directory
+   mode: '0777'
+
+- name: Get EM20 Installation Tool version
+  shell: ls -td {{ upgrade_dir }}/CXP* | head -1
+  register: version    
+
+- name: Create directory '{{ version.stdout }}'/BACKUPS
+  file:
+    path: "{{ version.stdout }}/BACKUPS"
+    state: directory
+    mode: '0777'
+
+- name: Copy BackupInternalDir.in
+  copy: src=../../../ENV_INFO/BACKUPS/BackupInternalDir.in dest={{ version.stdout }}/BACKUPS/BackupDirectories.in
+
+- name: retrieve the list of params
+  shell:
+    cmd: cat {{ version.stdout }}/BACKUPS/BackupInternalDir.in
+  register: dfile_lines
+
+- name: Compress directories
+  #vars:
+  #  size: "{{ item.split('/') | length }}"
+  #  lastPos: "{{ size|int - 2 }}"
+  archive:
+    path: "{{ item }}"
+    dest: "{{ backup_dir }}/{{ ansible_nodename }}_{{ item.replace('/','') }}_directory_{{ lookup('pipe', 'date +%Y-%m-%d') }}.tar.gz"
+    format: gz
+  register: output
+  loop: "{{ dfile_lines.stdout_lines }}"
+
+- name: Copy BnrUtilityClient.jar
+  copy: src=BnrUtilityClient.jar dest={{ version.stdout }}/BACKUPS/BnrUtilityClient.jar
+  when: BackupRoot == true
+
+- name: Copy BackupRoot.in
+  copy: src=../../../ENV_INFO/BACKUPS/BackupRoot.in dest={{ version.stdout }}/BACKUPS/BackupRoot.in
+  when: BackupRoot == true
+
+- name: retrieve the list of params
+  shell:
+    cmd: cat {{ version.stdout }}/BACKUPS/BackupRoot.in
+  register: file_lines
+  when: BackupRoot == true
+
+- name: Execute the BnrUtility for root Backup
+  shell:
+    cmd: java -jar ./BACKUPS/BnrUtilityClient.jar {{ item }}
+  register: output
+  loop: "{{ file_lines.stdout_lines }}"
+  when: BackupRoot == true
+  args:
+    chdir: '{{ version.stdout }}'
+  ignore_errors: true
+#- debug:
+#    var: output
+
+

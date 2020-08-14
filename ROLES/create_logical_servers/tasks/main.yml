@@ -1,0 +1,27 @@
+---
+  # tasks file
+  - name: Load enviroment file
+    include_vars: ../ENV_INFO/emm.yml
+  - name: Get EM20 Installation Tool version
+    shell: ls -td {{ upgrade_dir }}/CXP* | head -1
+    register: version
+  - name: Copy Logical Servers configuration
+    copy: src="../ENV_INFO/LS" dest={{ version.stdout }}/
+  - name: Get .in files
+    shell: ls {{ version.stdout }}/LS/*.in
+    register: in_file
+  - name: Create additional Logical Servers - check logs in /var/adm/MM_LOGS
+    shell: "cat {{ item }} | sudo -E {{ version.stdout }}/MM_UTILITY"
+    with_items: '{{ in_file.stdout_lines}}'
+    environment:
+      ACTIVITY_TYPE: '{{ ACTIVITY_TYPE }}'
+  - name: Copy Additional Components configuration
+    copy: src="../ENV_INFO/CMP" dest={{ version.stdout }}/
+  - name: Get .in files
+    shell: ls {{ version.stdout }}/CMP/*.in
+    register: in_file
+  - name: Create additional Components - check logs in /var/adm/MM_LOGS
+    shell: "cat {{ item }} | sudo -E {{ version.stdout }}/MM_UTILITY"
+    with_items: '{{ in_file.stdout_lines}}'
+    environment:
+      ACTIVITY_TYPE: '{{ ACTIVITY_TYPE }}'

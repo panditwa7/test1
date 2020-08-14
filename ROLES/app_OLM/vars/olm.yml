@@ -1,7 +1,0 @@
----
-# vars file for platform_cps
-OLMServer_PG_DB_PASSWD: "mmsuper"
-OLMServer_IP: 192.168.50.25
-Manager_IP: 192.168.50.22 
-OLMServer_Netmask: 255.255.255.0 
-OLMTracer_IP: 192.168.50.26

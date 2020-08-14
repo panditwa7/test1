@@ -1,0 +1,145 @@
+---
+- hosts: emm_master
+  
+  tasks:
+    - name: Load variable file
+      include_vars: ../ENV_INFO/emm.yml
+
+    - name: Get EM20 Installation Tool version
+      shell: ls -td {{ upgrade_dir }}/CXP* | head -1
+      register: version
+
+    - name: DDRF fm_db_drrf
+      shell: sudo ./migrate_pgdb.sh -d fm_db_drrf -s "{{fm_db_drrf_ip}}" -p "{{fm_db_drrf_port}}" -w "{{fm_db_drrf_passwd}}"
+      args:
+        chdir: "{{ version.stdout }}/upgrade/upgrade_scripts/"
+      ignore_errors: yes
+      
+        
+- hosts: EMM_OLD
+  
+  tasks:
+    - name: fm_db_drrf Move dbem15 to new EM20
+      shell: |
+        /opt/VRTSvcs/bin/hagrp -offline fm_db_drrf_grp -any
+        /opt/VRTSvcs/bin/haconf -makerw
+        /opt/VRTSvcs/bin/hares -modify fm_db_drrf Enabled 0
+        /opt/VRTSvcs/bin/haconf -dump -makero
+        MMControl status fm_db_drrf
+        /opt/VRTSvcs/bin/hares -state fm_db_drrf
+
+        
+        
+- hosts: emm_master  
+
+  tasks:
+    - name: Load variable file
+      include_vars: ../ENV_INFO/emm.yml
+
+    - name: Get EM20 Installation Tool version
+      shell: ls -td {{ upgrade_dir }}/CXP* | head -1
+      register: version
+      
+    - name: fm_db_drrf Move dbem15 to new EM20
+      shell: |
+        sudo /opt/VRTSvcs/bin/haconf -makerw
+        sudo /opt/VRTSvcs/bin/hares -modify fm_db_drrf Enabled 1
+        sudo /opt/VRTSvcs/bin/haconf -dump -makero
+        sudo /opt/VRTSvcs/bin/hagrp -online fm_db_drrf_grp -sys `hostname`
+        sudo MMControl status fm_db_drrf
+        sudo /opt/VRTSvcs/bin/hares -state fm_db_drrf
+
+        
+    - name: DRViewer fm_db_drviewer
+      shell: sudo ./migrate_pgdb.sh -d fm_db_drviewer -s "{{fm_db_drviewer_ip}}" -p "{{fm_db_drviewer_port}}" -w "{{fm_db_drviewer_passwd}}"
+      args:
+        chdir: "{{ version.stdout }}/upgrade/upgrade_scripts/"
+      ignore_errors: yes
+
+  
+  
+- hosts: EMM_OLD
+  
+  tasks:  
+    - name: fm_db_drviewer Move dbem15 to new EM20
+      shell: |
+        /opt/VRTSvcs/bin/hagrp -offline fm_db_drviewer_grp -any
+        /opt/VRTSvcs/bin/haconf -makerw
+        /opt/VRTSvcs/bin/hares -modify fm_db_drviewer Enabled 0
+        /opt/VRTSvcs/bin/haconf -dump -makero
+        MMControl status fm_db_drviewer
+        /opt/VRTSvcs/bin/hares -state fm_db_drviewer
+
+  
+- hosts: emm_master  
+  #sudo: yes
+  tasks:
+    - name: Load variable file
+      include_vars: ../ENV_INFO/emm.yml  
+  
+    - name: Get EM20 Installation Tool version
+      shell: ls -td {{ upgrade_dir }}/CXP* | head -1
+      register: version
+      
+    - name: fm_db_drviewer Move dbem15 to new EM20
+      shell: |
+        sudo /opt/VRTSvcs/bin/haconf -makerw
+        sudo /opt/VRTSvcs/bin/hares -modify fm_db_drviewer Enabled 1
+        sudo /opt/VRTSvcs/bin/haconf -dump -makero
+        sudo /opt/VRTSvcs/bin/hagrp -online fm_db_drviewer_grp -sys `hostname`
+        sudo MMControl status fm_db_drviewer
+        sudo /opt/VRTSvcs/bin/hares -state fm_db_drviewer
+        
+    - name: Reporting database mm_db_Reporting
+      shell:  sudo ./migrate_pgdb.sh -d mm_db_Reporting -s "{{mm_db_Reporting_ip}}" -p "{{mm_db_Reporting_port}}" -w "{{mm_db_Reporting_passwd}}"
+      args:
+        chdir: "{{ version.stdout }}/upgrade/upgrade_scripts/" 
+      ignore_errors: yes
+        
+        
+- hosts: EMM_OLD
+  
+  tasks:  
+    - name: mm_db_Reporting Move dbem15 to new EM20
+      shell: |
+        /opt/VRTSvcs/bin/hagrp -offline Reporting_db_grp -any
+        /opt/VRTSvcs/bin/haconf -makerw
+        /opt/VRTSvcs/bin/hares -modify mm_db_Reporting Enabled 0
+        /opt/VRTSvcs/bin/haconf -dump -makero
+        MMControl status mm_db_Reporting
+        /opt/VRTSvcs/bin/hares -state mm_db_Reporting
+        
+        
+- hosts: emm_master  
+
+  tasks:
+    - name: Load variable file
+      include_vars: ../ENV_INFO/emm.yml  
+
+    - name: Get EM20 Installation Tool version
+      shell: ls -td {{ upgrade_dir }}/CXP* | head -1
+      register: version
+      
+    - name: mm_db_Reporting Move dbem15 to new EM20
+      shell: |
+        sudo /opt/VRTSvcs/bin/haconf -makerw
+        sudo /opt/VRTSvcs/bin/hares -modify mm_db_Reporting Enabled 1
+        sudo /opt/VRTSvcs/bin/haconf -dump -makero
+        sudo /opt/VRTSvcs/bin/hagrp -online Reporting_db_grp -sys `hostname`
+        sudo MMControl status mm_db_Reporting
+        sudo /opt/VRTSvcs/bin/hares -state mm_db_Reporting
+               
+    - name: Custom Report
+      shell: sudo ./upgrade_customreport.sh "{{custom_Report_db_ip}}"
+      args:
+        chdir: "{{ version.stdout }}/upgrade/upgrade_scripts/"     
+      ignore_errors: yes
+        
+    - name: Start Custom report
+      shell: |
+        sudo /opt/VRTSvcs/bin/hagrp -online CustomReport_grp -sys `hostname`
+        sudo MMControl status mm_db_CustomReport
+        sudo /opt/VRTSvcs/bin/hares -state mm_db_CustomReport
+        sudo MMControl status CustomReport 
+        sudo /opt/VRTSvcs/bin/hares -state CustomReport
+        

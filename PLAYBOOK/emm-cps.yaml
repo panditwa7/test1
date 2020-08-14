@@ -1,4 +1,0 @@
----
-- hosts: EMM_CPS
-  roles:
-    - platform_cps

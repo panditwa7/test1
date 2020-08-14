@@ -1,0 +1,7 @@
+---
+- hosts: emm_master,emm_worker,EMM_CPS
+  #remote_user: "{{user}}"
+  become: yes
+  roles:
+    - role: ../ROLES/ntp
+      ignore_errors: yes

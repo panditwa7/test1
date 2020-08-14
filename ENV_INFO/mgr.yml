@@ -1,9 +1,9 @@
 ---
-# vars file for platform_cps
+# vars file for mgr
 MANAGER_PG_DB_USER: "mmsuper"
 MANAGER_PG_DB_PASSWD: "mmsuper"
 MANAGER_PG_DB_Port: "5445"
-Manager_IP: 192.168.50.22 
-Manager_Netmask: 255.255.255.0 
-LIC_IP: 192.168.50.23
+Manager_IP: 148.135.25.51
+Manager_Netmask: 255.255.255.0
+LIC_IP: 148.135.25.52
 LIC_Netmask: 255.255.255.0

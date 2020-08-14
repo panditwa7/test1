@@ -1,24 +1,31 @@
 ---
-# tasks file for platform_cps
-- name: Load variable file
-  include_vars: fem.yml
-- name: Go to template path & create platform nfs ini
-  shell:
-    chdir: /install/CXP9034012_R8S/templates/Linux
-    cmd: cp config_template_FEM.eric config_template_FEM.ini
-- name: Copy the app installation script
-  copy: src=Install_App.sh dest=/install/CXP9034012_R8S/
-- name: Update the nfs ini file for Interface IP
-  ini_file:
-    path: /install/CXP9034012_R8S/templates/Linux/config_template_FEM.ini
-    section: null
-    option: "{{item.key}}"
-    value: "{{item.value}}"
-    no_extra_spaces: yes
-  with_dict: {FMServer_PG_DB_USER: "{{ FMServer_PG_DB_USER }}",FMServer_PG_DB_PASSWD: "{{ FMServer_PG_DB_PASSWD }}",FMServer_IP: "{{ FMServer_IP }}",FMServer_Netmask: "{{ FMServer_Netmask }}",Manager_IP: "{{ Manager_IP }}",FMReport_PG_DB_PASSWD: "{{ FMReport_PG_DB_PASSWD }}"}
-- name: Copy automation script
-  copy: src=install_FEM.sh dest=/opt/install_FEM.sh
-- name: Execute the FEM app installation script
-  shell: sh /opt/install_FEM.sh
-    
- 
+  # tasks file for fem
+  - name: Load variable file
+    include_vars: ../../../ENV_INFO/fem.yml
+  - name: Load enviroment file
+    include_vars: ../../../ENV_INFO/emm.yml
+  - name: Get EM20 Installation Tool version
+    shell: ls -td {{ upgrade_dir }}/CXP* | head -1
+    register: version  
+  - name: Go to template path & create ini file
+    shell:
+      chdir: '{{ version.stdout }}/templates/Linux'
+      cmd: cp config_template_FEM.eric config_template_FEM.ini
+  - name: Copy the app installation script
+    copy: src=Install_App.sh dest={{ version.stdout }}/ backup=yes
+  - name: Update ini file for Interface IP
+    ini_file:
+      path: '{{ version.stdout }}/templates/Linux/config_template_FEM.ini'
+      section: null
+      option: "{{item.key}}"
+      value: "{{item.value}}"
+      no_extra_spaces: yes
+    with_dict: {FMServer_PG_DB_USER: "{{ FMServer_PG_DB_USER | default() }}",FMServer_PG_DB_PASSWD: "{{ FMServer_PG_DB_PASSWD | default() }}", FMReport_PG_DB_USER: "{{ FMReport_PG_DB_USER | default() }}",FMServer_PG_DB_Port: "{{ FMServer_PG_DB_Port | default() }}",FMServer_IP: "{{ FMServer_IP | default() }}",FMServer_Netmask: "{{ FMServer_Netmask | default() }}",Manager_IP: "{{ Manager_IP | default() }}",FMReport_PG_DB_PASSWD: "{{ FMReport_PG_DB_PASSWD | default() }}",MANAGER_PG_DB_Port: "{{ MANAGER_PG_DB_Port | default() }}"}
+    when: " not item.value == '' "
+  - name: Copy automation script
+    copy: src=install_FEM.sh dest={{ version.stdout }}/install_FEM.sh mode=u+rwx
+  - name: Execute the FEM app installation script - check logs in /var/adm/MM_LOGS/App
+    shell: sh ./install_FEM.sh {{ deployment }} '{{ app_other_options }}'
+    args:
+      chdir: '{{ version.stdout }}'
+      

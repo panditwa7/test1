@@ -1,0 +1,26 @@
+---
+# vars file for master emm
+bonding_interface_primary_ONM: eno33555456
+#bonding_interface_standby_ONM: ens193
+bonding_interface_ip_ONM: 148.135.25.63
+netmask_ONM: 255.255.255.0
+default_gateway_ip_ONM: 148.135.25.1
+#bonding_interface_primary_Traffic: ens225
+#bonding_interface_standby_Traffic: ens257
+#bonding_interface_ip_Traffic: 192.168.50.51
+#netmask_Traffic: 255.255.255.0
+#default_gateway_ip_Traffic: 192.168.50.1
+#NTP_Server_IP: 192.168.50.15
+Cluster_ID: 254
+Cluster_Name: EM20_Upgrade
+HeartBeat_Link_1: eno50334720
+HeartBeat_Link_2: eno67113984
+IO_Fencing_Type: CPS
+#NFS_Server_Version_for_MMDB: nfs4
+#NFS_Share_IP_for_MMDB: 10.61.100.4
+#MMDB_NFS_Share_Name: /data3
+#NFS_Server_Version_for_MMStorage: nfs4
+#NFS_Share_IP_for_MMStorage: 10.61.100.4
+#MMStorage_NFS_Share_Name: /data2
+other_hosts_ONM: 148.135.25.61
+#other_hosts_Traffic: 192.168.50.53

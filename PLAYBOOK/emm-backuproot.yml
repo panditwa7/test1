@@ -1,0 +1,6 @@
+---
+- hosts: emm_master,emm_worker,EMM_CPS
+  #remote_user: "{{user}}"
+  roles:
+    - role: ../ROLES/backuproot
+      ignore_errors: yes

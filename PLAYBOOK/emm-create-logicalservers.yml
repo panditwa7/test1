@@ -1,0 +1,4 @@
+- hosts: emm_master
+  roles:
+    - role: ../ROLES/create_logical_servers
+      ignore_errors: yes

@@ -1,11 +1,7 @@
-cd /install/CXP9034012_R8S/
-./Install_App.sh -C CLUSTER -P MGR << EOF
-
+#version=`ls -td ./CX* | head -1`
+#cd ./$version/
+sudo ./Install_App.sh -C $1 -P MGR $2 -M LOCAL << EOF
+..
 y
 y
 EOF
-
-
-
-
-

@@ -1,0 +1,9 @@
+---
+- hosts: EMM_CPS
+  #sudo: yes
+  #remote_user: "{{user}}"
+  #vars_files:
+  #  - ../ENV_INFO/emm.yml
+  roles:
+    - role: ../ROLES/cps_upload_software
+      ignore_errors: yes

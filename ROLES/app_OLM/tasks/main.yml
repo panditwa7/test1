@@ -1,24 +1,32 @@
 ---
-# tasks file for platform_cps
+# tasks file for olm
 - name: Load variable file
-  include_vars: olm.yml
-- name: Go to template path & create platform nfs ini
+  include_vars: ../../../ENV_INFO/olm.yml
+- name: Load enviroment file
+  include_vars: ../../../ENV_INFO/emm.yml
+- name: Get EM20 Installation Tool version
+  shell: ls -td {{ upgrade_dir }}/CXP* | head -1
+  register: version  
+- name: Go to template path & create ini file
   shell:
-    chdir: /install/CXP9034012_R8S/templates/Linux
+    chdir: '{{ version.stdout }}/templates/Linux'
     cmd: cp config_template_OLM.eric config_template_OLM.ini
 - name: Copy the app installation script
-  copy: src=Install_App.sh dest=/install/CXP9034012_R8S/
-- name: Update the nfs ini file for Interface IP
+  copy: src=Install_App.sh dest={{ version.stdout }}/ backup=yes
+- name: Update the ini file for Interface IP
   ini_file:
-    path: /install/CXP9034012_R8S/templates/Linux/config_template_OLM.ini
+    path: '{{ version.stdout }}/templates/Linux/config_template_OLM.ini'
     section: null
     option: "{{item.key}}"
     value: "{{item.value}}"
     no_extra_spaces: yes
-  with_dict: {OLMServer_PG_DB_PASSWD: "{{ OLMServer_PG_DB_PASSWD }}",OLMServer_IP: "{{ OLMServer_IP }}",OLMServer_Netmask: "{{ OLMServer_Netmask }}",Manager_IP: "{{ Manager_IP }}",OLMTracer_IP: "{{ OLMTracer_IP }}"}
+  with_dict: {OLMServer_PG_DB_USER: "{{ OLMServer_PG_DB_USER | default() }}",OLMServer_PG_DB_PASSWD: "{{ OLMServer_PG_DB_PASSWD | default() }}",OLMServer_PG_DB_Port: "{{ OLMServer_PG_DB_Port | default() }}",OLMTracer_PG_DB_Port: "{{ OLMTracer_PG_DB_Port | default() }}",Manager_IP: "{{ Manager_IP | default() }}",OLMServer_IP: "{{ OLMServer_IP | default() }}" , OLMServer_Netmask: "{{ OLMServer_Netmask | default() }}" ,MANAGER_PG_DB_Port: "{{ MANAGER_PG_DB_Port | default() }}",OLMTracer_IP: "{{ OLMTracer_IP | default() }}",OLMTracer_Netmask: "{{ OLMTracer_Netmask | default() }}"}
+  when: " not item.value == '' "
 - name: Copy automation script
-  copy: src=install_OLM.sh dest=/opt/install_OLM.sh
-- name: Execute the OLM app installation script
-  shell: sh /opt/install_OLM.sh
+  copy: src=install_OLM.sh dest={{ version.stdout }}/install_OLM.sh mode=u+rwx
+- name: Execute the OLM app installation script - check logs in /var/adm/MM_LOGS/App
+  shell: sh ./install_OLM.sh {{ deployment }} '{{ app_other_options }}'
+  args:
+    chdir: '{{ version.stdout }}'
     
  

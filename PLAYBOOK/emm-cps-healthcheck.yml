@@ -1,0 +1,13 @@
+---
+- hosts: EMM_CPS
+  tasks:
+  - name: healthcheck CPS Group
+    shell: sudo /opt/VRTSvcs/bin/hastatus -sum
+    register: status
+  - name: healthcheck status
+    debug:
+      msg: "CPS is working fine"
+    when: status.stdout is search('ONLINE')
+  - name: IMPORTANT MESSAGE
+    debug:
+      msg: "Remember to configure MANUALLY the password-less connectiviy from EMM Nodes towards all CPS VIPs"

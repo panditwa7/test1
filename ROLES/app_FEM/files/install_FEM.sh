@@ -1,12 +1,8 @@
-cd /install/CXP9034012_R8S/
-./Install_App.sh -C CLUSTER -P FEM << EOF
+#version=`ls -td ./CX* | head -1`
+#cd ./$version/
+sudo ./Install_App.sh -C $1 -P FEM $2 << EOF
 
 
 y
 y
 EOF
-
-
-
-
-

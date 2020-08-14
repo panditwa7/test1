@@ -1,9 +1,15 @@
 ---
-# tasks file for platform_cps
-
+# tasks file for olm
+- name: Load enviroment file
+  include_vars: ../../../ENV_INFO/emm.yml
+- name: Get EM20 Installation Tool version
+  shell: ls -td {{ upgrade_dir }}/CXP* | head -1
+  register: version  
 - name: Copy automation script
-  copy: src=install_OLM_Addnode.sh dest=/opt/install_OLM_Addnode.sh
-- name: Execute the OLM Add node script
-  shell: sh /opt/install_OLM_Addnode.sh
+  copy: src=install_OLM_Addnode.sh dest={{ version.stdout }}/install_OLM_Addnode.sh mode=u+rwx
+- name: Execute the OLM Add node script - check logs in /var/adm/MM_LOGS/App
+  shell: sh ./install_OLM_Addnode.sh
+  args:
+    chdir: '{{ version.stdout }}'
     
  

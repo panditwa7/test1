@@ -1,0 +1,80 @@
+---
+  # tasks file
+- name: Load variable file
+  include_vars: ../../../ENV_INFO/emm.yml
+
+- name: INFO about CPS NTP Client Automation
+  debug:
+    msg: "Automation of NTP Client config requires java, CPS doesn't have java installed in standard EM. If so, please follow CPI instructions to configure Manually"
+
+- name: Get EM20 Installation Tool version
+  shell: ls -td {{ upgrade_dir}}/CXP* | head -1
+  register: version
+- debug:
+   var: version
+
+- name: Configure ntpd the default user space daemon
+  shell: sudo timedatectl set-ntp no
+
+- name: Backup the NTP configuration file
+  shell: sudo mv /etc/ntp.conf /etc/ntp.conf_original_{{ lookup('pipe', 'date +%Y-%m-%d-%H-%M-%S') }}
+
+- name: chmod  etc
+  shell: sudo chmod 777 /etc
+
+- name: chmod  ntp.conf
+  shell: sudo chmod 777 /etc/ntp.conf
+
+- name: Create ntp.conf
+  shell: sudo touch /etc/ntp.conf
+
+- name: line insert
+  lineinfile:
+    path: /etc/ntp.conf
+    line: "{{ item.line }}"
+  with_items:
+    - {line: "server 127.127.1.0 # local clock"}
+    - {line: "server {{ NTP_Slave_server_IP | default() }} iburst prefer"}
+    - {line: "server {{ NTP_Master_server_IP | default() }} iburst"}
+    - {line: "driftfile /var/lib/ntp/ntp.drift"}
+    - {line: "logfile /var/log/ntp.log"}
+  when:
+    - not item == ''
+
+- name: Create a ntp.log file
+  shell: sudo touch /var/lib/ntp/ntp.drift /var/log/ntp.log
+
+- name: Create a ntp.drift file
+  shell: sudo echo 0.0 | sudo tee -a /var/lib/ntp/ntp.drift >/dev/null
+
+- name:  Update the system time
+  shell: sudo ntpdate -dv {{ NTP_server_IPv4 }}
+
+- name:  Enable the UDP port 123 in to IPtables
+  shell: sudo iptables -I INPUT -p udp --dport 123 -j ACCEPT
+
+- name:  Save and verify the UDP port 123
+  shell: sudo iptables-save | grep 123
+
+- name:  Update the Firewalld configuration for opening the ntp port 123
+  shell: sudo firewall-cmd --add-service=ntp --permanent
+  ignore_errors: yes
+
+- name:  Reload the Firewalld configuration
+  shell: sudo firewall-cmd --reload
+  ignore_errors: yes
+
+- name:  Enable the NTP daemon
+  shell: sudo systemctl enable ntpd.service
+
+- name:  Start the NTP daemon
+  shell: sudo systemctl start ntpd.service
+
+- name: chmod  ntp.conf
+  shell: sudo chmod 755 /etc
+
+- name:  Time synchronization status with NTP server
+  shell: sudo ntpq -p
+
+- name:  Ntpdc sysinfo
+  shell: sudo ntpdc -c sysinfo

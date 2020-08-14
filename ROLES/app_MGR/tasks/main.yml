@@ -1,24 +1,32 @@
 ---
-# tasks file for platform_cps
+# tasks file for mgr
 - name: Load variable file
-  include_vars: mgr.yml
-- name: Go to template path & create platform nfs ini
+  include_vars: ../../../ENV_INFO/mgr.yml
+- name: Load enviroment file
+  include_vars: ../../../ENV_INFO/emm.yml
+- name: Get EM20 Installation Tool version
+  shell: ls -td {{ upgrade_dir }}/CXP* | head -1
+  register: version  
+- name: Go to template path & create ini file
   shell:
-    chdir: /install/CXP9034012_R8S/templates/Linux
+    chdir: '{{ version.stdout }}/templates/Linux'
     cmd: cp config_template_MGR.eric config_template_MGR.ini
 - name: Copy the app installation script
-  copy: src=Install_App.sh dest=/install/CXP9034012_R8S/
-- name: Update the nfs ini file for Interface IP
+  copy: src=Install_App.sh dest={{ version.stdout }}/ backup=yes
+- name: Update the ini file
   ini_file:
-    path: /install/CXP9034012_R8S/templates/Linux/config_template_MGR.ini
+    path: '{{ version.stdout }}/templates/Linux/config_template_MGR.ini'
     section: null
     option: "{{item.key}}"
     value: "{{item.value}}"
     no_extra_spaces: yes
-  with_dict: {MANAGER_PG_DB_USER: "{{ MANAGER_PG_DB_USER }}",MANAGER_PG_DB_PASSWD: "{{ MANAGER_PG_DB_PASSWD }}",MANAGER_PG_DB_Port: "{{ MANAGER_PG_DB_Port }}",Manager_IP: "{{ Manager_IP }}",Manager_Netmask: "{{ Manager_Netmask }}",LIC_IP: "{{ LIC_IP }}",LIC_Netmask: "{{ LIC_Netmask }}"}
+  with_dict: {MANAGER_PG_DB_USER: "{{ MANAGER_PG_DB_USER | default() }}",MANAGER_PG_DB_PASSWD: "{{ MANAGER_PG_DB_PASSWD | default() }}",MANAGER_PG_DB_Port: "{{ MANAGER_PG_DB_Port | default() }}", Manager_IP: "{{ Manager_IP | default() }}",Manager_Netmask: "{{ Manager_Netmask | default() }}",LIC_IP: "{{ LIC_IP | default() }}", LIC_Netmask: "{{ LIC_Netmask | default() }}"}
+  when: " not item.value == '' "
 - name: Copy automation script
-  copy: src=install_MGR.sh dest=/opt/install_MGR.sh
-- name: Execute the MGR App Installation script
-  shell: sh /opt/install_MGR.sh
+  copy: src=install_MGR.sh dest={{ version.stdout }}/install_MGR.sh mode=u+rwx
+- name: Execute the MGR App Installation script - check logs in /var/adm/MM_LOGS/App
+  shell: sh ./install_MGR.sh {{ deployment }} '{{ app_other_options }}'
+  args:
+    chdir: '{{ version.stdout }}'
     
  

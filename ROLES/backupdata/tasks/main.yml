@@ -1,0 +1,260 @@
+---
+  # tasks file
+  - name: Load variable file
+    include_vars: ../../../ENV_INFO/emm.yml
+  - name: Create directory '{{ upgrade_dir }}'
+    file:
+      path: '{{ upgrade_dir }}'
+      state: directory
+      mode: '0755'
+
+  - name: Copy EM Installation SW
+    copy: src='{{ emm_media_src_dir }}/{{ tool_sw }}' dest={{ upgrade_dir }}
+  - name: Uncompress SW
+    shell: unzip -o {{ tool_sw }}; tar -xf *CXP*.tar
+    args:
+      chdir: '{{ upgrade_dir }}'
+
+  - name: Find zip and tar files
+    find:
+      paths: "{{ upgrade_dir }}"      
+      patterns: "*.zip,*.tar"
+    register: find_result
+    
+  - name: Delete all zip and tar files
+    file: 
+      path: "{{ item.path }}"
+      state: absent
+    with_items: "{{ find_result.files }}"      
+ 
+  - name: Get EM20 Installation Tool version
+    shell: ls -td {{ upgrade_dir }}/CXP* | head -1
+    register: version
+
+  - name: Create directory '{{ version.stdout }}'/BACKUPS
+    file:
+      path: "{{ version.stdout }}/BACKUPS"
+      state: directory
+      mode: '0777'     
+
+  - name: Copy BnrUtilityClient.jar
+    copy: src=BnrUtilityClient.jar dest={{ version.stdout }}/BACKUPS/BnrUtilityClient.jar
+
+  - name: Copy BackupManager.in
+    copy: src=../../../ENV_INFO/BACKUPS/BackupManager.in dest={{ version.stdout }}/BACKUPS/BackupManager.in
+    register: output
+    when: BackupManager == true
+
+  - name: retrieve the list of BackupManager params
+    shell:
+      cmd: cat {{ version.stdout }}/BACKUPS/BackupManager.in
+    register: mfile_lines
+    when: BackupManager == true
+
+  - name: Execute the BnrUtility for Backup BackupManager
+    shell:
+      cmd: java -jar ./BACKUPS/BnrUtilityClient.jar {{ item }}
+    register: moutput
+    loop: "{{ mfile_lines.stdout_lines }}"
+    when: BackupManager == true
+    args:
+      chdir: '{{ version.stdout }}'
+    ignore_errors: true
+
+  - name: Copy BackupFEM.in
+    copy: src=../../../ENV_INFO/BACKUPS/BackupFEM.in dest={{ version.stdout }}/BACKUPS/BackupFEM.in
+    when: BackupFEM == true
+
+  - name: retrieve the list of BackupFEM params
+    shell:
+      cmd: cat {{ version.stdout }}/BACKUPS/BackupFEM.in
+    register: femfile_lines
+    when: BackupFEM == true
+
+  - name: Execute the BnrUtility for Backup BackupFEM
+    shell:
+      cmd: java -jar ./BACKUPS/BnrUtilityClient.jar {{ item }}
+    register: output
+    loop: "{{ femfile_lines.stdout_lines }}"
+    when: BackupFEM == true
+    args:
+      chdir: '{{ version.stdout }}'
+    ignore_errors: true
+
+  - name: Copy BackupOLM.in
+    copy: src=../../../ENV_INFO/BACKUPS/BackupOLM.in dest={{ version.stdout }}/BACKUPS/BackupOLM.in
+    when: BackupOLM == true
+
+  - name: retrieve the list of BackupOLM params
+    shell:
+      cmd: cat {{ version.stdout }}/BACKUPS/BackupOLM.in
+    register: olmfile_lines
+    when: BackupOLM == true
+
+  - name: Execute the BnrUtility for Backup BackupOLM
+    shell:
+      cmd: java -jar ./BACKUPS/BnrUtilityClient.jar {{ item }}
+    register: output
+    loop: "{{ olmfile_lines.stdout_lines }}"
+    when: BackupOLM == true
+    args:
+      chdir: '{{ version.stdout }}'
+    ignore_errors: true
+
+  - name: Copy BackupPRD.in
+    copy: src=../../../ENV_INFO/BACKUPS/BackupPRD.in dest={{ version.stdout }}/BACKUPS/BackupPRD.in
+    when: BackupPRD == true
+
+  - name: retrieve the list of BackupPRD params
+    shell:
+      cmd: cat {{ version.stdout }}/BACKUPS/BackupPRD.in
+    register: prdfile_lines
+    when: BackupPRD == true
+
+  - name: Execute the BnrUtility for PREDEFINED REPORTING DATABASE
+    shell:
+      cmd: java -jar ./BACKUPS/BnrUtilityClient.jar {{ item }}
+    register: output
+    loop: "{{ prdfile_lines.stdout_lines }}"
+    when: BackupPRD == true
+    args:
+      chdir: '{{ version.stdout }}'
+    ignore_errors: true
+
+  - name: Copy BackupCR.in
+    copy: src=../../../ENV_INFO/BACKUPS/BackupCR.in dest={{ version.stdout }}/BACKUPS/BackupCR.in
+    when: BackupCR == true
+
+  - name: retrieve the list of BackupPRD params
+    shell:
+      cmd: cat {{ version.stdout }}/BACKUPS/BackupCR.in
+    register: crfile_lines
+    when: BackupCR == true
+
+  - name: Execute the BnrUtility for CUSTOMREPORT
+    shell:
+      cmd: java -jar ./BACKUPS/BnrUtilityClient.jar {{ item }}
+    register: output
+    loop: "{{ crfile_lines.stdout_lines }}"
+    when: BackupCR == true
+    args:
+      chdir: '{{ version.stdout }}'
+    ignore_errors: true
+
+  - name: Copy BackupDRRF.in
+    copy: src=../../../ENV_INFO/BACKUPS/BackupDRRF.in dest={{ version.stdout }}/BACKUPS/BackupDRRF.in
+    when: BackupDRRF == true
+
+  - name: retrieve the list of BackupDRRF params
+    shell:
+      cmd: cat {{ version.stdout }}/BACKUPS/BackupDRRF.in
+    register: drrffile_lines
+    when: BackupDRRF == true
+
+  - name: Execute the BnrUtility for BackupDRRF
+    shell:
+      cmd: java -jar ./BACKUPS/BnrUtilityClient.jar {{ item }}
+    register: output
+    loop: "{{ drrffile_lines.stdout_lines }}"
+    when: BackupDRRF == true
+    args:
+      chdir: '{{ version.stdout }}'
+    ignore_errors: true
+
+  - name: Copy BackupDRVIEWER.in
+    copy: src=../../../ENV_INFO/BACKUPS/BackupDRVIEWER.in dest={{ version.stdout }}/BACKUPS/BackupDRVIEWER.in
+    when: BackupDRVIEWER == true
+
+  - name: retrieve the list of BackupDRVIEWER params
+    shell:
+      cmd: cat {{ version.stdout }}/BACKUPS/BackupDRVIEWER.in
+    register: drvfile_lines
+    when: BackupDRVIEWER == true
+
+  - name: Execute the BnrUtility for BackupDRVIEWER
+    shell:
+      cmd: java -jar ./BACKUPS/BnrUtilityClient.jar {{ item }}
+    register: output
+    loop: "{{ drvfile_lines.stdout_lines }}"
+    when: BackupDRVIEWER == true
+    args:
+      chdir: '{{ version.stdout }}'
+    ignore_errors: true
+
+
+#- name: Execute gather_mm_deployment_info.sh
+  #  shell: ./gather_mm_deployment_info.sh
+  #  args:
+  #    chdir: '{{ upgrade_dir }}/{{ version.stdout }}/data_collection/Linux/'
+  #- name: Execute showMMInfo
+  #  shell: ./showMMInfo -S ALL -G {{ gui_user }}:{{ gui_pwd }}
+  #  args:
+  #    chdir: '/usr/bin/'
+  - name: Create backup folder
+    file:
+      path: '/var/opt/mm_backup'
+      state: directory
+      mode: '0777'
+  - name: Create input file to Backup manager data
+    shell: echo {{ mgr_db_pwd }} > /tmp/backup_manager_data.in
+  - name: Backup manager data
+    shell: cat /tmp/backup_manager_data.in | ./backup_manager_data.sh /var/opt/mm_backup
+    args:
+      chdir: '{{ upgrade_dir }}/{{ version.stdout }}/upgrade/backup_scripts/'
+  - name: Create input file to Backup fem data
+    #shell: printf "{{ gui_user }}\n{{ gui_pwd }}\n{{ mgr_db_pwd }}\n{{ Server1_db_pwd }}\n{{ Server2_db_pwd }}\n{{ Server3_db_pwd }}\n{{ Server4_db_pwd }}\n{{ FTF_db_pwd }}\n{{ mmeftf1_db_pwd }}\n" > /tmp/backup_fem_data.in
+    shell: printf "{{ gui_user }}\n{{ gui_pwd }}\n{{ mgr_db_pwd }}\n{{ Server1_db_pwd }}\n{{ Server2_db_pwd }}\n{{ Server3_db_pwd }}\n" > /tmp/backup_fem_data.in
+  - name: Backup fem data
+    shell: cat /tmp/backup_fem_data.in | ./backup_fem_data.sh /var/opt/mm_backup
+    args:
+      chdir: '{{ upgrade_dir }}/{{ version.stdout }}/upgrade/backup_scripts/'
+  - name: Create input file to Backup olm data
+    shell: printf "{{ SERVER_db_pwd }}\n" > /tmp/backup_olm_data.in
+  - name: Backup olm data
+    shell: cat /tmp/backup_olm_data.in | ./backup_olm_data.sh /var/opt/mm_backup
+    args:
+      chdir: '{{ upgrade_dir }}/{{ version.stdout }}/upgrade/backup_scripts/'
+  - name: Create input file to Backup olm data
+    shell: printf "{{ reuse_extenal_disks }}\ny\n" > /tmp/backup_system_mountinfo.in
+  - name: Backup system mount info
+    shell: cat /tmp/backup_system_mountinfo.in | ./backup_system_mountinfo.sh /var/opt/mm_backup
+    args:
+      chdir: '{{ upgrade_dir }}/{{ version.stdout }}/upgrade/backup_scripts/'
+  - name: Compress mm_backup
+    shell: tar -cvf mm_backup.tar mm_backup
+    args:
+      chdir: '/var/opt/'
+  - name: Keep mm_backup in DDS, {{ emm_media_src_dir }} folder
+    fetch:
+      src: /var/opt/mm_backup.tar
+      dest: '{{ emm_media_src_dir }}'
+      flat: yes
+  - name: Keep 2nd mm_backup in DDS, {{ emm_media_src_dir }} folder
+    fetch:
+      src: /var/opt/mm_backup.tar
+      dest: '{{ emm_media_src_dir }}'
+
+  - name: Create directory '{{ version.stdout }}'/BACKUPS
+    file:
+      path: "{{ version.stdout }}/BACKUPS"
+      state: directory
+      mode: '0777'
+
+  - name: Copy BackupExternalDir.in
+    copy: src=../../../ENV_INFO/BACKUPS/BackupExternalDir.in dest={{ version.stdout }}/BACKUPS/BackupExternalDir.in
+
+  - name: retrieve the list of params
+    shell:
+      cmd: cat {{ version.stdout }}/BACKUPS/BackupExternalDir.in
+    register: dfile_lines
+
+  - name: Compress directories
+    #vars:
+    #  size: "{{ item.split('/') | length }}"
+    #  lastPos: "{{ size|int - 2 }}"
+    archive:
+      path: "{{ item }}"
+      dest: "{{ backup_dir }}/{{ ansible_nodename }}_{{ item.replace('/','') }}_directory_{{ lookup('pipe', 'date +%Y-%m-%d') }}.tar.gz"
+      format: gz
+    register: output
+    loop: "{{ dfile_lines.stdout_lines }}"

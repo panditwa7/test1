@@ -1,36 +1,66 @@
 ---
 # tasks file for platform_cps
+- name: Load enviroment file
+  include_vars: ../ENV_INFO/emm.yml
+- name: Get hostname
+  shell: hostname
+  register: hostname
+- name: include vars specific to hostname
+  include_vars:
+    dir: ../../../ENV_INFO/
+    files_matching: "{{ hostname.stdout }}"
+- name: Get EM20 Installation Tool version
+  shell: ls -td {{ upgrade_dir}}/CXP* | head -1
+  register: version
 - name: Go to template path & create cps ini
   shell:
-    chdir: /install/CXP9034012_R8S/templates/Linux
-    cmd: cp platform_cps.ini.eric platform_cps.ini
+    chdir: '{{ version.stdout }}/templates/Linux'
+    cmd: cp -p platform_cps.ini.eric platform_cps.ini
 - name: Copy the platform script
-  copy: src=Install_Platform.sh dest=/install/CXP9034012_R8S/
+  copy: src=Install_Platform.sh dest={{ version.stdout }}/ backup=yes
 - name: Update the cps ini file for ONM Bond
   ini_file:
-    path: /install/CXP9034012_R8S/templates/Linux/platform_cps.ini
+    path: '{{ version.stdout }}/templates/Linux/platform_cps.ini'
     section: ONM Bond
-    option: bonding_interface_primary_ONM
-    value: "{{CPS1.ONM Bond.bonding_interface_primary_ONM}}"
+    option: "{{item.key}}"
+    value: "{{item.value}}"
     no_extra_spaces: yes
-    #with_dict: "{{ CPS1 }}"
+  with_dict: {bonding_interface_primary_ONM: "{{ bonding_interface_primary_ONM }}",bonding_interface_standby_ONM: "{{ bonding_interface_standby_ONM | default() }}"}
+  when: " not item.value == '' "
 - name: Update the cps ini file for Interface IP
   ini_file:
-    path: /install/CXP9034012_R8S/templates/Linux/platform_cps.ini
+    path: '{{ version.stdout }}/templates/Linux/platform_cps.ini'
     section: Interface IP
     option: "{{item.key}}"
     value: "{{item.value}}"
     no_extra_spaces: yes
-  with_dict: {bonding_interface_ip_ONM: 192.168.50.10,netmask_ONM: 255.255.255.0,default_gateway_ip_ONM: 192.168.50.1}
+  with_dict: {bonding_interface_ip_ONM: "{{ bonding_interface_ip_ONM }}",netmask_ONM: "{{ netmask_ONM | default() }}",default_gateway_ip_ONM: "{{ default_gateway_ip_ONM }}" , bonding_interface_ip_Traffic: "{{ bonding_interface_ip_Traffic | default() }}", netmask_Traffic: "{{ netmask_Traffic | default() }}", default_gateway_ip_Traffic: "{{ default_gateway_ip_Traffic | default() }}"}
+  when: " not item.value == '' "
 - name: Update the cps ini file for CLUSTER
   ini_file:
-    path: /install/CXP9034012_R8S/templates/Linux/platform_cps.ini
+    path: '{{ version.stdout }}/templates/Linux/platform_cps.ini'
     section: Cluster
     option: "{{item.key}}"
     value: "{{item.value}}"
     no_extra_spaces: yes
-  with_dict: {cps_virtual_IP: 192.168.50.11,other_hosts_ONM: 192.168.50.14}
-- name: Execute the CPS platform script
-  shell: sh /opt/install_updated.sh
+  with_dict: {cps_virtual_IP: "{{ cps_virtual_IP }}",other_hosts_ONM: "{{ other_hosts_ONM }}"}
+- name: Update the cps ini file for NTPConfig
+  ini_file:
+    path: '{{ version.stdout }}/templates/Linux/platform_cps.ini'
+    section: NTPConfig
+    option: "{{item.key}}"
+    value: "{{item.value}}"
+    no_extra_spaces: yes
+  with_dict: {NTP_Server_IP: "{{ NTP_Server_IP | default() }}"}
+  when: " not item.value == '' "
+- name: Copy automation script
+  copy: src=install_updated.sh dest={{ version.stdout }}/
+- name: Execute the CPS platform script - check logs in /var/adm/MM_LOGS/Platform
+  shell: sh ./install_updated.sh
+  #shell: sleep 500s
+  args:
+    chdir: '{{ version.stdout }}'
+  ignore_errors: true
+  ignore_unreachable: true
     
  

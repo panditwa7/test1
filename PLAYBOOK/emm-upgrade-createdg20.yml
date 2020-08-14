@@ -1,0 +1,6 @@
+- hosts: emm_master
+  #vars_files:
+    #- ../ENV_INFO/emm.yml
+  roles:
+    - role: ../ROLES/upgrade_createdg20
+      ignore_errors: yes

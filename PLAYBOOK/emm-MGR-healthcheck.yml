@@ -1,0 +1,31 @@
+---
+- hosts: emm_master
+  tasks:
+  - name: CLI status
+    shell: sudo /usr/bin/MMControl status | grep CLI
+    register: clistatus
+  - name: NodeManager status
+    shell: sudo /usr/bin/MMControl status | grep NodeManager
+    register: NodeManager
+  - name: Manager status
+    shell: sudo /usr/bin/MMControl status | grep Manager
+    register: Manager
+  - name: Database status
+    shell: sudo /usr/bin/MMControl status | grep Database
+    register: Database
+  - name: Sentinel status
+    shell: sudo /usr/bin/MMControl status | grep Sentinel
+    register: Sentinel
+  - name: Tomcat status
+    shell: sudo /usr/bin/MMControl status | grep Tomcat
+    register: Tomcat
+  - name: healthcheck status
+    debug:
+      msg: "MGR App installaed successfully"
+    when: 
+      - clistatus.stdout is search('ONLINE')
+      - NodeManager.stdout is search('ONLINE')
+      - Manager.stdout is search('ONLINE')
+      - Database.stdout is search('ONLINE')
+      - Sentinel.stdout is search('ONLINE')
+      - Tomcat.stdout is search('ONLINE')

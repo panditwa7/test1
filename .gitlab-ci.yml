@@ -1,7 +1,15 @@
 stages:
-  #- ansiblehost
+  - backupdata
+  - backuproot
+  - uploadsoftwaretocps
+  - uploadsoftwaretoemm
+  - emmplatformospatches
+  - cpsplatformveritas
   - cpsplatform
   - cpsplatformhealthcheck
+  - emmplatformveritas
+  - emmplatform3pp
+  - emmupgradecreatedg20
   - emmplatform
   - emmmasterhealthcheck
   - emmaddnode
@@ -15,125 +23,262 @@ stages:
   - olmappinstall
   - olmhealthcheck
   - olmappaddnode
+  - emmcreatelogicalservers
+  - emmupgradedbapp
+  - ntp
+  - systemhardening
+  - restoredata
+
+backupdata:
+  stage: backupdata
+  tags:
+    - emm-upgrade
+  script:
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-backupdata.yml -v
+  allow_failure: true
+  when: manual
+
+backuproot:
+  stage: backuproot
+  tags:
+    - emm-upgrade
+  script:
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-backuproot.yml -v
+  allow_failure: true
+  when: manual
+
+uploadsoftwaretocps:
+  stage: uploadsoftwaretocps
+  tags:
+    - emm-upgrade
+  script:
+     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm_upload_software_to_cps.yml -v
+  allow_failure: true
+  when: manual
+
+uploadsoftwaretoemm:
+  stage: uploadsoftwaretoemm
+  tags:
+    - emm-upgrade
+  script:
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm_upload_software_to_emmnodes.yml -v
+  allow_failure: true
+  when: manual
+  
+emmplatformospatches:
+  stage: emmplatformospatches
+  tags:
+    - emm-upgrade
+  script:
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm_apply_ospatches.yml -v
+  allow_failure: true
+  when: manual 
+
+cpsplatformveritas:
+  stage: cpsplatformveritas
+  tags:
+    - emm-upgrade
+  script:
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-veritas-cps.yml -v
+  allow_failure: true
+  when: manual
+
 cpsplatforminstall:
-     stage: cpsplatform
-     tags:
-       - emm-cluster
-     script:
-        - cp ./ENV_INFO/cps1.yml ./ROLES/platform_cps1/vars/
-        - cp ./ENV_INFO/cps2.yml ./ROLES/platform_cps2/vars/
-        - cp ./ENV_INFO/cps3.yml ./ROLES/platform_cps3/vars/
-        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-cps-master.yaml
-     allow_failure: true
-     when: manual
+  stage: cpsplatform
+  tags:
+    - emm-upgrade
+  script:
+     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-cps.yml -v
+  allow_failure: true
+  when: manual
+
 cpshealthcheck:
-     stage: cpsplatformhealthcheck
-     tags:
-       - emm-cluster
-     script:
-        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-cps-master-healthcheck.yaml
-     when: manual
+  stage: cpsplatformhealthcheck
+  tags:
+    - emm-upgrade
+  script:
+     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-cps-healthcheck.yml -v
+  when: manual
+
+emmplatformveritas:
+  stage: emmplatformveritas
+  tags:
+    - emm-upgrade
+  script:
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-veritas.yml -v
+  allow_failure: true
+  when: manual 
+
+emmplatform3pp:
+  stage: emmplatform3pp
+  tags:
+    - emm-upgrade
+  script:
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-3pp.yml -v
+  allow_failure: true
+  when: manual
+
+emmupgradecreatedg20:
+  stage: emmplatform
+  tags:
+    - emm-upgrade
+  script:
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-upgrade-createdg20.yml -v
+  only:
+    - dev
+  allow_failure: true
+  when: manual
 
 emmplatforminstall:
-     stage: emmplatform
-     tags:
-       - emm-cluster
-     script:
-       - cp ./ENV_INFO/emm-platform.yml ./ROLES/platform_emm/vars/emm.yml
-       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform.yaml
-     allow_failure: true
-     when: manual
+  stage: emmplatform
+  tags:
+    - emm-upgrade
+  script:
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform.yml -v
+  allow_failure: true
+  when: manual
+
 emmmasterhealthcheck:
-     stage: emmmasterhealthcheck
-     tags:
-       - emm-cluster
-     script:
-        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-master-healthcheck.yaml
-     when: manual
-     
+  stage: emmmasterhealthcheck
+  tags:
+    - emm-upgrade
+  script:
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-master-healthcheck.yml -v
+  when: manual
+
 emmplatformaddnode:
-     stage: emmaddnode
-     tags:
-       - emm-cluster
-     script:
-       - cp ./ENV_INFO/emm-addnode.yml ./ROLES/platform_emm_addnode/vars/emm.yml
-       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform-addnode.yaml
-     allow_failure: true
-     when: manual
+  stage: emmaddnode
+  tags:
+    - emm-upgrade
+  script:
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform-addnode.yml -v
+  allow_failure: true
+  when: manual
+
 emmworkerhealthcheck:
-     stage: emmworkerhealthcheck
-     tags:
-       - emm-cluster
-     script:
-        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-worker-healthcheck.yaml
-     when: manual
+  stage: emmworkerhealthcheck
+  tags:
+    - emm-upgrade
+  script:
+     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-worker-healthcheck.yml -v
+  when: manual
+  
 mgrappinstall:
-     stage: mgrappinstall
-     tags:
-       - emm-cluster
-     script:
-       - cp ./ENV_INFO/mgr.yml ./ROLES/app_MGR/vars/mgr.yml
-       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-mgrapp.yml
-     allow_failure: true
-     when: manual
+  stage: mgrappinstall
+  tags:
+    - emm-upgrade
+  script:
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-mgrapp.yml -v
+  allow_failure: true
+  when: manual
+
 mgrhealthcheck:
-      stage: mgrhealthcheck
-      tags:
-       - emm-cluster
-      script:
-        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-MGR-healthcheck.yaml
-      when: manual
+   stage: mgrhealthcheck
+   tags:
+    - emm-upgrade
+   script:
+     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-MGR-healthcheck.yml -v
+   when: manual
+   
 mgraddnode:
-     stage: mgrappaddnode
-     tags:
-       - emm-cluster
-     script:
-       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-mgrapp-addnode.yml
-     when: manual       
+  stage: mgrappaddnode
+  tags:
+    - emm-upgrade
+  script:
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-mgrapp-addnode.yml -v
+  when: manual
+
 femappinstall:
-     stage: femappinstall
-     tags:
-       - emm-cluster
-     script:
-       - cp ./ENV_INFO/fem.yml ./ROLES/app_FEM/vars/fem.yml
-       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-femapp.yml
-     allow_failure: true
-     when: manual
+  stage: femappinstall
+  tags:
+    - emm-upgrade
+  script:
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-femapp.yml
+  allow_failure: true
+  when: manual
+
 femhealthcheck:
-      stage: femhealthcheck
-      tags:
-       - emm-cluster
-      script:
-        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-FEM-healthcheck.yaml
-      when: manual
+   stage: femhealthcheck
+   tags:
+    - emm-upgrade
+   script:
+     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-FEM-healthcheck.yml -v
+   when: manual
+   
 femaddnode:
-     stage: femappaddnode
-     tags:
-       - emm-cluster
-     script:
-       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-femapp-addnode.yml
-     when: manual 
+  stage: femappaddnode
+  tags:
+    - emm-upgrade
+  script:
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-femapp-addnode.yml -v
+  when: manual 
+
 olmappinstall:
-     stage: olmappinstall
-     tags:
-       - emm-cluster
-     script:
-       - cp ./ENV_INFO/olm.yml ./ROLES/app_OLM/vars/olm.yml
-       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-olmapp.yml
-     allow_failure: true
-     when: manual
+  stage: olmappinstall
+  tags:
+    - emm-upgrade
+  script:
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-olmapp.yml -v
+  allow_failure: true
+  when: manual
+
 olmhealthcheck:
-     stage: olmhealthcheck
-     tags:
-       - emm-cluster
-     script:
-        - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-OLM-healthcheck.yaml
-     when: manual
+  stage: olmhealthcheck
+  tags:
+    - emm-upgrade
+  script:
+     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-OLM-healthcheck.yml -v
+  when: manual
+  
 olmaddnode:
-     stage: olmappaddnode
-     tags:
-       - emm-cluster
-     script:
-       - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-olmapp-addnode.yml
-     when: manual
-     
+  stage: olmappaddnode
+  tags:
+    - emm-upgrade
+  script:
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-olmapp-addnode.yml -v
+  when: manual
+
+emmcreatelogicalservers:
+  stage: emmcreatelogicalservers
+  tags:
+    - emm-upgrade
+  script:
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-create-logicalservers.yml -v
+  when: manual
+
+emmupgradedbapp:
+  stage: emmcreatelogicalservers
+  tags:
+    - emm-upgrade
+  script:
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-upgrade-db-app.yml -v
+  only:
+     - dev
+  when: manual
+
+ntp:
+  stage: ntp
+  tags:
+    - emm-upgrade
+  script:
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-ntp.yml -v
+  allow_failure: true
+  when: manual
+
+systemhardening:
+  stage: systemhardening
+  tags:
+    - emm-upgrade
+  script:
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-system-hardening.yml -v
+  allow_failure: true
+  when: manual
+
+restoredata:
+  stage: restoredata
+  tags:
+    - emm-upgrade
+  script:
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-restoredata.yml -v
+  allow_failure: true
+  when: manual

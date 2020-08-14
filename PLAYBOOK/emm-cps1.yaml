@@ -1,5 +1,0 @@
----
-- hosts: EMM_CPS1
-  roles:
-    - role: ../ROLES/platform_cps1
-      ignore_errors: yes

@@ -1,0 +1,5 @@
+---
+    - hosts: emm_master
+      roles:
+        - role: ../ROLES/restoredata
+          ignore_errors: yes

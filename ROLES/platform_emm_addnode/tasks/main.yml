@@ -1,45 +1,86 @@
 ---
-# tasks file for platform_cps
-- name: Load variable file
-  include_vars: emm.yml
+# tasks file for worker
+- name: Load enviroment file
+  include_vars: ../ENV_INFO/emm.yml
+- name: Get hostname
+  shell: hostname
+  register: hostname
+- name: include vars specific to hostname
+  include_vars:
+    dir: ../../../ENV_INFO/
+    files_matching: "{{ hostname.stdout }}"
+- name: Get EM20 Installation Tool version
+  shell: ls -td {{ upgrade_dir }}/CXP* | head -1
+  register: version
 - name: Go to template path & create platform nfs ini
   shell:
-    chdir: /install/CXP9034012_R8S/templates/Linux
-    cmd: cp platform_addnode.ini.eric platform_addnode.ini
-- name: Update the hostname
-  hostname: name=emm2-001
+    chdir: '{{ version.stdout }}/templates/Linux'
+    cmd: cp -p platform_addnode.ini.eric platform_addnode.ini
+#- name: Update the hostname
+#  shell: sudo hostnamectl set-hostname {{ hostname }}
 - name: Copy the platform script
-  copy: src=Install_Platform.sh dest=/install/CXP9034012_R8S/
-- name: Copy hosts file
-  copy: src=hosts dest=/etc/hosts
+  copy: src=Install_Platform.sh dest={{ version.stdout }}/ backup=yes
+#- name: Update hosts file
+#  shell: grep -q {{ hostname }} /etc/hosts  || (sudo chmod 666 /etc/hosts; sudo echo "{{ bonding_interface_ip_ONM }} {{ hostname }}" >> /etc/hosts; sudo chmod 644 /etc/hosts)
 - name: Update the cps ini file for ONM Bond
   ini_file:
-    path: /install/CXP9034012_R8S/templates/Linux/platform_addnode.ini
+    path: '{{ version.stdout }}/templates/Linux/platform_addnode.ini'
     section: ONM Bond
-    option: bonding_interface_primary_ONM
-    value: "{{ bonding_interface_primary_ONM }}"
+    option: "{{item.key}}"
+    value: "{{item.value}}"
     no_extra_spaces: yes
+  with_dict: {bonding_interface_primary_ONM: "{{ bonding_interface_primary_ONM }}",bonding_interface_standby_ONM: "{{ bonding_interface_standby_ONM | default() }}"}
+  when: " not item.value == '' "
+- name: Update the ini file for Traffic Bond
+  ini_file:
+    path: '{{ version.stdout }}/templates/Linux/platform_addnode.ini'
+    section: Traffic Bond
+    option: "{{item.key}}"
+    value: "{{item.value}}"
+    no_extra_spaces: yes
+  with_dict: {bonding_interface_primary_Traffic: "{{ bonding_interface_primary_Traffic | default()}}",bonding_interface_standby_Traffic: "{{ bonding_interface_standby_Traffic | default() }}"}
+  when: " not item.value == '' "
 - name: Update the nfs ini file for Interface IP
   ini_file:
-    path: /install/CXP9034012_R8S/templates/Linux/platform_addnode.ini
+    path: '{{ version.stdout }}/templates/Linux/platform_addnode.ini'
     section: Interface IP
     option: "{{item.key}}"
     value: "{{item.value}}"
     no_extra_spaces: yes
-  with_dict: {bonding_interface_ip_ONM: "{{ bonding_interface_ip_ONM }}",netmask_ONM: "{{ netmask_ONM }}",default_gateway_ip_ONM: "{{ default_gateway_ip_ONM }}"}
+  with_dict: {bonding_interface_ip_ONM: "{{ bonding_interface_ip_ONM }}",netmask_ONM: "{{ netmask_ONM }}",default_gateway_ip_ONM: "{{ default_gateway_ip_ONM }}" , bonding_interface_ip_Traffic: "{{ bonding_interface_ip_Traffic | default() }}", netmask_Traffic: "{{ netmask_Traffic | default() }}", default_gateway_ip_Traffic: "{{ default_gateway_ip_Traffic | default() }}"}
+  when: " not item.value == '' "
 - name: Update the nfs ini file for CLUSTER
   ini_file:
-    path: /install/CXP9034012_R8S/templates/Linux/platform_addnode.ini
+    path: '{{ version.stdout }}/templates/Linux/platform_addnode.ini'
     section: Cluster
     option: "{{item.key}}"
     value: "{{item.value}}"
     no_extra_spaces: yes
-  with_dict: {Clus_Node_IP: "{{ Clus_Node_IP }}",HeartBeat_Link_1: "{{ HeartBeat_Link_1 }}",HeartBeat_Link_2: "{{ HeartBeat_Link_2 }}"}
+  with_dict: {Clus_Node_IP: "{{ Clus_Node_IP | default() }}",HeartBeat_Link_1: "{{ HeartBeat_Link_1 | default() }}",HeartBeat_Link_2: "{{ HeartBeat_Link_2 | default() }}"}
+  when: " not item.value == '' "
+- name: Copy the cfs libfunc script
+  copy: src=libfunc_cfs_platform.sh dest={{ version.stdout }}/lib/Linux/ backup=yes
 - name: Copy automation script
-  copy: src=install_updated.sh dest=/opt/install_addnode.sh
-- name: Execute the EMM Addnode platform script
-  shell: sh /opt/install_addnode.sh
+  copy: src=install_updated.sh dest={{ version.stdout }}/install_addnode.sh
+- name: Execute the EMM Addnode platform script - check logs in /var/adm/MM_LOGS
+  shell: sh ./install_addnode.sh {{ storage }} '{{ other_options_addnode }}'
+  args:
+    chdir: '{{ version.stdout }}'
   ignore_errors: true
   ignore_unreachable: true
-    
- 
+  register: task_result
+
+- name: Rebooting the system
+  block:
+  - name: Reboot system
+    command: sudo shutdown -r +1 "Rebooting Server via Ansible"
+  - name: Wait for the server to come up
+    wait_for_connection:
+      connect_timeout: 120
+      timeout: 600
+      delay: 120
+      sleep: 20
+  when: task_result.changed
+
+- name: wait some time minute for the cluster to be started
+  command: sleep 180 
