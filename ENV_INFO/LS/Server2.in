@@ -6,13 +6,13 @@
 Server2
 9020
 5502
-thule
-thule
-192.168.50.34
-/var/opt/mediation/MMStorage2
+mediation
+mediation
+10.225.41.125
+y
+/var/opt/mediation/MMStorage
 /var/opt/mediation/MMDB
-192.168.50.34
+10.225.41.102
 y
 
 x
-

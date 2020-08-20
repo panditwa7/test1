@@ -1,0 +1,17 @@
+---
+# vars file for worker emm
+bonding_interface_primary_ONM: ens192
+bonding_interface_standby_ONM: ens224
+bonding_interface_ip_ONM: 10.225.41.48
+netmask_ONM: 255.255.255.0
+default_gateway_ip_ONM: 10.225.41.254
+bonding_interface_primary_Traffic: ens256
+bonding_interface_standby_Traffic: ens193
+bonding_interface_ip_Traffic: 10.225.42.210
+netmask_Traffic: 255.255.255.192
+default_gateway_ip_Traffic: 10.225.42.254
+Clus_Node_IP: 10.225.41.53
+HeartBeat_Link_1: ens225
+HeartBeat_Link_2: ens257
+# install manager component y/n
+manager: n
