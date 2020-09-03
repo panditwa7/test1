@@ -1,108 +1,133 @@
 ---
-    # vars file
-    # Working directory in EM:
-    upgrade_dir: ./Upgrade/
-    #user: admin
-    # If EM SW downloaded from SWGW and uploaded to Artifactory/DDS:
-    #artifactory_url: https://artifactory.rosetta.ericssondevops.com/artifactory/docker-sa-bss-eoc/
-    #artifactory_folder: EMM/EM20_ICP20-01/
-    #artifactory_key: AKCp5e312rjsxMhHZFn96muR2fnp9BEG22YrZnD3Revs2eZ5v2CXdQKKiAAWLbdjrxUzff9tx
-    #release: ICP2001
-    
-    # If DDS is used to keep EM SW, below folder should contain the SW downloaded from SWGW
-    emm_media_src_dir: /EM20_Software/EM20_ICP20-01/
-    
-    # EM20 ICP20-01
-    redhat_sw: CXP9036931_1-R1B.zip
-    infoscale_sw: CXP9036931_2-R1C.zip
-    threepp_sw: CXP9036931_3-R1B.zip
-    appl_sw: CXP9036928-R1F.zip
-    tool_sw: CXP9036929-R2N.zip
-    # TODO: search iso and old_kernel in playbook
-    threepp_iso: 19089-CXP9036931_3_S.iso
-    old_kernel: kernel-3.10.0-1062.el7.x86_64
-    
-    # MM18 ICP20-01
-    #redhat_sw: CXP9034013_1-R7C.zip
-    #infoscale_sw: CXP9034013_2-R7D.zip
-    #threepp_sw: CXP9034013_3-R7E.zip
-    #appl_sw: CXP9034011-R7L.zip
-    #tool_sw: CXP9034012-R9M.zip
-    # TODO: search iso and old_kernel in playbook
-    #threepp_iso: 19089-CXP9034013_3_AN.iso
-    #old_kernel: kernel-3.10.0-1062.el7.x86_64
-    
-    # Configuration template
-    #platform_template: platform_networkbond.ini
-    platform_template: platform_cluster.ini
-    #platform_template: platform_cluster_nfs.ini
-    
-    # Deployment options:
-    # deployment: CLUSTER/STDALONE
-    #deployment: STDALONE
-    deployment: CLUSTER
-    
-    # Veritas installation: ENTERPRISE/AVAILABILITY
-    veritas: ENTERPRISE
-    #veritas: AVAILABILITY
-    
-    # storage type: external/internal
-    #storage: internal
-    storage: external
-    
-    # Other options for Platform installation, will be appended to Install_Platform.sh
-    #other_options: ""
-    #other_options: "-F NFS"
-    #other_options: "-I DEFAULT"
-    #other_options: "-F VRTS"
-    other_options: "-F VRTS -O NODG -L debug"
-    
-    # Other options for Platform installation when adding node to existing cluster, will be appended to Install_Platform.sh
-    #other_options_addnode: "-F NFS"
-    other_options_addnode: "-F VRTS"
-    
-    
-    # Other options for Application installation, will be appended to Install_App.sh
-    #app_other_options: ""
-    #app_other_options: "-I DEFAULT"
-    app_other_options: "-U UPGRADE"
-    
-    # Enviroment variable required to install additional logical servers and additional applications (DRRF, DRViewer ...) in Upgrade scenario
-    #ACTIVITY_TYPE: ""
-    ACTIVITY_TYPE: UPGRADE
-    
-    # Enviromental details:
-    gui_user: mmsuper
-    gui_pwd: mediation1
-    
-    # DB users for Manager (used by backup_mgr_data.sh script):
-    mgr_db_pwd: mmsuper
-    
-    # DB users for FEM Logical Servers (used by backup_fem_data.sh script)
-    # SAME order as in /etc/mediation/MM.config, update databackup and datarestore playbooks if different list of LS
-    Server1_db_pwd: mmsuper
-    Server2_db_pwd: thule
-    Server3_db_pwd: thule
-    #Server4_db_pwd: thule
-    #FTF_db_pwd: mmsuper
-    #mmeftf1_db_pwd: thule
-    
-    # DB users for OLM Logical Servers (used by backup_fem_data.sh script)
-    # SAME order as in /etc/mediation/MM.config, update databackup and restore playbooks if different list of LS
-    SERVER_db_pwd: mmsuper
-    
-    # Select reuse or not external disk (used by backup_system_mountinfo.sh script)
-    reuse_extenal_disks: y
+# vars file
+# Working directory in EM:
+upgrade_dir: ./Upgrade/
 
-    # Upgrade Additional Database Applications variables
-    fm_db_drrf_ip: 10.225.41.97
-    fm_db_drrf_port: 5434
-    fm_db_drrf_passwd: mediation
-    fm_db_drviewer_ip: 10.225.41.98
-    fm_db_drviewer_port: 5435
-    fm_db_drviewer_passwd: mediation
-    mm_db_Reporting_ip: 10.225.41.94
-    mm_db_Reporting_port: 5438
-    mm_db_Reporting_passwd: mediation
-    custom_Report_db_ip: 10.225.41.43
-    DB_Mig: /home/admin/Upgrade/CXP9036929_R2N/upgrade/upgrade_scripts/
+
+################################
+# Parameters for SW upload to EM VMs:
+# If EM SW downloaded from SWGW and uploaded to Artifactory/DDS:
+#artifactory_url: https://artifactory.rosetta.ericssondevops.com/artifactory/docker-sa-bss-eoc/
+#artifactory_folder: EMM/EM20_ICP20-01/
+#artifactory_key: AKCp5e312rjsxMhHZFn96muR2fnp9BEG22YrZnD3Revs2eZ5v2CXdQKKiAAWLbdjrxUzff9tx
+#release: ICP2001
+
+# If DDS is used to keep EM SW, below folder should contain the SW downloaded from SWGW
+emm_media_src_dir: /EM20_Software/EM20_ICP20-01/
+
+# EM20 ICP20-01
+redhat_sw: CXP9036931_1-R1B.zip
+infoscale_sw: CXP9036931_2-R1C.zip
+threepp_sw: CXP9036931_3-R1B.zip
+appl_sw: CXP9036928-R1F.zip
+tool_sw: CXP9036929-R2N.zip
+# TODO: search iso and old_kernel in playbook
+threepp_iso: 19089-CXP9036931_3_S.iso
+old_kernel: kernel-3.10.0-1062.el7.x86_64
+
+# MM18 ICP20-01
+#redhat_sw: CXP9034013_1-R7C.zip
+#infoscale_sw: CXP9034013_2-R7D.zip
+#threepp_sw: CXP9034013_3-R7E.zip
+#appl_sw: CXP9034011-R7L.zip
+#tool_sw: CXP9034012-R9M.zip
+# TODO: search iso and old_kernel in playbook
+#threepp_iso: 19089-CXP9034013_3_AN.iso
+#old_kernel: kernel-3.10.0-1062.el7.x86_64
+
+################################
+# Parameters for Installation/Upgrades
+# Configuration template
+#platform_template: platform_networkbond.ini
+platform_template: platform_cluster.ini
+#platform_template: platform_cluster_nfs.ini
+
+# Deployment options: CLUSTER/STDALONE
+#deployment: STDALONE
+deployment: CLUSTER
+
+# Veritas installation: ENTERPRISE/AVAILABILITY
+veritas: ENTERPRISE
+#veritas: AVAILABILITY
+
+# storage type: external/internal
+#storage: internal
+storage: external
+
+# Other options for Platform installation, will be appended to Install_Platform.sh
+#other_options: ""
+#other_options: "-F NFS"
+#other_options: "-I DEFAULT"
+#other_options: "-F VRTS"
+#other_options: "-F VRTS -O NODG -L debug"
+other_options: "-F VRTS -O NODG"
+
+# Other options for Platform installation when adding node to existing cluster, will be appended to Install_Platform.sh
+#other_options_addnode: "-F NFS"
+other_options_addnode: "-F VRTS"
+
+# Other options for Application installation, will be appended to Install_App.sh
+#app_other_options: ""
+#app_other_options: "-I DEFAULT"
+app_other_options: "-U UPGRADE"
+
+# Enviroment variable required to install additional logical servers and additional applications (DRRF, DRViewer ...) in Upgrade scenario
+#ACTIVITY_TYPE: ""
+ACTIVITY_TYPE: UPGRADE
+
+################################
+# Parameters for Upgrade Additional Database Applications:
+# VIP of DDRF, port and pwd:
+fm_db_drrf_ip: 148.135.25.58
+fm_db_drrf_port: 5434
+fm_db_drrf_passwd: mediation
+# VIP of DRViewer, port and pwd
+fm_db_drviewer_ip: 148.135.25.59
+fm_db_drviewer_port: 5435
+fm_db_drviewer_passwd: mediation
+# VIP of Reporing DB, port and pwd
+mm_db_Reporting_ip: 148.135.25.56
+mm_db_Reporting_port: 5438
+mm_db_Reporting_passwd: mediation
+# Physical IP of Custom Report in OLD EMM
+custom_Report_db_ip: 148.135.25.57
+
+#NTP Client Configuration
+NTP_Slave_server_IP: 192.168.50.15
+NTP_Master_server_IP: 192.168.50.15
+NTP_server_IPv4: 192.168.50.15
+
+################################
+# BACKUPS
+# backup_dir should have enough space to store all the backups. Pre-requisite: it should be already mounted in system.
+backup_dir: /Backup/
+
+# Parameters for Backups with BnRUtility:
+# Flags to execute inmmediate backup with BnRUtility. Pre-requisite: Smae BnRUtility backups should be already configured and scheduled.
+BackupDRRF: false
+BackupDRVIEWER: false
+BackupFEM: true
+BackupPRD: false
+BackupManager: false
+BackupCR: false
+BackupOLM: false
+BackupRoot: false
+
+# Parameters for Backups with backup scripts
+# DB users for Manager (used by backup_mgr_data.sh script):
+gui_user: mmsuper
+gui_pwd: mediation1
+mgr_db_pwd: mmsuper
+# DB users for FEM Logical Servers (used by backup_fem_data.sh script)
+# SAME order as in /etc/mediation/MM.config, update databackup and datarestore playbooks if different list of LS
+Server1_db_pwd: mmsuper
+Server2_db_pwd: thule
+Server3_db_pwd: thule
+#Server4_db_pwd: thule
+#FTF_db_pwd: mmsuper
+#mmeftf1_db_pwd: thule
+# DB users for OLM Logical Servers (used by backup_fem_data.sh script)
+# SAME order as in /etc/mediation/MM.config, update databackup and restore playbooks if different list of LS
+SERVER_db_pwd: mmsuper
+# Select reuse or not external disk (y/n) (used by backup_system_mountinfo.sh script)
+reuse_extenal_disks: y
