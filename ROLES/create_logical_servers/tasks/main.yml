@@ -15,6 +15,9 @@
     with_items: '{{ in_file.stdout_lines}}'
     environment:
       ACTIVITY_TYPE: '{{ ACTIVITY_TYPE }}'
+  - name: Adding nodes in Cluster Service Group
+    script:
+      cmd: sudo AddingNodestoSG.sh
   - name: Copy Additional Components configuration
     copy: src="../ENV_INFO/CMP" dest={{ version.stdout }}/
   - name: Get .in files
