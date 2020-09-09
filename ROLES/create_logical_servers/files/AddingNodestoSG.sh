@@ -31,12 +31,14 @@ if [ -f /opt/VRTSvcs/bin/hagrp ]; then
             }
         done
     done
+    
+    conf_stat=`/opt/VRTSvcs/bin/haclus -value ReadOnly`
+    if [ ${conf_stat} -eq 0 ]
+    then
+        echo -e "\n--> Making Cluster Configuration Read-Only"
+        /opt/VRTSvcs/bin/haconf -dump -makero
+        sleep 3
+    fi
+    
 fi
 
-conf_stat=`/opt/VRTSvcs/bin/haclus -value ReadOnly`
-if [ ${conf_stat} -eq 0 ]
-then
-    echo -e "\n--> Making Cluster Configuration Read-Only"
-    /opt/VRTSvcs/bin/haconf -dump -makero
-    sleep 3
-fi
