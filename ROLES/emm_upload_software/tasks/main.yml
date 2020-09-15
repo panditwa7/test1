@@ -2,15 +2,15 @@
 - name: Load variable file
   include_vars: ../ENV_INFO/emm.yml
 
-- name: Create directory '{{ upgrade_dir }}'
+- name: Create directory '{{ working_dir }}'
   file:
-    path: '{{ upgrade_dir }}'
+    path: '{{ working_dir }}'
     state: directory
     mode: '0777'
 
-#- name: change permissions to upgrade_dir directory
+#- name: change permissions to working_dir directory
 #  file:
-#    path: '{{ upgrade_dir }}'
+#    path: '{{ working_dir }}'
 #    owner: "{{user}}"
 #    group: "{{user}}"
 #    mode: '0755'
@@ -18,43 +18,43 @@
 #- name: Copy SW - Redhat
 #  copy:
 #    src: "{{ emm_media_src_dir }}/{{ redhat_sw }}"
-#    dest: "{{ upgrade_dir }}"
+#    dest: "{{ working_dir }}"
 #    force: no
 
 - name: Copy SW - Infoscale
   copy:
     src: "{{ emm_media_src_dir }}/{{ infoscale_sw }}"
-    dest: "{{ upgrade_dir }}"
+    dest: "{{ working_dir }}"
     force: no
 
 - name: Copy SW - 3PPs
   copy:
     src: "{{ emm_media_src_dir }}/{{ threepp_sw }}"
-    dest: "{{ upgrade_dir }}"
+    dest: "{{ working_dir }}"
     force: no
   
 - name: Copy SW - tools
   copy:
     src: "{{ emm_media_src_dir }}/{{ tool_sw }}"
-    dest: "{{ upgrade_dir }}"
+    dest: "{{ working_dir }}"
     force: no
 
 
 - name: Copy SW - application
   copy:
     src: "{{ emm_media_src_dir }}/{{ appl_sw }}"
-    dest: "{{ upgrade_dir }}"
+    dest: "{{ working_dir }}"
     force: no
 
 - name: Uncompress SW
   shell: unzip -o {{ redhat_sw }}; unzip -o {{ infoscale_sw }};  unzip -o {{ tool_sw }}; unzip -o {{ threepp_sw }}; unzip -o {{ appl_sw }}; tar -xvf *.tar
   args:
-    chdir: '{{ upgrade_dir }}'
+    chdir: '{{ working_dir }}'
 
 
 - name: Find zip and tar files
   find:
-    paths: "{{ upgrade_dir }}"      
+    paths: "{{ working_dir }}"      
     patterns: "*.zip,*.tar"
   register: find_result
 
@@ -66,7 +66,7 @@
 
 - name: Give permissions to working directory
   file: 
-    path: "{{ upgrade_dir }}"
+    path: "{{ working_dir }}"
     state: directory
     mode: '0777'
     recurse: yes

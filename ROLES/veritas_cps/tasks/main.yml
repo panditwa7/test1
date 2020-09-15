@@ -4,7 +4,7 @@
   include_vars: ../ENV_INFO/emm.yml
 
 - name: Get EM20 Installation Tool version
-  shell: ls -td {{ upgrade_dir}}/CXP* | head -1
+  shell: ls -td {{ working_dir}}/CXP* | head -1
   register: version  
 
 - name: Copy automation script

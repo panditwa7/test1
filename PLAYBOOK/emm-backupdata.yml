@@ -1,8 +1,4 @@
 - hosts: emm_master
-  #sudo: yes
-  #remote_user: "{{user}}"
-  #vars_files:
-    #- ../ENV_INFO/emm.yml
   roles:
     - role: ../ROLES/backupdata
       ignore_errors: yes

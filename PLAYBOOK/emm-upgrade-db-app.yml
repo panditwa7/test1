@@ -6,7 +6,7 @@
       include_vars: ../ENV_INFO/emm.yml
 
     - name: Get EM20 Installation Tool version
-      shell: ls -td {{ upgrade_dir }}/CXP* | head -1
+      shell: ls -td {{ working_dir }}/CXP* | head -1
       register: version
 
     - name: DDRF fm_db_drrf
@@ -37,7 +37,7 @@
       include_vars: ../ENV_INFO/emm.yml
 
     - name: Get EM20 Installation Tool version
-      shell: ls -td {{ upgrade_dir }}/CXP* | head -1
+      shell: ls -td {{ working_dir }}/CXP* | head -1
       register: version
       
     - name: fm_db_drrf Move dbem15 to new EM20
@@ -78,7 +78,7 @@
       include_vars: ../ENV_INFO/emm.yml  
   
     - name: Get EM20 Installation Tool version
-      shell: ls -td {{ upgrade_dir }}/CXP* | head -1
+      shell: ls -td {{ working_dir }}/CXP* | head -1
       register: version
       
     - name: fm_db_drviewer Move dbem15 to new EM20
@@ -117,7 +117,7 @@
       include_vars: ../ENV_INFO/emm.yml  
 
     - name: Get EM20 Installation Tool version
-      shell: ls -td {{ upgrade_dir }}/CXP* | head -1
+      shell: ls -td {{ working_dir }}/CXP* | head -1
       register: version
       
     - name: mm_db_Reporting Move dbem15 to new EM20

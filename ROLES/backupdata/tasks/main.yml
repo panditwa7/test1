@@ -2,22 +2,22 @@
   # tasks file
   - name: Load variable file
     include_vars: ../../../ENV_INFO/emm.yml
-  - name: Create directory '{{ upgrade_dir }}'
+  - name: Create directory '{{ working_dir }}'
     file:
-      path: '{{ upgrade_dir }}'
+      path: '{{ working_dir }}'
       state: directory
       mode: '0755'
 
   - name: Copy EM Installation SW
-    copy: src='{{ emm_media_src_dir }}/{{ tool_sw }}' dest={{ upgrade_dir }}
+    copy: src='{{ emm_media_src_dir }}/{{ tool_sw }}' dest={{ working_dir }}
   - name: Uncompress SW
     shell: unzip -o {{ tool_sw }}; tar -xf *CXP*.tar
     args:
-      chdir: '{{ upgrade_dir }}'
+      chdir: '{{ working_dir }}'
 
   - name: Find zip and tar files
     find:
-      paths: "{{ upgrade_dir }}"      
+      paths: "{{ working_dir }}"      
       patterns: "*.zip,*.tar"
     register: find_result
     
@@ -28,7 +28,7 @@
     with_items: "{{ find_result.files }}"      
  
   - name: Get EM20 Installation Tool version
-    shell: ls -td {{ upgrade_dir }}/CXP* | head -1
+    shell: ls -td {{ working_dir }}/CXP* | head -1
     register: version
 
   - name: Create directory '{{ version.stdout }}'/BACKUPS
@@ -185,7 +185,7 @@
 #- name: Execute gather_mm_deployment_info.sh
   #  shell: ./gather_mm_deployment_info.sh
   #  args:
-  #    chdir: '{{ upgrade_dir }}/{{ version.stdout }}/data_collection/Linux/'
+  #    chdir: '{{ working_dir }}/{{ version.stdout }}/data_collection/Linux/'
   #- name: Execute showMMInfo
   #  shell: ./showMMInfo -S ALL -G {{ gui_user }}:{{ gui_pwd }}
   #  args:
@@ -200,26 +200,26 @@
   - name: Backup manager data
     shell: cat /tmp/backup_manager_data.in | ./backup_manager_data.sh /var/opt/mm_backup
     args:
-      chdir: '{{ upgrade_dir }}/{{ version.stdout }}/upgrade/backup_scripts/'
+      chdir: '{{ working_dir }}/{{ version.stdout }}/upgrade/backup_scripts/'
   - name: Create input file to Backup fem data
     #shell: printf "{{ gui_user }}\n{{ gui_pwd }}\n{{ mgr_db_pwd }}\n{{ Server1_db_pwd }}\n{{ Server2_db_pwd }}\n{{ Server3_db_pwd }}\n{{ Server4_db_pwd }}\n{{ FTF_db_pwd }}\n{{ mmeftf1_db_pwd }}\n" > /tmp/backup_fem_data.in
     shell: printf "{{ gui_user }}\n{{ gui_pwd }}\n{{ mgr_db_pwd }}\n{{ Server1_db_pwd }}\n{{ Server2_db_pwd }}\n{{ Server3_db_pwd }}\n" > /tmp/backup_fem_data.in
   - name: Backup fem data
     shell: cat /tmp/backup_fem_data.in | ./backup_fem_data.sh /var/opt/mm_backup
     args:
-      chdir: '{{ upgrade_dir }}/{{ version.stdout }}/upgrade/backup_scripts/'
+      chdir: '{{ working_dir }}/{{ version.stdout }}/upgrade/backup_scripts/'
   - name: Create input file to Backup olm data
     shell: printf "{{ SERVER_db_pwd }}\n" > /tmp/backup_olm_data.in
   - name: Backup olm data
     shell: cat /tmp/backup_olm_data.in | ./backup_olm_data.sh /var/opt/mm_backup
     args:
-      chdir: '{{ upgrade_dir }}/{{ version.stdout }}/upgrade/backup_scripts/'
+      chdir: '{{ working_dir }}/{{ version.stdout }}/upgrade/backup_scripts/'
   - name: Create input file to Backup olm data
     shell: printf "{{ reuse_extenal_disks }}\ny\n" > /tmp/backup_system_mountinfo.in
   - name: Backup system mount info
     shell: cat /tmp/backup_system_mountinfo.in | ./backup_system_mountinfo.sh /var/opt/mm_backup
     args:
-      chdir: '{{ upgrade_dir }}/{{ version.stdout }}/upgrade/backup_scripts/'
+      chdir: '{{ working_dir }}/{{ version.stdout }}/upgrade/backup_scripts/'
   - name: Compress mm_backup
     shell: tar -cvf mm_backup.tar mm_backup
     args:

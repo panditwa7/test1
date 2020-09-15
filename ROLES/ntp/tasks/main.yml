@@ -8,7 +8,7 @@
     msg: "Automation of NTP Client config requires java, CPS doesn't have java installed in standard EM. If so, please follow CPI instructions to configure Manually"
 
 - name: Get EM20 Installation Tool version
-  shell: ls -td {{ upgrade_dir}}/CXP* | head -1
+  shell: ls -td {{ working_dir}}/CXP* | head -1
   register: version
 - debug:
    var: version

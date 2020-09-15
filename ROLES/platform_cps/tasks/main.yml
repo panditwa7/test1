@@ -10,7 +10,7 @@
     dir: ../../../ENV_INFO/
     files_matching: "{{ hostname.stdout }}"
 - name: Get EM20 Installation Tool version
-  shell: ls -td {{ upgrade_dir}}/CXP* | head -1
+  shell: ls -td {{ working_dir}}/CXP* | head -1
   register: version
 - name: Go to template path & create cps ini
   shell:

@@ -1,9 +1,4 @@
 - hosts: emm_master,emm_worker
-  #sudo: yes
-  #remote_user: "{{user}}"
-  #vars_files:
-    #- ../ENV_INFO/emm.yml
-  become: yes
   roles:
     - role: ../ROLES/system_hardening
       ignore_errors: yes

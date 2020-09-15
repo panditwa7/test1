@@ -27,7 +27,7 @@
        
 - name: Mount iso file
   mount:
-    src: '{{ upgrade_dir }}/{{ threepp_iso }}'
+    src: '{{ working_dir }}/{{ threepp_iso }}'
     path: /cdrom/sw_3pp
     fstype: iso9660
     opts: loop,ro
@@ -55,7 +55,7 @@
 
 - name: Umount iso file
   mount:
-    src: '{{ upgrade_dir }}/{{ threepp_iso }}'
+    src: '{{ working_dir }}/{{ threepp_iso }}'
     path: /cdrom/sw_3pp
     fstype: iso9660
     opts: loop,ro

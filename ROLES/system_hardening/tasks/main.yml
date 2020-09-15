@@ -8,7 +8,7 @@
       msg: "Hardening Automation requires java which is not installed in stardand EM. Please follow CPI instructions to configure Manually in CPS"
 
   - name: Get EM20 Installation Tool version
-    shell: ls -td {{ upgrade_dir }}/CXP* | head -1
+    shell: ls -td {{ working_dir }}/CXP* | head -1
     register: version
 
   - name: Create directory '{{ version.stdout }}'/SH

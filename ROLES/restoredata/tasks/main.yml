@@ -2,13 +2,13 @@
   # tasks file
   - name: Load variable file
     include_vars: emm.yml
-  #- name: Create directory '{{ upgrade_dir }}'
+  #- name: Create directory '{{ working_dir }}'
   #  file:
-  #    path: '{{ upgrade_dir }}'
+  #    path: '{{ working_dir }}'
   #    state: directory
   #    mode: '0755'
   - name: Get EM Installation Tool version
-    shell: ls -td {{ upgrade_dir }}/CXP* | head -1
+    shell: ls -td {{ working_dir }}/CXP* | head -1
     register: version
   - name: Give full permissions to /var/opt/ to copy backup data
     shell: sudo chmod 777 /var/opt

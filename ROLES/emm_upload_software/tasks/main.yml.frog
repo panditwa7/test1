@@ -1,45 +1,45 @@
 ---
   - name: Load variable file
     include_vars: ../ENV_INFO/emm.yml
-  - name: Create directory '{{ upgrade_dir }}'
+  - name: Create directory '{{ working_dir }}'
     file:
-      path: '{{ upgrade_dir }}'
+      path: '{{ working_dir }}'
       state: directory
       mode: '0777'
 
   #- name: Download SW 1 - redhat
   #  shell: curl -H "X-JFrog-Art-Api:{{ artifactory_key }}" -O "{{ artifactory_url }}/{{ artifactory_folder }}/{{ redhat_sw }}"
   #  args:
-  #    chdir: '{{ upgrade_dir }}'
+  #    chdir: '{{ working_dir }}'
   
   - name: Download SW 2 - infoscale
     shell: curl -H "X-JFrog-Art-Api:{{ artifactory_key }}" -O "{{ artifactory_url }}/{{ artifactory_folder }}/{{ infoscale_sw }}"
     args:
-      chdir: '{{ upgrade_dir }}'
+      chdir: '{{ working_dir }}'
   
   - name: Download SW 3 - 3pp
     shell: curl -H "X-JFrog-Art-Api:{{ artifactory_key }}" -O "{{ artifactory_url }}/{{ artifactory_folder }}/{{ threepp_sw }}"
     args:
-      chdir: '{{ upgrade_dir }}'
+      chdir: '{{ working_dir }}'
   
   - name: Download EM Application SW
     shell: curl -H "X-JFrog-Art-Api:{{ artifactory_key }}" -O "{{ artifactory_url }}/{{ artifactory_folder }}/{{ appl_sw }}"
     args:
-      chdir: '{{ upgrade_dir }}'
+      chdir: '{{ working_dir }}'
   
   - name: Download EM Installation Tool
     shell: curl -H "X-JFrog-Art-Api:{{ artifactory_key }}" -O "{{ artifactory_url }}/{{ artifactory_folder }}/{{ tool_sw }}"
     args:
-      chdir: '{{ upgrade_dir }}'
+      chdir: '{{ working_dir }}'
   
   - name: Uncompress SW
     shell: unzip -o {{ tool_sw }}; unzip -o {{ appl_sw }}; unzip -o {{ redhat_sw }}; unzip -o {{ infoscale_sw }}; unzip -o {{ threepp_sw }}; tar -xvf *.tar
     args:
-      chdir: '{{ upgrade_dir }}'
+      chdir: '{{ working_dir }}'
   
   - name: Find zip and tar files
     find:
-      paths: "{{ upgrade_dir }}"      
+      paths: "{{ working_dir }}"      
       patterns: "*.zip,*.tar"
     register: find_result
   
@@ -51,7 +51,7 @@
   
   - name: Give permissions to working directory
     file: 
-      path: "{{ upgrade_dir }}"
+      path: "{{ working_dir }}"
       state: directory
       mode: '0777'
       recurse: yes
