@@ -645,10 +645,11 @@ do
                 while  [ "$input" != "valid" ]
                 do
                         #${ECHO} " Restart System Now ? (y/n) : \c"
-                        #case ${choice} in
+                        #read choice
                         ${ECHO} "Rebooting from Ansible \c"
                         choice="n"
-                        read choice
+                        case ${choice} in
+                        
                         y|Y)
                                 rm -f /dev/shm/reboot_immediate >/dev/null 2>&1
                                 input="valid"
@@ -717,9 +718,9 @@ if [ -f /tmp/reboot_now ]; then
         while  [ "$input" != "valid" ]
         do
                 #${ECHO} " Restart System Now ? (y/n) : \c"               
+                #read choice
                 ${ECHO} "Rebooting from Ansible \c"
-                choice="n"
-                read choice
+                choice="n"               
                 case ${choice} in
                         y|Y)
                                 rm -f /tmp/reboot_now >/dev/null 2>&1
