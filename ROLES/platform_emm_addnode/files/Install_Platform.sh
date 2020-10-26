@@ -646,10 +646,9 @@ do
                 do
                         #${ECHO} " Restart System Now ? (y/n) : \c"
                         #read choice
-                        ${ECHO} "Rebooting from Ansible \c"
+                        ${ECHO} "Rebooting from Ansible 2"
                         choice="n"
-                        case ${choice} in
-                        
+                        case ${choice} in                        
                         y|Y)
                                 rm -f /dev/shm/reboot_immediate >/dev/null 2>&1
                                 input="valid"
@@ -719,7 +718,7 @@ if [ -f /tmp/reboot_now ]; then
         do
                 #${ECHO} " Restart System Now ? (y/n) : \c"               
                 #read choice
-                ${ECHO} "Rebooting from Ansible \c"
+                ${ECHO} "Rebooting from Ansible 1"
                 choice="n"               
                 case ${choice} in
                         y|Y)
