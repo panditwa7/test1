@@ -32,7 +32,7 @@ stages:
 backupdata:
   stage: backupdata
   tags:
-    - emm-upgrade
+    - emm-test
   script:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-backupdata.yml -v
   allow_failure: true
@@ -41,7 +41,7 @@ backupdata:
 backuproot:
   stage: backuproot
   tags:
-    - emm-upgrade
+    - emm-test
   script:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-backuproot.yml -v
   allow_failure: true
@@ -50,7 +50,7 @@ backuproot:
 uploadsoftwaretocps:
   stage: uploadsoftwaretocps
   tags:
-    - emm-upgrade
+    - emm-test
   script:
      - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm_upload_software_to_cps.yml -v
   allow_failure: true
@@ -59,7 +59,7 @@ uploadsoftwaretocps:
 uploadsoftwaretoemm:
   stage: uploadsoftwaretoemm
   tags:
-    - emm-upgrade
+    - emm-test
   script:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm_upload_software_to_emmnodes.yml -v
   allow_failure: true
@@ -68,7 +68,7 @@ uploadsoftwaretoemm:
 emmplatformospatches:
   stage: emmplatformospatches
   tags:
-    - emm-upgrade
+    - emm-test
   script:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm_apply_ospatches.yml -v
   allow_failure: true
@@ -77,7 +77,7 @@ emmplatformospatches:
 cpsplatformveritas:
   stage: cpsplatformveritas
   tags:
-    - emm-upgrade
+    - emm-test
   script:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-veritas-cps.yml -v
   allow_failure: true
@@ -86,7 +86,7 @@ cpsplatformveritas:
 cpsplatforminstall:
   stage: cpsplatform
   tags:
-    - emm-upgrade
+    - emm-test
   script:
      - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-cps.yml -v
   allow_failure: true
@@ -95,7 +95,7 @@ cpsplatforminstall:
 cpshealthcheck:
   stage: cpsplatformhealthcheck
   tags:
-    - emm-upgrade
+    - emm-test
   script:
      - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-cps-healthcheck.yml -v
   when: manual
@@ -103,7 +103,7 @@ cpshealthcheck:
 emmplatformveritas:
   stage: emmplatformveritas
   tags:
-    - emm-upgrade
+    - emm-test
   script:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-veritas.yml -v
   allow_failure: true
@@ -112,7 +112,7 @@ emmplatformveritas:
 emmplatform3pp:
   stage: emmplatform3pp
   tags:
-    - emm-upgrade
+    - emm-test
   script:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-3pp.yml -v
   allow_failure: true
@@ -121,7 +121,7 @@ emmplatform3pp:
 emmupgradecreatedg20:
   stage: emmplatform
   tags:
-    - emm-upgrade
+    - emm-test
   script:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-upgrade-createdg20.yml -v
   only:
@@ -132,7 +132,7 @@ emmupgradecreatedg20:
 emmplatforminstall:
   stage: emmplatform
   tags:
-    - emm-upgrade
+    - emm-test
   script:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform.yml -v
   allow_failure: true
@@ -141,7 +141,7 @@ emmplatforminstall:
 emmmasterhealthcheck:
   stage: emmmasterhealthcheck
   tags:
-    - emm-upgrade
+    - emm-test
   script:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-master-healthcheck.yml -v
   when: manual
@@ -149,7 +149,7 @@ emmmasterhealthcheck:
 emmplatformaddnode:
   stage: emmaddnode
   tags:
-    - emm-upgrade
+    - emm-test
   script:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform-addnode.yml -v
   allow_failure: true
@@ -158,7 +158,7 @@ emmplatformaddnode:
 emmworkerhealthcheck:
   stage: emmworkerhealthcheck
   tags:
-    - emm-upgrade
+    - emm-test
   script:
      - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-worker-healthcheck.yml -v
   when: manual
@@ -166,7 +166,7 @@ emmworkerhealthcheck:
 mgrappinstall:
   stage: mgrappinstall
   tags:
-    - emm-upgrade
+    - emm-test
   script:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-mgrapp.yml -v
   allow_failure: true
@@ -175,7 +175,7 @@ mgrappinstall:
 mgrhealthcheck:
    stage: mgrhealthcheck
    tags:
-    - emm-upgrade
+    - emm-test
    script:
      - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-MGR-healthcheck.yml -v
    when: manual
@@ -183,7 +183,7 @@ mgrhealthcheck:
 mgraddnode:
   stage: mgrappaddnode
   tags:
-    - emm-upgrade
+    - emm-test
   script:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-mgrapp-addnode.yml -v
   when: manual
@@ -191,7 +191,7 @@ mgraddnode:
 femappinstall:
   stage: femappinstall
   tags:
-    - emm-upgrade
+    - emm-test
   script:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-femapp.yml
   allow_failure: true
@@ -200,7 +200,7 @@ femappinstall:
 femhealthcheck:
    stage: femhealthcheck
    tags:
-    - emm-upgrade
+    - emm-test
    script:
      - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-FEM-healthcheck.yml -v
    when: manual
@@ -208,7 +208,7 @@ femhealthcheck:
 femaddnode:
   stage: femappaddnode
   tags:
-    - emm-upgrade
+    - emm-test
   script:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-femapp-addnode.yml -v
   when: manual 
@@ -216,7 +216,7 @@ femaddnode:
 olmappinstall:
   stage: olmappinstall
   tags:
-    - emm-upgrade
+    - emm-test
   script:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-olmapp.yml -v
   allow_failure: true
@@ -225,7 +225,7 @@ olmappinstall:
 olmhealthcheck:
   stage: olmhealthcheck
   tags:
-    - emm-upgrade
+    - emm-test
   script:
      - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-OLM-healthcheck.yml -v
   when: manual
@@ -233,7 +233,7 @@ olmhealthcheck:
 olmaddnode:
   stage: olmappaddnode
   tags:
-    - emm-upgrade
+    - emm-test
   script:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-olmapp-addnode.yml -v
   when: manual
@@ -241,7 +241,7 @@ olmaddnode:
 emmcreatelogicalservers:
   stage: emmcreatelogicalservers
   tags:
-    - emm-upgrade
+    - emm-test
   script:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-create-logicalservers.yml -v
   when: manual
@@ -249,7 +249,7 @@ emmcreatelogicalservers:
 emmupgradedbapp:
   stage: emmcreatelogicalservers
   tags:
-    - emm-upgrade
+    - emm-test
   script:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-upgrade-db-app.yml -v
   only:
@@ -259,7 +259,7 @@ emmupgradedbapp:
 ntp:
   stage: ntp
   tags:
-    - emm-upgrade
+    - emm-test
   script:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-ntp.yml -v
   allow_failure: true
@@ -268,7 +268,7 @@ ntp:
 systemhardening:
   stage: systemhardening
   tags:
-    - emm-upgrade
+    - emm-test
   script:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-system-hardening.yml -v
   allow_failure: true
@@ -277,7 +277,7 @@ systemhardening:
 restoredata:
   stage: restoredata
   tags:
-    - emm-upgrade
+    - emm-test
   script:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-restoredata.yml -v
   allow_failure: true
