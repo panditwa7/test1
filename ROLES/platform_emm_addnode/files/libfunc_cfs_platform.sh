@@ -5,6 +5,9 @@
 # based I/O Fencing								#
 #-----------------------------------------------#
 
+# DevOps updates:
+# 1. input_additional_network_ipv4 function: bond not pingable
+
 create_cfs_respfile()
 {
 
@@ -371,6 +374,7 @@ Configure_VCS()
 	fi
 	
 	trap - EXIT
+	Update_user_group
 
 	flog "Please check the configuration logs under : /opt/VRTS/install/logs/`ls -tr /opt/VRTS/install/logs | tail -1` directory"
 	
@@ -390,6 +394,34 @@ Configure_VCS()
 		Revert_SysFiles /var/tmp/cp_sysfiles_info CPS "Performing post configuration tasks on"
 	fi
 	update_status "Configure_VCS=Y"
+}
+######################################
+### UPDATE USER/GROUP  ###############
+######################################
+Update_user_group()
+{
+####################Updating user/group if not assigned start ################
+        find /opt/VRTSvcs/ -xdev -nouser >/var/tmp/test
+        cat /var/tmp/test |while read line
+        do
+                chown root: $line
+        done
+        find /opt/VRTSvcs -xdev -nogroup >/var/tmp/test
+        cat /var/tmp/test |while read line
+        do
+                chown :root $line
+        done
+        find /var/VRTSvcs/ -xdev -nouser >/var/tmp/test
+        cat /var/tmp/test |while read line
+        do
+                chown root: $line
+        done
+        find /var/VRTSvcs/ -xdev -nogroup >/var/tmp/test
+        cat /var/tmp/test |while read line
+        do
+                chown :root $line
+        done
+####################Updating user/group if not assigned end ################
 }
 
 #######################################
@@ -1002,8 +1034,8 @@ input_additional_network_ipv4()
 
 		if [ "X${other_hosts}" != "X" ]; then
 			# DevOps Lab: bond not pingable
-			#ping -c1 -I ${bond_name} ${other_hosts} > /dev/null 2>&1
-			ping -c1 ${other_hosts} > /dev/null 2>&1
+			ping -c1 -I ${bond_name} ${other_hosts} > /dev/null 2>&1
+			#ping -c1 -I ${other_hosts} > /dev/null 2>&1
 			if [ $? -ne 0 ]; then
 				[ "X${other_host_exception}" != "Xy" ] && ask_for_address="yes"
 			fi
@@ -1017,9 +1049,7 @@ input_additional_network_ipv4()
 			while [ ${correct_inp} = 1 ]; do
 				read other_hosts
 				# Check if host is reachable or not
-				# DevOps Lab: bond not pingable
-				#ping -c2 -I ${bond_name} ${other_hosts} > /dev/null 2>&1
-				ping -c2 ${other_hosts} > /dev/null 2>&1
+				ping -c2 -I ${bond_name} ${other_hosts} > /dev/null 2>&1
 				if [ $? -eq 0 ]; then
 					export other_hosts
 					correct_inp=0
@@ -1139,9 +1169,9 @@ Validate_CFS_Template()
 		# Set MTU value to 1200 in case of cloud environment
 		rpm -q cloud-init >/dev/null 2>&1
 		if [ $? -eq 0 ]; then
-			echo "link ${link} ${interface}-${interfacemac} - ether - 1200" >> /etc/llttab
+			echo "link ${link} eth-${interfacemac} - ether - 1200" >> /etc/llttab
 		else
-			echo "link ${link} ${interface}-${interfacemac} - ether - -" >> /etc/llttab
+			echo "link ${link} eth-${interfacemac} - ether - -" >> /etc/llttab
 		fi
 	done
 
@@ -1624,7 +1654,7 @@ Sync_MM_CONFIG_CLUSTER()
 		
 		${SCP} /var/tmp/${MM_FILE}.tar ${CURRENT_USER_NAME}@${HSTNAME}:/var/tmp/${MM_FILE}.tar >/dev/null 2>&1
 		if [ $? -eq 0 ];then
-			${SSH} ${CURRENT_USER_NAME}@${HSTNAME}"
+			${SSH} ${CURRENT_USER_NAME}@${HSTNAME} "
 			${SUDO} /usr/bin/tar -xf /var/tmp/${MM_FILE}.tar -C ${MM_FILE_PATH}/ 
 			${SUDO} /usr/bin/rm -f /var/tmp/${MM_FILE}.tar " >/dev/null 2>&1
 			${ECHO} "[OK]"
@@ -1767,9 +1797,9 @@ Add_Cluster_Node()
 
 		# Set MTU value to 1200 in case of cloud environment
 		if [ "X${CLOUD_SETUP}" = "XY" ]; then
-			echo "link ${link} ${interface}-${interfacemac} - ether - 1200" >> /etc/llttab
+			echo "link ${link} eth-${interfacemac} - ether - 1200" >> /etc/llttab
 		else
-			echo "link ${link} ${interface}-${interfacemac} - ether - -" >> /etc/llttab
+			echo "link ${link} eth-${interfacemac} - ether - -" >> /etc/llttab
 		fi
 	done
 	
@@ -1823,7 +1853,7 @@ Add_Cluster_Node()
 		for cps_vip in ${CPS1} ${CPS2} ${CPS3}
 		do
 			${ECHO} "\n--> Registering host ${CURRENT_HOST} with CP Server ${CURRENT_USER_NAME}@${cps_vip}"
-			${SSH} ${CURRENT_USER_NAME}@${cps_vip} "${SUDO} ${CPSADM} -s ${cps_vip} -a list_nodes -c ${Cluster_Name}" 2>/dev/null | grep -w "${CURRENT_HOST}" >/dev/null 2>&1
+			${SSH} ${CURRENT_USER_NAME}@${cps_vip} "${SUDO} ${CPSADM} -s ${cps_vip} -a list_nodes -c ${Cluster_Name}" 2>/dev/null | awk '{print $3}' | awk -F'(' '{print $1}' | grep -w "^${CURRENT_HOST}$" >/dev/null 2>&1
 			[ $? -ne 0 ] && ${SSH} ${CURRENT_USER_NAME}@${cps_vip} "${SUDO} ${CPSADM} -s ${cps_vip} -a add_node -c ${Cluster_Name} -h ${CURRENT_HOST} -n ${CPS_NODEID}"
 		done
 	}
@@ -1865,14 +1895,19 @@ Add_Cluster_Node()
 	if [ $? -ne 0 ];then
 		${ECHO} "\n--> Starting I/O Fencing"
 		systemctl restart vxfen > /dev/null 2>&1
-		vxfenconfig -c >/dev/null 2>&1
+		sleep 4
+		count=0
 		${ECHO} "\n--> Waiting for Fencing Membership"
 		while true
 		do
 			/usr/sbin/vxfenadm -d 2>/dev/null | grep '\*' | grep -wq "(${CURRENT_HOST})"
 			[ $? -eq 0 ] && break
 			sleep 2
-			vxfenconfig -c >/dev/null 2>&1
+			count=`expr $count + 1`
+                        if [ ${count} -eq 15 ]; then
+                                systemctl restart vxfen > /dev/null 2>&1
+                                count=0
+                        fi
 		done
 	fi
 
@@ -2258,6 +2293,20 @@ Adding_Node_To_ServiceGroups()
 	fi
 
 	update_status Adding_Node_To_ServiceGroups
+	Update_user_group
+	${ECHO} "`hostname`" | egrep -w '^failover-[0-9]+$'  > /dev/null
+	if [ $? -eq 0 ]; then
+		isVNFLCM1=$(sudo -u $CURRENT_USER_NAME ${SSH} $rem_clus_host "cat /etc/mediation/MM.config " | sed 's/^ *//'  |sed 's/ *$//g'| grep -v "^-" | sed -n "/^\[[a-z|A-Z|0-9 ]*Manager CXC[0-9 ]*_[a-z|A-Z|0-9 ]*\]/,/^\[/s/^[^[]/&/p" |grep lcm.deployment= | sed -e 's/^[ \t]*//' | grep -v ^#| tail -1 | awk -F= '{print $NF}')
+		if [ "X${isVNFLCM1}" = "Xtrue" ]; then
+			${ECHO} "$CURRENT_USER_NAME" >> /etc/at.allow
+			CXCDIR=`ls /install | grep "^CX"`
+			systemctl start atd
+			${ECHO} "sudo $CURRENT_USER_HOME_DIR/$CXCDIR/vnf-lcm/subjob.sh" > /var/tmp/temp1.sh
+			chmod +x /var/tmp/temp1.sh
+			chmod +x $CURRENT_USER_HOME_DIR/$CXCDIR/vnf-lcm/subjob.sh
+			sudo -u $CURRENT_USER_NAME at now +5 minutes -f /var/tmp/temp1.sh
+		fi
+	fi	
 
 }
 
