@@ -1034,8 +1034,8 @@ input_additional_network_ipv4()
 
 		if [ "X${other_hosts}" != "X" ]; then
 			# DevOps Lab: bond not pingable
-			ping -c1 -I ${bond_name} ${other_hosts} > /dev/null 2>&1
-			#ping -c1 -I ${other_hosts} > /dev/null 2>&1
+			#ping -c1 -I ${bond_name} ${other_hosts} > /dev/null 2>&1
+			ping -c1 ${other_hosts} > /dev/null 2>&1
 			if [ $? -ne 0 ]; then
 				[ "X${other_host_exception}" != "Xy" ] && ask_for_address="yes"
 			fi
@@ -1049,7 +1049,9 @@ input_additional_network_ipv4()
 			while [ ${correct_inp} = 1 ]; do
 				read other_hosts
 				# Check if host is reachable or not
-				ping -c2 -I ${bond_name} ${other_hosts} > /dev/null 2>&1
+				# DevOps Lab: bond not pingable
+				#ping -c2 -I ${bond_name} ${other_hosts} > /dev/null 2>&1
+				ping -c2 ${other_hosts} > /dev/null 2>&1
 				if [ $? -eq 0 ]; then
 					export other_hosts
 					correct_inp=0
