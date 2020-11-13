@@ -13,9 +13,9 @@ ansible_password=<sudo pwd>
 ansible_connection=ssh
 
 [emm_worker]
-<sudo user>[EM worker node1 O&M IP]
-<sudo user>[EM worker node2 O&M IP]
-<sudo user>[EM worker node3 O&M IP]
+<sudo user>@<EM worker node1 O&M IP>
+<sudo user>@<EM worker node2 O&M IP>
+<sudo user>@<EM worker node3 O&M IP>
 [emm_worker:vars]
 ansible_password=<sudo pwd>
 ansible_connection=ssh
