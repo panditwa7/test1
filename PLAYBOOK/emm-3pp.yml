@@ -1,9 +1,5 @@
 ---
 - hosts: emm_master,emm_worker
-  #sudo: yes
-  #remote_user: "{{user}}"
-  #vars_files:
-    #- ../ENV_INFO/emm.yml
   roles:
     - role: ../ROLES/3pp_installation
       ignore_errors: no

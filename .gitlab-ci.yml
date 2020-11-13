@@ -1,7 +1,5 @@
 stages:
   - copyrepotodds 
-  - backupdata
-  - backuproot
   - uploadsoftwaretocps
   - uploadsoftwaretoemm
   - emmplatformospatches
@@ -10,7 +8,6 @@ stages:
   - cpsplatformhealthcheck
   - emmplatformveritas
   - emmplatform3pp
-  - emmupgradecreatedg20
   - emmplatform
   - emmmasterhealthcheck
   - emmaddnode
@@ -25,275 +22,223 @@ stages:
   - olmhealthcheck
   - olmappaddnode
   - emmcreatelogicalservers
-  - emmupgradedbapp
-  - ntp
   - systemhardening
-  - restoredata
-
 
 copyrepotodds:
   stage: copyrepotodds
   tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
   script:
     - hostname
     - pwd
-    - ssh emmuser01@dds_korek 'hostname'
-    - ssh emmuser01@dds_korek 'mkdir -p ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}'
-    - scp -pr ./ENV_INFO/ ./HOST/ ./PLAYBOOK/ ./ROLES/ emmuser01@dds_korek:./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}
+    - ssh <dds user>@<dds hostname> 'hostname'
+    - ssh <dds user>@<dds hostname> 'mkdir -p ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}'
+    - scp -pr ./ENV_INFO/ ./HOST/ ./PLAYBOOK/ ./ROLES/ <dds user>@<dds hostname>:./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}
   #allow_failure: true
-  when: manual
-
-backupdata:
-  stage: backupdata
-  tags:
-    - emm-korek-cluster
-  script:
-    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-backupdata.yml -v
-  allow_failure: true
-  when: manual
-
-backuproot:
-  stage: backuproot
-  tags:
-    - emm-korek-cluster
-  script:
-    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-backuproot.yml -v
-  allow_failure: true
   when: manual
 
 uploadsoftwaretocps:
   stage: uploadsoftwaretocps
   tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
   script:
-     - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm_upload_software_to_cps.yml -v
+     - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm_upload_software_to_cps.yml -v
   allow_failure: true
   when: manual
 
 uploadsoftwaretoemm:
   stage: uploadsoftwaretoemm
   tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
   script:
-    - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm_upload_software_to_emmnodes.yml -v
+    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm_upload_software_to_emmnodes.yml -v
   allow_failure: true
   when: manual
   
 emmplatformospatches:
   stage: emmplatformospatches
   tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
   script:
-    - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm_apply_ospatches.yml -v
+    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm_apply_ospatches.yml -v
   allow_failure: true
   when: manual 
 
 cpsplatformveritas:
   stage: cpsplatformveritas
   tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
   script:
-    - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-veritas-cps.yml -v
+    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-veritas-cps.yml -v
   allow_failure: true
   when: manual
 
 cpsplatforminstall:
   stage: cpsplatform
   tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
   script:
-     - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-cps.yml -v
+     - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-cps.yml -v
   allow_failure: true
   when: manual
 
 cpshealthcheck:
   stage: cpsplatformhealthcheck
   tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
   script:
-     - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-cps-healthcheck.yml -v
+     - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-cps-healthcheck.yml -v
   when: manual
 
 emmplatformveritas:
   stage: emmplatformveritas
   tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
   script:
-    - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-veritas.yml -v
+    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-veritas.yml -v
   allow_failure: true
   when: manual 
 
 emmplatform3pp:
   stage: emmplatform3pp
   tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
   script:
-    - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-3pp.yml -v
-  allow_failure: true
-  when: manual
-
-emmupgradecreatedg20:
-  stage: emmplatform
-  tags:
-    - emm-korek-cluster
-  script:
-    - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-upgrade-createdg20.yml -v
-  only:
-    - dev
+    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-3pp.yml -v
   allow_failure: true
   when: manual
 
 emmplatforminstall:
   stage: emmplatform
   tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
   script:
-    - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-platform.yml -v
+    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-platform.yml -v
   allow_failure: true
   when: manual
 
 emmmasterhealthcheck:
   stage: emmmasterhealthcheck
   tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
   script:
-    - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-master-healthcheck.yml -v
+    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-master-healthcheck.yml -v
   when: manual
 
 emmplatformaddnode:
   stage: emmaddnode
   tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
   script:
-    - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-platform-addnode.yml -v
+    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-platform-addnode.yml -v
   allow_failure: true
   when: manual
 
 emmworkerhealthcheck:
   stage: emmworkerhealthcheck
   tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
   script:
-     - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-worker-healthcheck.yml -v
+     - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-worker-healthcheck.yml -v
   when: manual
   
 mgrappinstall:
   stage: mgrappinstall
   tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
   script:
-    - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-mgrapp.yml -v
+    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-mgrapp.yml -v
   allow_failure: true
   when: manual
 
 mgrhealthcheck:
    stage: mgrhealthcheck
    tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
    script:
-     - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-MGR-healthcheck.yml -v
+     - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-MGR-healthcheck.yml -v
    when: manual
    
 mgraddnode:
   stage: mgrappaddnode
   tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
   script:
-    - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-mgrapp-addnode.yml -v
+    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-mgrapp-addnode.yml -v
   when: manual
 
 femappinstall:
   stage: femappinstall
   tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
   script:
-    - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-femapp.yml
+    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-femapp.yml
   allow_failure: true
   when: manual
 
 femhealthcheck:
    stage: femhealthcheck
    tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
    script:
-     - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-FEM-healthcheck.yml -v
+     - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-FEM-healthcheck.yml -v
    when: manual
    
 femaddnode:
   stage: femappaddnode
   tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
   script:
-    - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-femapp-addnode.yml -v
+    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-femapp-addnode.yml -v
   when: manual 
 
 olmappinstall:
   stage: olmappinstall
   tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
   script:
-    - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-olmapp.yml -v
+    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-olmapp.yml -v
   allow_failure: true
   when: manual
 
 olmhealthcheck:
   stage: olmhealthcheck
   tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
   script:
-    - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-OLM-healthcheck.yml -v
+    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-OLM-healthcheck.yml -v
   when: manual
   
 olmaddnode:
   stage: olmappaddnode
   tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
   script:
-    - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-olmapp-addnode.yml -v
+    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-olmapp-addnode.yml -v
   when: manual
 
 emmcreatelogicalservers:
   stage: emmcreatelogicalservers
   tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
   script:
-    - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-create-logicalservers.yml -v
-  when: manual
-
-emmupgradedbapp:
-  stage: emmcreatelogicalservers
-  tags:
-    - emm-korek-cluster
-  script:
-    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-upgrade-db-app.yml -v
-  only:
-     - dev
+    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-create-logicalservers.yml -v
   when: manual
 
 ntp:
   stage: ntp
   tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
   script:
-    - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-ntp.yml -v
+    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-ntp.yml -v
   allow_failure: true
   when: manual
 
 systemhardening:
   stage: systemhardening
   tags:
-    - emm-korek-cluster
+    - <gitlab runner tag>
   script:
-    - ssh emmuser01@dds_korek ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-system-hardening.yml -v
-  allow_failure: true
-  when: manual
-
-restoredata:
-  stage: restoredata
-  tags:
-    - emm-korek-cluster
-  script:
-    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-restoredata.yml -v
+    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-system-hardening.yml -v
   allow_failure: true
   when: manual

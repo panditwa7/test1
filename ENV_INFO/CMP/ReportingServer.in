@@ -6,12 +6,12 @@
 5591
 mediation
 mediation
-10.225.41.125
+<reporting server VIP>
 y
 N
 /var/opt/mediation/MMStorage
 /var/opt/mediation/MMDB
-10.225.41.93
+<Manager VIP>
 y
 
 x

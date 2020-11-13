@@ -1,58 +1,50 @@
 ---
 # vars file
 # Working directory in EM:
-working_dir: /install
+working_dir: <path to working directory to be created by pipeline in EM nodes>
 
 
 ################################
 # Parameters for SW upload to EM VMs:
-# If EM SW downloaded from SWGW and uploaded to Artifactory/DDS:
-#artifactory_url: https://artifactory.rosetta.ericssondevops.com/artifactory/docker-sa-bss-eoc/
-#artifactory_folder: EMM/EM20_ICP20-01/
-#artifactory_key: AKCp5e312rjsxMhHZFn96muR2fnp9BEG22YrZnD3Revs2eZ5v2CXdQKKiAAWLbdjrxUzff9tx
-#release: ICP2003
+# Uncomment if EM SW has been downloaded manually from SWGW and uploaded to Artifactory:
+#artifactory_url: <artifactory_url>
+#artifactory_folder: <artifact_folder>
+#artifactory_key: <artifactory_key>
 
-# If DDS is used to keep EM SW, below folder should contain the SW downloaded from SWGW
-emm_media_src_dir: /install/
+# Uncomment if EM SW has been downloaded manually from SWGW and uploaded to a folder in DDS
+emm_media_src_dir: <path to existing directory in DDS having the EM SW>
 
-# EM20 ICP20-03
-redhat_sw:
-infoscale_sw:
-threepp_sw:
-appl_sw: CXP9036928-R1V.zip
-tool_sw: CXP9036929-R4A.zip
+# EM20 SW
+redhat_sw: <filename of ISO 1 - Red Hat SW in zip format>
+infoscale_sw: <filename of ISO 2 - Veritas SW in zip format>
+threepp_sw: <filename of ISO 3 - 3PP SW in zip format>
+appl_sw: <filename of Application ISO in zip format>
+tool_sw: <filename of Tools .tar file>
 # TODO: search iso and old_kernel in playbook
-#threepp_iso: 
-#old_kernel: 
+threepp_iso: <filename of ISO 3 - 3PP .iso file>
+old_kernel: <rpm of old kernel, it will be removed after OS patch insallation>
 
-# MM18 ICP20-01
-#redhat_sw: CXP9034013_1-R7C.zip
-#appl_sw: CXP9034011-R7L.zip
-#tool_sw: CXP9034012-R9M.zip
-# TODO: search iso and old_kernel in playbook
-#threepp_iso: 19089-CXP9034013_3_AN.iso
-#old_kernel: kernel-3.10.0-1062.el7.x86_64
 
 ################################
 # Parameters for Installation/Upgrades
-# Configuration template
+# Configuration template, select the one applicable:
 #platform_template: platform_networkbond.ini
 platform_template: platform_cluster.ini
 #platform_template: platform_cluster_nfs.ini
 
-# Deployment options: CLUSTER/STDALONE
+# Deployment options: CLUSTER/STDALONE, select the one applicable:
 #deployment: STDALONE
 deployment: CLUSTER
 
-# Veritas installation: ENTERPRISE/AVAILABILITY
+# Veritas installation: ENTERPRISE/AVAILABILITY, select the one applicable:
 veritas: ENTERPRISE
 #veritas: AVAILABILITY
 
-# storage type: external/internal
+# storage type: external/internal, select the one applicable:
 #storage: internal
 storage: external
 
-# Other options for Platform installation, will be appended to Install_Platform.sh
+# Other options for Platform installation, will be appended to Install_Platform.sh, select the one applicable:
 #other_options: ""
 #other_options: "-F NFS"
 #other_options: "-I DEFAULT"
@@ -60,15 +52,15 @@ other_options: "-F VRTS"
 #other_options: "-F VRTS -O NODG -L debug"
 #other_options: "-F VRTS -O NODG"
 
-# Other options for Platform installation when adding node to existing cluster, will be appended to Install_Platform.sh
+# Other options for Platform installation when adding node to existing cluster, will be appended to Install_Platform.sh, select the one applicable:
 #other_options_addnode: "-F NFS"
 other_options_addnode: "-F VRTS"
 
-# Other options for Application installation, will be appended to Install_App.sh
+# Other options for Application installation, will be appended to Install_App.sh, select the one applicable:
 app_other_options: ""
 #app_other_options: "-I DEFAULT"
 #app_other_options: "-U UPGRADE"
 
-# Enviroment variable required to install additional logical servers and additional applications (DRRF, DRViewer ...) in Upgrade scenario
+# Enviroment variable required to install additional logical servers and additional applications (DRRF, DRViewer ...) in Upgrade scenario, select the one applicable:
 ACTIVITY_TYPE: ""
 #ACTIVITY_TYPE: UPGRADE

@@ -1,6 +1,0 @@
----
-- hosts: emm_master
-  become: yes
-  roles:
-    - role: ../ROLES/ntp
-      ignore_errors: yes
