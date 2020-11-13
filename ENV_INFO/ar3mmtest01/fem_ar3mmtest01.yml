@@ -2,7 +2,7 @@
 # vars file for fem
 FMServer_PG_DB_USER: "mmsuper"
 FMServer_PG_DB_PASSWD: "mediation"
-FMServer_IP: 10.26.70.136
-Manager_IP: 10.26.70.133
-FMServer_Netmask: 255.255.255.192
+FMServer_IP: 10.26.73.70
+Manager_IP: 10.26.73.70
+FMServer_Netmask: 255.255.255.224
 FMReport_PG_DB_PASSWD: "mediation"

@@ -1,5 +1,5 @@
 ---
-- hosts: emm_master,emm_worker,EMM_CPS
+- hosts: emm_master
   become: yes
   roles:
     - role: ../ROLES/ntp

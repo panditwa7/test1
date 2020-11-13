@@ -3,7 +3,7 @@
 MANAGER_PG_DB_USER: "mmsuper"
 MANAGER_PG_DB_PASSWD: "mediation"
 MANAGER_PG_DB_Port: "5445"
-Manager_IP: 10.26.70.133
-Manager_Netmask: 255.255.255.192
-LIC_IP: 10.26.70.134
-LIC_Netmask: 255.255.255.192
+Manager_IP: 10.26.73.70
+Manager_Netmask: 255.255.255.224
+LIC_IP: 10.26.73.70
+LIC_Netmask: 255.255.255.224

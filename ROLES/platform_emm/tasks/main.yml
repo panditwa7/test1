@@ -73,7 +73,7 @@
   shell: sudo chmod 755 /etc/
 - name: Execute the EMM platform script - check logs in /var/adm/MM_LOGS/Platform
   shell: sh ./install_updated.sh {{ deployment }} {{ storage }} '{{ other_options }}' 
-  #shell: sleep 500s
+  #shell: sleep 50s
   args:
     chdir: '{{ version.stdout }}'
   ignore_errors: true

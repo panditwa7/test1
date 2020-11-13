@@ -4,15 +4,15 @@
 1
 1
 Server4
-9040
-5504
+9030
+5462
 mediation
 mediation
-10.225.41.125
-y
+10.26.70.133
+N
 /var/opt/mediation/MMStorage
 /var/opt/mediation/MMDB
-10.225.41.104
+10.26.70.139
 y
 
 x

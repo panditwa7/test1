@@ -1,0 +1,21 @@
+---
+# vars file for master emm
+bonding_interface_primary_ONM: ens224
+bonding_interface_standby_ONM: ens256
+bonding_interface_ip_ONM: 10.26.70.130
+netmask_ONM: 255.255.255.192
+default_gateway_ip_ONM: 10.26.70.129
+#bonding_interface_primary_Traffic: ens161
+#bonding_interface_standby_Traffic: ens193
+#bonding_interface_ip_Traffic: 10.26.69.143
+#netmask_Traffic: 255.255.255.192
+#default_gateway_ip_Traffic: 10.26.69.129
+NTP_Server_IP: 10.80.3.40
+Cluster_ID: 203
+Cluster_Name: EM20_CBIO
+HeartBeat_Link_1: ens162
+HeartBeat_Link_2: ens194
+other_hosts_ONM: 10.26.70.151
+#other_hosts_Traffic: 10.26.69.129
+IO_Fencing_Type: CPS
+#hostname: er3mmolm01
