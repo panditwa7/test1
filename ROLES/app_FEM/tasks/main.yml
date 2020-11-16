@@ -11,8 +11,14 @@
     shell:
       chdir: '{{ version.stdout }}/templates/Linux'
       cmd: cp config_template_FEM.eric config_template_FEM.ini
-  - name: Copy the app installation script
-    copy: src=Install_App.sh dest={{ version.stdout }}/ backup=yes
+#- name: Copy the app installation script
+#  copy: src=Install_App.sh dest={{ version.stdout }}/ backup=yes
+- name: Comment out Edittemplate in Install_App.sh to skip user iteraction
+  replace:
+    dest: '{{ version.stdout }}/Install_App.sh'
+    regexp: '(.*Edittemplate.*)'
+    replace: '# \1'
+    backup: yes
   - name: Update ini file for Interface IP
     ini_file:
       path: '{{ version.stdout }}/templates/Linux/config_template_FEM.ini'

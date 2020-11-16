@@ -18,8 +18,20 @@
     cmd: cp -p platform_addnode.ini.eric platform_addnode.ini
 #- name: Update the hostname
 #  shell: sudo hostnamectl set-hostname {{ hostname }}
-- name: Copy the platform script
-  copy: src=Install_Platform.sh dest={{ version.stdout }}/ backup=yes
+#- name: Copy the platform script
+#  copy: src=Install_Platform.sh dest={{ version.stdout }}/ backup=yes
+- name: Comment out Edittemplate in Install_Platform.sh to skip user iteraction
+  replace:
+    dest: '{{ version.stdout }}/Install_Platform.sh'
+    regexp: '(.*Edittemplate.*)'
+    replace: '# \1'
+    backup: yes
+- name: Updating Install_Platform.sh to reboot from Ansible
+  replace:
+    dest: '{{ version.stdout }}/Install_Platform.sh'
+    regexp: '(.*read choice.*)'
+    replace: '# \1 \n choice="n"'
+    backup: yes
 #- name: Update hosts file
 #  shell: grep -q {{ hostname }} /etc/hosts  || (sudo chmod 666 /etc/hosts; sudo echo "{{ bonding_interface_ip_ONM }} {{ hostname }}" >> /etc/hosts; sudo chmod 644 /etc/hosts)
 - name: Update the cps ini file for ONM Bond
@@ -58,8 +70,14 @@
     no_extra_spaces: yes
   with_dict: {Clus_Node_IP: "{{ Clus_Node_IP | default() }}",HeartBeat_Link_1: "{{ HeartBeat_Link_1 | default() }}",HeartBeat_Link_2: "{{ HeartBeat_Link_2 | default() }}"}
   when: " not item.value == '' "
-- name: Copy the cfs libfunc script
-  copy: src=libfunc_cfs_platform.sh dest={{ version.stdout }}/lib/Linux/ backup=yes
+#- name: Copy the cfs libfunc script
+#  copy: src=libfunc_cfs_platform.sh dest={{ version.stdout }}/lib/Linux/ backup=yes
+- name: Updating libfunc_cfs_platform.sh in case bond0 is not pingable
+  replace:
+    dest: '{{ version.stdout }}/lib/Linux/libfunc_cfs_platform.sh'
+    regexp: '(.*ping -c[1|2]) -I \${bond_name}(.*)'
+    replace: '\1 \2'
+    backup: yes
 - name: Copy automation script
   copy: src=install_updated.sh dest={{ version.stdout }}/install_addnode.sh
 - name: Execute the EMM Addnode platform script - check logs in /var/adm/MM_LOGS

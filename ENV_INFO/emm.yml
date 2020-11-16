@@ -20,9 +20,9 @@ infoscale_sw: <filename of ISO 2 - Veritas SW in zip format>
 threepp_sw: <filename of ISO 3 - 3PP SW in zip format>
 appl_sw: <filename of Application ISO in zip format>
 tool_sw: <filename of Tools .tar file>
-# TODO: search iso and old_kernel in playbook
-threepp_iso: <filename of ISO 3 - 3PP .iso file>
-old_kernel: <rpm of old kernel, it will be removed after OS patch insallation>
+
+#old_kernel: <rpm of old kernel (rpm -qa |grep kernel), it will be removed after OS patch installation>
+old_kernel: kernel-3.10.0-1062.el7.x86_64
 
 
 ################################

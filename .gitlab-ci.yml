@@ -22,9 +22,10 @@ stages:
   - olmhealthcheck
   - olmappaddnode
   - emmcreatelogicalservers
+  - emmcreateadditionalcomponents
   - systemhardening
 
-copyrepotodds:
+.copyrepotodds:
   stage: copyrepotodds
   tags:
     - <gitlab runner tag>
@@ -42,7 +43,8 @@ uploadsoftwaretocps:
   tags:
     - <gitlab runner tag>
   script:
-     - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm_upload_software_to_cps.yml -v
+     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm_upload_software_to_cps.yml -v
+     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm_upload_software_to_cps.yml -v
   allow_failure: true
   when: manual
 
@@ -51,7 +53,8 @@ uploadsoftwaretoemm:
   tags:
     - <gitlab runner tag>
   script:
-    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm_upload_software_to_emmnodes.yml -v
+    #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm_upload_software_to_emmnodes.yml -v
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm_upload_software_to_emmnodes.yml -v
   allow_failure: true
   when: manual
   
@@ -60,7 +63,8 @@ emmplatformospatches:
   tags:
     - <gitlab runner tag>
   script:
-    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm_apply_ospatches.yml -v
+    #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm_apply_ospatches.yml -v
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm_apply_ospatches.yml -v
   allow_failure: true
   when: manual 
 
@@ -69,7 +73,8 @@ cpsplatformveritas:
   tags:
     - <gitlab runner tag>
   script:
-    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-veritas-cps.yml -v
+    #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-veritas-cps.yml -v
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-veritas-cps.yml -v
   allow_failure: true
   when: manual
 
@@ -78,7 +83,8 @@ cpsplatforminstall:
   tags:
     - <gitlab runner tag>
   script:
-     - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-cps.yml -v
+     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-cps.yml -v
+     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-cps.yml -v
   allow_failure: true
   when: manual
 
@@ -87,7 +93,8 @@ cpshealthcheck:
   tags:
     - <gitlab runner tag>
   script:
-     - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-cps-healthcheck.yml -v
+     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-cps-healthcheck.yml -v
+     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-cps-healthcheck.yml -v
   when: manual
 
 emmplatformveritas:
@@ -95,7 +102,8 @@ emmplatformveritas:
   tags:
     - <gitlab runner tag>
   script:
-    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-veritas.yml -v
+    #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-veritas.yml -v
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-veritas.yml -v
   allow_failure: true
   when: manual 
 
@@ -104,7 +112,8 @@ emmplatform3pp:
   tags:
     - <gitlab runner tag>
   script:
-    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-3pp.yml -v
+    #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-3pp.yml -v
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-3pp.yml -v
   allow_failure: true
   when: manual
 
@@ -113,7 +122,8 @@ emmplatforminstall:
   tags:
     - <gitlab runner tag>
   script:
-    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-platform.yml -v
+    #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-platform.yml -v
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform.yml -v
   allow_failure: true
   when: manual
 
@@ -122,7 +132,8 @@ emmmasterhealthcheck:
   tags:
     - <gitlab runner tag>
   script:
-    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-master-healthcheck.yml -v
+    #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-master-healthcheck.yml -v
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-master-healthcheck.yml -v
   when: manual
 
 emmplatformaddnode:
@@ -130,7 +141,8 @@ emmplatformaddnode:
   tags:
     - <gitlab runner tag>
   script:
-    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-platform-addnode.yml -v
+    #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-platform-addnode.yml -v
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform-addnode.yml -v
   allow_failure: true
   when: manual
 
@@ -139,7 +151,8 @@ emmworkerhealthcheck:
   tags:
     - <gitlab runner tag>
   script:
-     - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-worker-healthcheck.yml -v
+     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-worker-healthcheck.yml -v
+     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-worker-healthcheck.yml -v
   when: manual
   
 mgrappinstall:
@@ -147,7 +160,8 @@ mgrappinstall:
   tags:
     - <gitlab runner tag>
   script:
-    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-mgrapp.yml -v
+    #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-mgrapp.yml -v
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-mgrapp.yml -v
   allow_failure: true
   when: manual
 
@@ -156,7 +170,8 @@ mgrhealthcheck:
    tags:
     - <gitlab runner tag>
    script:
-     - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-MGR-healthcheck.yml -v
+     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-MGR-healthcheck.yml -v
+     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-MGR-healthcheck.yml -v
    when: manual
    
 mgraddnode:
@@ -164,7 +179,8 @@ mgraddnode:
   tags:
     - <gitlab runner tag>
   script:
-    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-mgrapp-addnode.yml -v
+    #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-mgrapp-addnode.yml -v
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-mgrapp-addnode.yml -v
   when: manual
 
 femappinstall:
@@ -172,8 +188,9 @@ femappinstall:
   tags:
     - <gitlab runner tag>
   script:
-    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-femapp.yml
-  allow_failure: true
+    #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-femapp.yml
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-femapp.yml
+  #allow_failure: true
   when: manual
 
 femhealthcheck:
@@ -181,7 +198,8 @@ femhealthcheck:
    tags:
     - <gitlab runner tag>
    script:
-     - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-FEM-healthcheck.yml -v
+     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-FEM-healthcheck.yml -v
+     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-FEM-healthcheck.yml -v
    when: manual
    
 femaddnode:
@@ -189,7 +207,8 @@ femaddnode:
   tags:
     - <gitlab runner tag>
   script:
-    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-femapp-addnode.yml -v
+    #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-femapp-addnode.yml -v
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-femapp-addnode.yml -v
   when: manual 
 
 olmappinstall:
@@ -197,8 +216,9 @@ olmappinstall:
   tags:
     - <gitlab runner tag>
   script:
-    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-olmapp.yml -v
-  allow_failure: true
+    #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-olmapp.yml -v
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-olmapp.yml -v
+  #allow_failure: true
   when: manual
 
 olmhealthcheck:
@@ -206,7 +226,8 @@ olmhealthcheck:
   tags:
     - <gitlab runner tag>
   script:
-    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-OLM-healthcheck.yml -v
+    #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-OLM-healthcheck.yml -v
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-OLM-healthcheck.yml -v
   when: manual
   
 olmaddnode:
@@ -214,7 +235,8 @@ olmaddnode:
   tags:
     - <gitlab runner tag>
   script:
-    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-olmapp-addnode.yml -v
+    #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-olmapp-addnode.yml -v
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-olmapp-addnode.yml -v
   when: manual
 
 emmcreatelogicalservers:
@@ -222,16 +244,17 @@ emmcreatelogicalservers:
   tags:
     - <gitlab runner tag>
   script:
-    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-create-logicalservers.yml -v
+    #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-create-logicalservers.yml -v
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-create-logicalservers.yml -v
   when: manual
 
-ntp:
-  stage: ntp
+emmcreateadditionalcomponents:
+  stage: emmcreateadditionalcomponents
   tags:
     - <gitlab runner tag>
   script:
-    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-ntp.yml -v
-  allow_failure: true
+    #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-create-additionalcomponents.yml -v
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-create-additionalcomponents.yml -v
   when: manual
 
 systemhardening:
@@ -239,6 +262,7 @@ systemhardening:
   tags:
     - <gitlab runner tag>
   script:
-    - ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-system-hardening.yml -v
+    #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-system-hardening.yml -v
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-system-hardening.yml -v
   allow_failure: true
   when: manual

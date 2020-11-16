@@ -24,10 +24,16 @@
 #     owner: "{{user}}"
 #     group: "{{user}}"
 #     mode: 0755
-       
-- name: Mount iso file
+
+- name: Find threepp iso file
+  find:
+    paths: "{{ working_dir }}"      
+    patterns: "19089-CXP*_3*.iso"
+  register: threepp_iso.stdout
+
+- name: Mount iso file {{ working_dir }}/{{ threepp_iso.stdout }}
   mount:
-    src: '{{ working_dir }}/{{ threepp_iso }}'
+    src: '{{ working_dir }}/{{ threepp_iso.stdout }}'
     path: /cdrom/sw_3pp
     fstype: iso9660
     opts: loop,ro
@@ -51,11 +57,10 @@
     name: '*'
     state: latest
   register: os_patch_result
-  
 
 - name: Umount iso file
   mount:
-    src: '{{ working_dir }}/{{ threepp_iso }}'
+    src: '{{ working_dir }}/{{ threepp_iso.stdout }}'
     path: /cdrom/sw_3pp
     fstype: iso9660
     opts: loop,ro
@@ -82,8 +87,7 @@
 - name: Remove older kernel version - get kernel versions with uname -r or rpm -q kernel
   yum:
     name: '{{ old_kernel }}'
-    state: absent
-     
+    state: absent    
 
 - name: Verifying uname Installation
   command: uname -a

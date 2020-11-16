@@ -1,0 +1,4 @@
+- hosts: emm_master
+  roles:
+    - role: ../ROLES/create_additional_components
+      ignore_errors: yes
