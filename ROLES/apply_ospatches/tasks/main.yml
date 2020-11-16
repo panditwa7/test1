@@ -29,11 +29,11 @@
   find:
     paths: "{{ working_dir }}"      
     patterns: "19089-CXP*_3*.iso"
-  register: threepp_iso.stdout
+  register: threepp_iso
 
-- name: Mount iso file {{ working_dir }}/{{ threepp_iso.stdout }}
+- name: Mount iso file {{ threepp_iso.files[0].path }}
   mount:
-    src: '{{ working_dir }}/{{ threepp_iso.stdout }}'
+    src: '{{ threepp_iso.files[0].path }}'
     path: /cdrom/sw_3pp
     fstype: iso9660
     opts: loop,ro
@@ -60,7 +60,7 @@
 
 - name: Umount iso file
   mount:
-    src: '{{ working_dir }}/{{ threepp_iso.stdout }}'
+    src: '{{ threepp_iso.files[0].path }}'
     path: /cdrom/sw_3pp
     fstype: iso9660
     opts: loop,ro
