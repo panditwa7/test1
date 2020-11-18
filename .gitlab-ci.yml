@@ -189,7 +189,7 @@ femappinstall:
     - em-aip
   script:
     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-femapp.yml
-    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-femapp.yml
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-femapp.yml -v
   #allow_failure: true
   when: manual
 

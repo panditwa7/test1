@@ -5,7 +5,7 @@
   - name: Get EM20 Installation Tool version
     shell: ls -td {{ working_dir }}/CXP* | head -1
     register: version
-  - name: Cleanup LS if already exists
+  - name: Cleanup LS directory if already exists
     file:
       path: "{{ version.stdout }}/LS"
       state: absent
@@ -13,9 +13,9 @@
     copy: src="../ENV_INFO/LS" dest={{ version.stdout }}/
   - name: Get .in files
     shell: ls {{ version.stdout }}/LS/*.in
-    register: in_file
-  - name: Create additional Logical Servers - check logs in /var/adm/MM_LOGS
-    shell: "cat {{ item }} | sudo -E {{ version.stdout }}/MM_UTILITY"
+    register: in_file  
+  - name: Create additional Logical Servers - check logs in /var/adm/MM_LOGS - or connect with "screen -x DEVOPS" in master node
+    shell: screen -x DEVOPS "cat {{ item }} | sudo -E {{ version.stdout }}/MM_UTILITY"
     with_items: '{{ in_file.stdout_lines}}'
     environment:
       ACTIVITY_TYPE: '{{ ACTIVITY_TYPE }}'
