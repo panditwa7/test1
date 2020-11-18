@@ -2,4 +2,4 @@
 - hosts: emm_master
   roles:
     - role: ../ROLES/app_OLM
-      ignore_errors: yes
+      ignore_errors: no

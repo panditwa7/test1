@@ -1,4 +1,4 @@
 - hosts: emm_master,emm_worker
   roles:
     - role: ../ROLES/system_hardening
-      ignore_errors: yes
+      ignore_errors: no

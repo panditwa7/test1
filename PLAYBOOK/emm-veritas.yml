@@ -2,4 +2,4 @@
 - hosts: emm_master,emm_worker
   roles:
     - role: ../ROLES/veritas_emm
-      ignore_errors: yes
+      ignore_errors: no

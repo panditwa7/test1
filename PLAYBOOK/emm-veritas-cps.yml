@@ -2,4 +2,4 @@
 - hosts: EMM_CPS
   roles:
     - role: ../ROLES/veritas_cps
-      ignore_errors: yes
+      ignore_errors: no

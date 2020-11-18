@@ -2,4 +2,4 @@
 - hosts: emm_master
   roles:
     - role: ../ROLES/app_MGR
-      ignore_errors: yes
+      ignore_errors: no
