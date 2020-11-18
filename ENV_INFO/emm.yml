@@ -51,6 +51,7 @@ veritas: ENTERPRISE
 storage: external
 
 # Other options for Platform installation, will be appended to Install_Platform.sh, select the one applicable:
+# Note: -C will be taken from deployment variable, and -E from storage variable
 #other_options: ""
 #other_options: "-F NFS"
 #other_options: "-I DEFAULT"
@@ -59,6 +60,7 @@ other_options: "-F VRTS"
 #other_options: "-F VRTS -O NODG"
 
 # Other options for Platform installation when adding node to existing cluster, will be appended to Install_Platform.sh, select the one applicable:
+# Note: -C ADDNODE is handled internally in playbook, and -E is taken from storage variable
 #other_options_addnode: "-F NFS"
 other_options_addnode: "-F VRTS"
 

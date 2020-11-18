@@ -81,7 +81,7 @@
 - name: Copy automation script
   copy: src=install_updated.sh dest={{ version.stdout }}/install_addnode.sh
 - name: Execute the EMM Addnode platform script with screen command - check logs in /var/adm/MM_LOGS/Platform - or connect with "screen -x DEVOPS" in "{{ hostname.stdout }}"
-  shell: sh screen -x DEVOPS ./install_addnode.sh {{ storage }} '{{ other_options_addnode }}'
+  shell: sh screen -S DEVOPS ./install_addnode.sh {{ storage }} '{{ other_options_addnode }}'
   args:
     chdir: '{{ version.stdout }}'
   #ignore_errors: true
