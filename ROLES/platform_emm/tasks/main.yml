@@ -71,20 +71,20 @@
   when: " not item.value == '' "
 - name: Copy automation script
   copy: src=install_updated.sh dest={{ version.stdout }}/
-- name: debug
-  debug:
-    msg: "IO_Fencing_Type: {{ IO_Fencing_Type }}"
-- name: Temporary change permissions of /etc directory
+- name: Temporary change permissions of /etc directory if CPS IO Fencing to be able to copy cp_server_ip file
   shell: sudo chmod 777 /etc/
+  when: ansible_facts['IO_Fencing_Type'] == "CPS"
 - name: Copy the cp_server_ip file with the CPS IPs (required by libfunc_cps_platform.sh)
   copy: src=../../../ENV_INFO/cp_server_ip dest=/etc/cp_server_ip
+  when: ansible_facts['IO_Fencing_Type'] == "CPS"
 - name: Restore permissions of /etc directory
   shell: sudo chmod 755 /etc/
+  when: ansible_facts['IO_Fencing_Type'] == "CPS"
 - name: Execute the EMM platform script - check logs in /var/adm/MM_LOGS/Platform
   shell: sh ./install_updated.sh {{ deployment }} {{ storage }} '{{ other_options }}' 
   #shell: sleep 50s
   args:
     chdir: '{{ version.stdout }}'
-  ignore_errors: true
+  #ignore_errors: true
   ignore_unreachable: true
   
