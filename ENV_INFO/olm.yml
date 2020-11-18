@@ -1,10 +1,15 @@
 ---
 # vars file for olm
-OLMServer_PG_DB_USER: "mmsuper"
-OLMServer_PG_DB_PASSWD: "<OLMServer_PG_DB_PASSWD>"
-OLMServer_IP: <OLMServer_IP>
-OLMServer_Netmask: <OLMServer_Netmask>
-OLMTracer_IP: <OLMTracer_IP>
-OLMTracer_Netmask: <OLMTracer_Netmask>
-Manager_IP: <Manager_IP>
+#OLMServer_PG_DB_USER: "mmsuper"
+#OLMServer_PG_DB_PASSWD: "<OLMServer_PG_DB_PASSWD>"
+#OLMServer_IP: <OLMServer_IP>
+#OLMServer_Netmask: <OLMServer_Netmask>
+#OLMTracer_IP: <OLMTracer_IP>
+#OLMTracer_Netmask: <OLMTracer_Netmask>
+#Manager_IP: <Manager_IP>
+OLMServer_PG_DB_PASSWD: "mmsuper"
+OLMServer_IP: 192.168.50.25
+Manager_IP: 192.168.50.22 
+OLMServer_Netmask: 255.255.255.0 
+OLMTracer_IP: 192.168.50.26
 
