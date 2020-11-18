@@ -73,7 +73,7 @@
   copy: src=install_updated.sh dest={{ version.stdout }}/
 - name: debug
   debug:
-    msg: "IO_Fencing_Type: {{ IO_Fencing_Type }}
+    msg: "IO_Fencing_Type: {{ IO_Fencing_Type }}"
 - name: Temporary change permissions of /etc directory
   shell: sudo chmod 777 /etc/
 - name: Copy the cp_server_ip file with the CPS IPs (required by libfunc_cps_platform.sh)
