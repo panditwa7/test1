@@ -2,7 +2,7 @@
 # vars file
 # Working directory in EM:
 #working_dir: <path to working directory to be created by pipeline in EM nodes>
-working_dir: ./install/
+working_dir: /install/
 
 
 ################################
