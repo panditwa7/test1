@@ -1,21 +1,23 @@
 [EMM_CPS]
-<sudo user>@<CPS node1 O&M IP>
-<sudo user>@<CPS node2 O&M IP>
-<sudo user>@<CPS node3 O&M IP>
+#<sudo user>@<CPS node1 O&M IP>
+#<sudo user>@<CPS node2 O&M IP>
+#<sudo user>@<CPS node3 O&M IP>
 [EMM_CPS:vars]
 ansible_password=<sudo pwd>
 ansible_connection=ssh
 
 [emm_master]
-<sudo user>@<EM master node O&M IP>
+#<sudo user>@<EM master node O&M IP>
+devops@10.223.141.241
 [emm_master:vars]
-ansible_password=<sudo pwd>
+#ansible_password=<sudo pwd>
+ansible_password=Mmuser12E45G7!
 ansible_connection=ssh
 
 [emm_worker]
-<sudo user>@<EM worker node1 O&M IP>
-<sudo user>@<EM worker node2 O&M IP>
-<sudo user>@<EM worker node3 O&M IP>
+#<sudo user>@<EM worker node1 O&M IP>
+#<sudo user>@<EM worker node2 O&M IP>
+#<sudo user>@<EM worker node3 O&M IP>
 [emm_worker:vars]
 ansible_password=<sudo pwd>
 ansible_connection=ssh
