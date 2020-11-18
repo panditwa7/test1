@@ -38,7 +38,9 @@
     fstype: iso9660
     opts: loop,ro
     state: mounted
-  
+
+- name: check Mount iso file {{ threepp_iso.files[0].path }}
+  command: df -kh
   
 - name: Create symlink to repository
   file:
