@@ -14,8 +14,8 @@ ansible_connection=ssh
 #<sudo user>@<EM master node O&M IP>
 root@10.223.140.32
 [emm_master:vars]
-#ansible_password=emm123
-ansible_password=Mmuser12E45G7!
+ansible_password=emm123
+#ansible_password=<sudo pwd>
 ansible_connection=ssh
 
 [emm_worker]
@@ -24,5 +24,6 @@ ansible_connection=ssh
 #<sudo user>@<EM worker node3 O&M IP>
 root@10.223.140.33
 [emm_worker:vars]
+#ansible_password=<sudo pwd>
 ansible_password=emm123
 ansible_connection=ssh
