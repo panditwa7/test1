@@ -12,10 +12,14 @@
   - name: Copy Additional Components configuration
     copy: src="../ENV_INFO/CMP" dest={{ version.stdout }}/
   - name: Get .in files
-    shell: ls {{ version.stdout }}/CMP/*.in
+    shell: ls ./CMP/*.in
     register: in_file
+    args:
+      chdir: '{{ version.stdout }}'
   - name: Create additional Logical Servers - check logs in /var/adm/MM_LOGS - or connect with "screen -x DEVOPS" in master node
-    shell: screen -S DEVOPS sh -c "cat {{ item }} | sudo -E {{ version.stdout }}/MM_UTILITY"    
-  - name: Create additional Components - check logs in /var/adm/MM_LOGS    
+    shell: screen -S DEVOPS sh -c "cat {{ item }} | sudo -E ./MM_UTILITY"    
+    with_items: '{{ in_file.stdout_lines}}'
+    args:
+      chdir: '{{ version.stdout }}'
     environment:
       ACTIVITY_TYPE: '{{ ACTIVITY_TYPE }}'
