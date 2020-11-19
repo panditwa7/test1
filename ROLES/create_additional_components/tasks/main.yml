@@ -16,7 +16,7 @@
     register: in_file
     args:
       chdir: '{{ version.stdout }}'
-  - name: Create additional Logical Servers - check logs in /var/adm/MM_LOGS - or connect with "screen -x DEVOPS" in master node
+  - name: Create additional Components - check logs in /var/adm/MM_LOGS - or connect with "screen -x DEVOPS" in master node
     shell: screen -S DEVOPS sh -c "cat {{ item }} | sudo -E ./MM_UTILITY"    
     with_items: '{{ in_file.stdout_lines}}'
     args:

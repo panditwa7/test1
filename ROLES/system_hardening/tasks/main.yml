@@ -18,7 +18,7 @@
       mode: '0777'
 
   - name: Stop cluster services
-    shell: sudo hastop -all
+    shell: sudo /opt/VRTSvcs/bin/hastop -all
 
   - pause:
      minutes: 5
@@ -53,7 +53,7 @@
     ignore_errors: true
 
   - name: Start cluster services
-    shell: sudo hastart
+    shell: sudo /opt/VRTSvcs/bin/hastart
 
   - name: Show cluster status
-    shell: sudo hastatus -sum
+    shell: sudo /opt/VRTSvcs/bin/hastatus -sum
