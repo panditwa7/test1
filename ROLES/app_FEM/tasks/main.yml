@@ -16,8 +16,8 @@
   - name: Comment out Edittemplate in Install_App.sh to skip user iteraction
     replace:
       dest: '{{ version.stdout }}/Install_App.sh'
-      replace: '# \1 \n log "Devops: Edittemplate commented out"'
-      replace: '# \1'
+      regexp: '(.*Edittemplate.*)'
+      replace: '# \1 \n log "Devops: Edittemplate commented out"'      
       backup: yes
   - name: Update ini file for Interface IP
     ini_file:

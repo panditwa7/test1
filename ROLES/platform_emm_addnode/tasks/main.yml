@@ -23,8 +23,8 @@
 - name: Comment out Edittemplate in Install_Platform.sh to skip user iteraction
   replace:
     dest: '{{ version.stdout }}/Install_Platform.sh'
+    regexp: '(.*Edittemplate.*)'
     replace: '# \1 \n log "Devops: Edittemplate commented out"'
-    replace: '# \1'
     backup: yes
 - name: Updating Install_Platform.sh to reboot from Ansible
   replace:
