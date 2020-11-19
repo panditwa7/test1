@@ -61,12 +61,12 @@
   when: " not item.value == '' "
 - name: Copy automation script
   copy: src=install_updated.sh dest={{ version.stdout }}/
-- name: Execute the CPS platform script - check logs in /var/adm/MM_LOGS/Platform
-  shell: sh ./install_updated.sh
+- name: Execute the CPS platform script - check logs in /var/adm/MM_LOGS/Platform - or connect with "screen -x DEVOPS" in "{{ hostname.stdout }}"
+  shell: sh screen -S DEVOPS ./install_updated.sh
   #shell: sleep 500s
   args:
     chdir: '{{ version.stdout }}'
-  ignore_errors: true
+  #ignore_errors: true
   ignore_unreachable: true
     
  
