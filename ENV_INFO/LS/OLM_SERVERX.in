@@ -3,14 +3,14 @@
 2
 2
 1
-<logical server name>
+SERVER2
 y
-<logical server port>
-<database password>
-<database password>
-<manager VIP>
-<MMStorage path>
-<logical server VIP>
+5503
+mediation
+mediation
+192.168.50.22
+/var/opt/mediation/MMDB
+192.168.50.28
 y
     
 x

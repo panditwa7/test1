@@ -6,11 +6,6 @@ vxdisk list
 sudo ./Install_Platform.sh -C $1 -E $2 $3 << EOF
 y
 y
-<mmstorage disk>
-<mmdb disk>
-<io fencing disk1>
-<io fencing disk2>
-<io fencing disk3>
 y
 y
 y

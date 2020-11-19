@@ -1,6 +1,7 @@
 ---
 # vars file
 # Working directory in EM:
+# Note: for EM20 it is recommended to give relative path from sudo user home directory
 #working_dir: <path to working directory to be created by pipeline in EM nodes>
 working_dir: /install/
 

@@ -20,10 +20,6 @@
     shell: sudo /usr/bin/MMControl status | grep Tomcat
     register: Tomcat
   - name: healthcheck status
-    debug:
-      msg: "MGR App installaed successfully"
-    when: 
-  - name: healthcheck status
     assert:
       that:
         - clistatus.stdout is search('ONLINE')

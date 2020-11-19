@@ -24,6 +24,12 @@
     regexp: '(.*Edittemplate.*)'
     replace: '# \1 \n log "Devops: Edittemplate commented out"'
     backup: yes
+- name: Updating Install_Platform.sh to reboot from Ansible
+  replace:
+    dest: '{{ version.stdout }}/Install_Platform.sh'
+    regexp: '(.*read choice.*)'
+    replace: '# \1 \n choice="n"'
+    backup: no    
 - name: Update the cps ini file for ONM Bond
   ini_file:
       path: '{{ version.stdout }}/templates/Linux/{{ platform_template }}'
@@ -82,9 +88,21 @@
   when: IO_Fencing_Type == 'CPS'
 - name: Execute the EMM platform script with screen command - check logs in /var/adm/MM_LOGS/Platform - or connect with "screen -x DEVOPS" in "{{ hostname.stdout }}"
   shell: screen -S DEVOPS sh ./install_updated.sh {{ deployment }} {{ storage }} '{{ other_options }}' 
+  register: task_result
   #shell: sleep 50s
   args:
     chdir: '{{ version.stdout }}'
   #ignore_errors: true
   ignore_unreachable: true
-  
+
+- name: Rebooting the system
+  block:
+  - name: Reboot system
+    command: sudo shutdown -r +1 "Rebooting Server via Ansible"
+  - name: Wait for the server to come up
+    wait_for_connection:
+      connect_timeout: 120
+      timeout: 600
+      delay: 120
+      sleep: 20
+  when: task_result.changed
