@@ -1,10 +1,13 @@
 ---
   - hosts: emm_worker
     tasks:
-    - name: healthcheck EMM worker Group
+    - name: healthcheck EM Worker Group
       shell: sudo /opt/VRTSvcs/bin/hastatus -sum
       register: status
+    
     - name: healthcheck status
-      debug:
-        msg: "EMM worker is working fine"
-      when: status.stdout is search('RUNNING')  
+      assert:
+        that:
+          - status.stdout is search('RUNNING')
+        success_msg: "EM Worker is working fine"
+        fail_msg: "EM Worker is NOT working fine, please check before proceeding."

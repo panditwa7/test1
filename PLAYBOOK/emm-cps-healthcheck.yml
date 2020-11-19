@@ -5,9 +5,11 @@
     shell: sudo /opt/VRTSvcs/bin/hastatus -sum
     register: status
   - name: healthcheck status
-    debug:
-      msg: "CPS is working fine"
-    when: status.stdout is search('ONLINE')
+    assert:
+      that:
+        - status.stdout is search('ONLINE')
+      success_msg: "CPS is working fine"
+      fail_msg: "CPS is NOT working fine, please check before proceeding."
   - name: IMPORTANT MESSAGE
     debug:
       msg: "Remember to configure MANUALLY the password-less connectiviy from EMM Nodes towards all CPS VIPs"

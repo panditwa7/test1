@@ -6,8 +6,10 @@
     register: femstatus
   
   - name: healthcheck status
-    debug:
-      msg: "FEM App installaed successfully"
-    when: 
-      - femstatus.stdout is search('ONLINE')
+    assert:
+      that:
+        - femstatus.stdout is search('ONLINE')
+      success_msg: "FEM App installed successfully"
+      fail_msg: "FEM App is NOT working fine, please check before proceeding."
+
       
