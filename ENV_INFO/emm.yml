@@ -65,6 +65,15 @@ other_options: "-F NFS"
 #other_options_addnode: "-F NFS"
 other_options_addnode: "-F VRTS"
 
+# Disk names from vxdisk list output in filesytem is VRTS:
+mmstorage_disk: disk1
+mmdb_disk: disk2
+
+# Disk names from vxdisk list output if I/O Fencing is DISK
+io_fencing_disk1: disk3
+io_fencing_disk2: disk4
+io_fencing_disk3: disk5
+
 # Other options for Application installation, will be appended to Install_App.sh, select the one applicable:
 app_other_options: ""
 #app_other_options: "-I DEFAULT"
