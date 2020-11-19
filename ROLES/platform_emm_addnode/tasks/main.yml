@@ -31,7 +31,7 @@
     dest: '{{ version.stdout }}/Install_Platform.sh'
     regexp: '(.*read choice.*)'
     replace: '# \1 \n choice="n"'
-    backup: yes
+    backup: no
 #- name: Update hosts file
 #  shell: grep -q {{ hostname }} /etc/hosts  || (sudo chmod 666 /etc/hosts; sudo echo "{{ bonding_interface_ip_ONM }} {{ hostname }}" >> /etc/hosts; sudo chmod 644 /etc/hosts)
 - name: Update the cps ini file for ONM Bond
@@ -81,7 +81,7 @@
 - name: Copy automation script
   copy: src=install_updated.sh dest={{ version.stdout }}/install_addnode.sh
 - name: Execute the EMM Addnode platform script with screen command - check logs in /var/adm/MM_LOGS/Platform - or connect with "screen -x DEVOPS" in "{{ hostname.stdout }}"
-  shell: sh screen -S DEVOPS ./install_addnode.sh {{ storage }} '{{ other_options_addnode }}'
+  shell: screen -S DEVOPS sh ./install_addnode.sh {{ storage }} '{{ other_options_addnode }}'
   args:
     chdir: '{{ version.stdout }}'
   #ignore_errors: true
