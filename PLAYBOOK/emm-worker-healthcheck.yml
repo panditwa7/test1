@@ -1,5 +1,6 @@
 ---
   - hosts: emm_worker
+    gather_facts: no
     tasks:
     - name: healthcheck EM Worker Group
       shell: sudo /opt/VRTSvcs/bin/hastatus -sum

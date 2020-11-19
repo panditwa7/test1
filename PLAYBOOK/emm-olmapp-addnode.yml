@@ -2,5 +2,6 @@
 - hosts: emm_worker
   # serial = 1 to add olm sequencially, and not in parallel which will cause VCS conflicts
   serial: 1
+  gather_facts: no
   roles:
     - role: ../ROLES/app_OLM_Addnode

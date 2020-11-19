@@ -106,7 +106,7 @@
     dest: "{{ version.stdout }}/install_updated.sh"
     regexp: "mm.*_disk"
     state: absent
-  when: other_options is search('CPS')
+  when: other_options is search('NFS')
 - name: Update mm disk names in automation script if external system in VRTS
   lineinfile:
     dest: "{{ version.stdout }}/install_updated.sh"

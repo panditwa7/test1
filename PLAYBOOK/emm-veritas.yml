@@ -1,5 +1,6 @@
 ---
 - hosts: emm_master,emm_worker
+  gather_facts: no
   roles:
     - role: ../ROLES/veritas_emm
       ignore_errors: no

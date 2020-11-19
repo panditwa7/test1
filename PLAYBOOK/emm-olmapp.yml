@@ -1,5 +1,6 @@
 ---
 - hosts: emm_master
+  gather_facts: no
   roles:
     - role: ../ROLES/app_OLM
       ignore_errors: no

@@ -1,5 +1,6 @@
 ---
 - hosts: emm_master
+  gather_facts: no
   tasks:
   - name: OnlineServer status
     shell: sudo /usr/bin/MMControl status | grep OnlineServer

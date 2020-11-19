@@ -1,5 +1,6 @@
 ---
 - hosts: emm_master
+  gather_facts: no
   tasks:
   - name: fm_db_Server1 status
     shell: sudo /usr/bin/MMControl status | grep fm_db_Server1

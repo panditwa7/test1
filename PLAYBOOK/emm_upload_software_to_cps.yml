@@ -1,5 +1,6 @@
 ---
 - hosts: EMM_CPS
+  gather_facts: no
   roles:
     - role: ../ROLES/cps_upload_software
       ignore_errors: yes

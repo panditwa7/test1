@@ -1,5 +1,6 @@
 ---
   - hosts: emm_master
+    gather_facts: no
     tasks:
     - name: healthcheck EM Master Group
       shell: sudo /opt/VRTSvcs/bin/hastatus -sum

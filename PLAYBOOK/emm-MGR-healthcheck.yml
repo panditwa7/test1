@@ -1,5 +1,6 @@
 ---
 - hosts: emm_master
+  gather_facts: no
   tasks:
   - name: CLI status
     shell: sudo /usr/bin/MMControl status | grep CLI
