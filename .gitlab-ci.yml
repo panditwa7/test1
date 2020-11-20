@@ -88,7 +88,7 @@ cpsplatforminstall:
   allow_failure: true
   #when: manual
 
-.cpshealthcheck:
+cpshealthcheck:
   stage: cpsplatformhealthcheck
   tags:
     - em-aip
