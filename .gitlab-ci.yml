@@ -78,7 +78,7 @@ stages:
   allow_failure: true
   #when: manual
 
-.cpsplatforminstall:
+cpsplatforminstall:
   stage: cpsplatform
   tags:
     - em-aip

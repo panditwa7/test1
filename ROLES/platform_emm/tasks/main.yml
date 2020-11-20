@@ -133,7 +133,7 @@
   args:
     chdir: '{{ version.stdout }}'
   #ignore_errors: true
-  ignore_unreachable: true
+  #ignore_unreachable: true
 
 - name: Rebooting the system
   block:
