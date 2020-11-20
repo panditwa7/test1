@@ -65,11 +65,11 @@ other_options: "-F NFS"
 #other_options_addnode: "-F NFS"
 other_options_addnode: "-F VRTS"
 
-# Disk names from vxdisk list output in filesytem is VRTS:
+# Disk names, from vxdisk list output, that will be used in Install_Platform.sh if filesytem is VRTS:
 mmstorage_disk: <mmstorage_disk name>
 mmdb_disk: <mmdb_disk name>
 
-# Disk names from vxdisk list output if I/O Fencing is DISK
+# Disk names, from vxdisk list output, that will be used in Install_Platform.sh if I/O Fencing is DISK
 io_fencing_disk1: <io_fencing_disk1 name>
 io_fencing_disk2: <io_fencing_disk2 name>
 io_fencing_disk3: <io_fencing_disk3 name>

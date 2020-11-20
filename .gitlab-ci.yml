@@ -36,7 +36,7 @@ stages:
     - ssh <dds user>@<dds hostname> 'mkdir -p ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}'
     - scp -pr ./ENV_INFO/ ./HOST/ ./PLAYBOOK/ ./ROLES/ <dds user>@<dds hostname>:./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}
   #allow_failure: true
-  when: manual
+  #when: manual
 
 uploadsoftwaretocps:
   stage: uploadsoftwaretocps
@@ -46,7 +46,7 @@ uploadsoftwaretocps:
      #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm_upload_software_to_cps.yml -v
      - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm_upload_software_to_cps.yml -v
   allow_failure: true
-  when: manual
+  #when: manual
 
 uploadsoftwaretoemm:
   stage: uploadsoftwaretoemm
@@ -56,7 +56,7 @@ uploadsoftwaretoemm:
     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm_upload_software_to_emmnodes.yml -v
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm_upload_software_to_emmnodes.yml -v
   allow_failure: true
-  when: manual
+  #when: manual
   
 emmplatformospatches:
   stage: emmplatformospatches
@@ -66,7 +66,7 @@ emmplatformospatches:
     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm_apply_ospatches.yml -v
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm_apply_ospatches.yml -v
   allow_failure: true
-  when: manual 
+  #when: manual 
 
 cpsplatformveritas:
   stage: cpsplatformveritas
@@ -76,7 +76,7 @@ cpsplatformveritas:
     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-veritas-cps.yml -v
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-veritas-cps.yml -v
   allow_failure: true
-  when: manual
+  #when: manual
 
 cpsplatforminstall:
   stage: cpsplatform
@@ -86,7 +86,7 @@ cpsplatforminstall:
      #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-cps.yml -v
      - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-cps.yml -v
   allow_failure: true
-  when: manual
+  #when: manual
 
 cpshealthcheck:
   stage: cpsplatformhealthcheck
@@ -95,7 +95,7 @@ cpshealthcheck:
   script:
      #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-cps-healthcheck.yml -v
      - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-cps-healthcheck.yml -v
-  when: manual
+  #when: manual
 
 emmplatformveritas:
   stage: emmplatformveritas
@@ -105,7 +105,7 @@ emmplatformveritas:
     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-veritas.yml -v
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-veritas.yml -v
   allow_failure: true
-  when: manual 
+  #when: manual 
 
 emmplatform3pp:
   stage: emmplatform3pp
@@ -115,7 +115,7 @@ emmplatform3pp:
     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-3pp.yml -v
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-3pp.yml -v
   allow_failure: true
-  when: manual
+  #when: manual
 
 emmplatforminstall:
   stage: emmplatform
@@ -125,7 +125,7 @@ emmplatforminstall:
     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-platform.yml -v
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform.yml -v
   allow_failure: true
-  when: manual
+  #when: manual
 
 emmmasterhealthcheck:
   stage: emmmasterhealthcheck
@@ -134,7 +134,7 @@ emmmasterhealthcheck:
   script:
     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-master-healthcheck.yml -v
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-master-healthcheck.yml -v
-  when: manual
+  #when: manual
 
 emmplatformaddnode:
   stage: emmaddnode
@@ -144,7 +144,7 @@ emmplatformaddnode:
     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-platform-addnode.yml -v
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-platform-addnode.yml -v
   allow_failure: true
-  when: manual
+  #when: manual
 
 emmworkerhealthcheck:
   stage: emmworkerhealthcheck
@@ -153,7 +153,7 @@ emmworkerhealthcheck:
   script:
      #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-worker-healthcheck.yml -v
      - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-worker-healthcheck.yml -v
-  when: manual
+  #when: manual
   
 mgrappinstall:
   stage: mgrappinstall
@@ -163,7 +163,7 @@ mgrappinstall:
     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-mgrapp.yml -v
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-mgrapp.yml -v
   allow_failure: true
-  when: manual
+  #when: manual
 
 mgrhealthcheck:
    stage: mgrhealthcheck
@@ -172,7 +172,7 @@ mgrhealthcheck:
    script:
      #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-MGR-healthcheck.yml -v
      - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-MGR-healthcheck.yml -v
-   when: manual
+   #when: manual
    
 mgraddnode:
   stage: mgrappaddnode
@@ -181,7 +181,7 @@ mgraddnode:
   script:
     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-mgrapp-addnode.yml -v
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-mgrapp-addnode.yml -v
-  when: manual
+  #when: manual
 
 femappinstall:
   stage: femappinstall
@@ -191,7 +191,7 @@ femappinstall:
     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-femapp.yml
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-femapp.yml -v
   #allow_failure: true
-  when: manual
+  #when: manual
 
 femhealthcheck:
    stage: femhealthcheck
@@ -200,7 +200,7 @@ femhealthcheck:
    script:
      #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-FEM-healthcheck.yml -v
      - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-FEM-healthcheck.yml -v
-   when: manual
+   #when: manual
    
 femaddnode:
   stage: femappaddnode
@@ -209,7 +209,7 @@ femaddnode:
   script:
     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-femapp-addnode.yml -v
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-femapp-addnode.yml -v
-  when: manual 
+  #when: manual 
 
 olmappinstall:
   stage: olmappinstall
@@ -219,7 +219,7 @@ olmappinstall:
     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-olmapp.yml -v
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-olmapp.yml -v
   #allow_failure: true
-  when: manual
+  #when: manual
 
 olmhealthcheck:
   stage: olmhealthcheck
@@ -228,7 +228,7 @@ olmhealthcheck:
   script:
     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-OLM-healthcheck.yml -v
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-OLM-healthcheck.yml -v
-  when: manual
+  #when: manual
   
 olmaddnode:
   stage: olmappaddnode
@@ -237,7 +237,7 @@ olmaddnode:
   script:
     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-olmapp-addnode.yml -v
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-olmapp-addnode.yml -v
-  when: manual
+  #when: manual
 
 emmcreatelogicalservers:
   stage: emmcreatelogicalservers
@@ -246,7 +246,7 @@ emmcreatelogicalservers:
   script:
     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-create-logicalservers.yml -v
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-create-logicalservers.yml -v
-  when: manual
+  #when: manual
 
 emmcreateadditionalcomponents:
   stage: emmcreateadditionalcomponents
@@ -255,7 +255,7 @@ emmcreateadditionalcomponents:
   script:
     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-create-additionalcomponents.yml -v
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-create-additionalcomponents.yml -v
-  when: manual
+  #when: manual
 
 systemhardening:
   stage: systemhardening
@@ -265,4 +265,4 @@ systemhardening:
     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-system-hardening.yml -v
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-system-hardening.yml -v
   allow_failure: true
-  when: manual
+  #when: manual
