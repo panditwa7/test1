@@ -38,7 +38,7 @@ stages:
   #allow_failure: true
   #when: manual
 
-uploadsoftwaretocps:
+.uploadsoftwaretocps:
   stage: uploadsoftwaretocps
   tags:
     - em-aip
@@ -48,7 +48,7 @@ uploadsoftwaretocps:
   allow_failure: true
   #when: manual
 
-uploadsoftwaretoemm:
+.uploadsoftwaretoemm:
   stage: uploadsoftwaretoemm
   tags:
     - em-aip
@@ -58,7 +58,7 @@ uploadsoftwaretoemm:
   allow_failure: true
   #when: manual
   
-emmplatformospatches:
+.emmplatformospatches:
   stage: emmplatformospatches
   tags:
     - em-aip
@@ -68,7 +68,7 @@ emmplatformospatches:
   allow_failure: true
   #when: manual 
 
-cpsplatformveritas:
+.cpsplatformveritas:
   stage: cpsplatformveritas
   tags:
     - em-aip
@@ -78,7 +78,7 @@ cpsplatformveritas:
   allow_failure: true
   #when: manual
 
-cpsplatforminstall:
+.cpsplatforminstall:
   stage: cpsplatform
   tags:
     - em-aip
@@ -88,7 +88,7 @@ cpsplatforminstall:
   allow_failure: true
   #when: manual
 
-cpshealthcheck:
+.cpshealthcheck:
   stage: cpsplatformhealthcheck
   tags:
     - em-aip
@@ -97,7 +97,7 @@ cpshealthcheck:
      - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-cps-healthcheck.yml -v
   #when: manual
 
-emmplatformveritas:
+.emmplatformveritas:
   stage: emmplatformveritas
   tags:
     - em-aip
@@ -107,7 +107,7 @@ emmplatformveritas:
   allow_failure: true
   #when: manual 
 
-emmplatform3pp:
+.emmplatform3pp:
   stage: emmplatform3pp
   tags:
     - em-aip
@@ -248,7 +248,7 @@ emmcreatelogicalservers:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-create-logicalservers.yml -v
   #when: manual
 
-emmcreateadditionalcomponents:
+.emmcreateadditionalcomponents:
   stage: emmcreateadditionalcomponents
   tags:
     - em-aip
@@ -257,7 +257,7 @@ emmcreateadditionalcomponents:
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-create-additionalcomponents.yml -v
   #when: manual
 
-systemhardening:
+.systemhardening:
   stage: systemhardening
   tags:
     - em-aip
