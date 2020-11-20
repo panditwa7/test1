@@ -7,8 +7,8 @@
   register: version  
 - name: Copy automation script
   copy: src=install_OLM_Addnode.sh dest={{ version.stdout }}/install_OLM_Addnode.sh mode=u+rwx
-- name: Execute the OLM Add node script - check logs in /var/adm/MM_LOGS/App - or connect with "screen -x DEVOPS" in master node
-  shell: screen -S DEVOPS sh ./install_OLM_Addnode.sh
+- name: Execute the OLM Add node script - check logs in /var/adm/MM_LOGS/App
+  shell: sh ./install_OLM_Addnode.sh
   args:
     chdir: '{{ version.stdout }}'
     

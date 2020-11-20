@@ -82,11 +82,11 @@
   copy: src=install_updated.sh dest={{ version.stdout }}/install_addnode.sh
 - name: Execute the EMM Addnode platform script with screen command - check logs in /var/adm/MM_LOGS/Platform - or connect with "screen -x DEVOPS" in "{{ hostname.stdout }}"
   shell: screen -S DEVOPS sh ./install_addnode.sh {{ storage }} '{{ other_options_addnode }}'
+  register: task_result
   args:
     chdir: '{{ version.stdout }}'
   #ignore_errors: true
   #ignore_unreachable: true
-  register: task_result
 
 - name: Rebooting the system
   block:
@@ -95,7 +95,7 @@
   - name: Wait for the server to come up
     wait_for_connection:
       connect_timeout: 120
-      timeout: 600
+      timeout: 180
       delay: 120
       sleep: 20
   when: task_result.changed

@@ -18,7 +18,7 @@
   - name: Copy automation script
     copy: src=install_FEM_Addnode_withoutMGR.sh dest={{ version.stdout }}/install_FEM_Addnode.sh mode=u+rwx
     when: manager == "n"
-  - name: Execute the FEM Add node script - check logs in /var/adm/MM_LOGS/App - or connect with "screen -x DEVOPS" in master node
-    shell: screen -S DEVOPS sh ./install_FEM_Addnode.sh
+  - name: Execute the FEM Add node script - check logs in /var/adm/MM_LOGS/App
+    shell: sh ./install_FEM_Addnode.sh
     args:
       chdir: '{{ version.stdout }}'  

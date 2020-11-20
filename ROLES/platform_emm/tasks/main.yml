@@ -142,7 +142,10 @@
   - name: Wait for the server to come up
     wait_for_connection:
       connect_timeout: 120
-      timeout: 600
+      timeout: 180
       delay: 120
       sleep: 20
   when: task_result.changed
+
+- name: wait some time minute for the cluster to be started
+  command: sleep 180 
