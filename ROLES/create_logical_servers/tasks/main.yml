@@ -23,6 +23,7 @@
       chdir: '{{ version.stdout }}'
     environment:
       ACTIVITY_TYPE: '{{ ACTIVITY_TYPE }}'
+    ignore_errors: yes
   - name: copy script to add cluster nodes to FM and OM service groups
     copy: src="AddingNodestoSG.sh" dest={{ version.stdout }}/ mode=755
   - name: Execute script
