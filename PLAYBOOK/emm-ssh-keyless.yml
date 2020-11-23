@@ -1,11 +1,15 @@
 ---
-- hosts: all
+- hosts: EMM_CPS,emm_master,emm_worker
   gather_facts: yes
   tasks:
   - name: Delete existing public keys
     file:
       path: ./.ssh/id_rsa
-      state: absent
+      state: present
+  - name: Create .ssh directory
+    file:
+      path: ./.ssh/
+      state: absent      
   - name: Generate new keys
     shell: ssh-keygen -q -t rsa -f ./.ssh/id_rsa -P ''
   - name: Fetch public keys
@@ -19,4 +23,4 @@
       state: present
       key: "{{ lookup('file', '{{ item }}') }}"
     with_fileglob:
-      - "-id_rsa.pub"
+      - "*.-id_rsa.pub"
