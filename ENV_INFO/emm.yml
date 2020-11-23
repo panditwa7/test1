@@ -54,7 +54,7 @@ storage: external
 # Other options for Platform installation, will be appended to Install_Platform.sh, select the one applicable:
 # Note: -C will be taken from deployment variable, and -E from storage variable
 #other_options: ""
-other_options: "-F NFS"
+other_options: "-F NFS -L debug"
 #other_options: "-I DEFAULT"
 #other_options: "-F VRTS"
 #other_options: "-F VRTS -O NODG -L debug"
