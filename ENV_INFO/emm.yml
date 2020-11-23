@@ -62,7 +62,7 @@ other_options: "-F NFS"
 
 # Other options for Platform installation when adding node to existing cluster, will be appended to Install_Platform.sh, select the one applicable:
 # Note: -C ADDNODE is handled internally in playbook, and -E is taken from storage variable
-#other_options_addnode: "-F NFS"
+other_options_addnode: "-F NFS"
 #other_options_addnode: "-F VRTS"
 
 # Disk names, from vxdisk list output, that will be used in Install_Platform.sh if filesytem is VRTS:
