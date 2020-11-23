@@ -5,11 +5,11 @@
   - name: Delete existing public keys
     file:
       path: ./.ssh/id_rsa
-      state: directory
+      state: absent
   - name: Create .ssh directory
     file:
       path: ./.ssh/
-      state: absent      
+      state: directory
   - name: Generate new keys
     shell: ssh-keygen -q -t rsa -f ./.ssh/id_rsa -P ''
   - name: Fetch public keys
