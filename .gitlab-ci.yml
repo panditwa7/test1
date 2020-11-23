@@ -8,6 +8,7 @@ stages:
   - cpsplatformhealthcheck
   - emmplatformveritas
   - emmplatform3pp
+  - emmsshkeyless
   - emmplatform
   - emmmasterhealthcheck
   - emmaddnode
@@ -114,6 +115,17 @@ cpshealthcheck:
   script:
     #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-3pp.yml -v
     - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-3pp.yml -v
+  allow_failure: true
+  #when: manual
+
+
+emmsshkeyless:
+  stage: emmsshkeyless
+  tags:
+    - em-aip
+  script:
+    #- ssh <dds user>@<dds hostname> ansible-playbook -i ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/HOST/hosts ./DevOps/${CI_PROJECT_NAMESPACE}/${CI_COMMIT_BRANCH}/PLAYBOOK/emm-ssh-keyless.yml -v
+    - ansible-playbook -i ./HOST/hosts ./PLAYBOOK/emm-ssh-keyless.yml -v
   allow_failure: true
   #when: manual
 

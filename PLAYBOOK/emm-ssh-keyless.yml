@@ -1,0 +1,22 @@
+---
+- hosts: all
+  gather_facts: yes
+  tasks:
+  - name: Delete existing public keys
+    file:
+      path: ./.ssh/id_rsa
+      state: absent
+  - name: Generate new keys
+    shell: ssh-keygen -q -t rsa -f ./.ssh/id_rsa -P ''
+  - name: Fetch public keys
+    fetch:
+      src: ./.ssh/id_rsa.pub
+      dest: '{{ inventory_hostname }}-id_rsa.pub'
+      flat: yes
+  - name: Update .ssh/authorized_keys
+    authorized_key:
+      user: '{{ ansible_user_id }}'
+      state: present
+      key: "{{ lookup('file', '{{ item }}') }}"
+    with_fileglob:
+      - "-id_rsa.pub"
