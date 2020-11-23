@@ -5,7 +5,7 @@
   - name: Delete existing public keys
     file:
       path: ./.ssh/id_rsa
-      state: present
+      state: directory
   - name: Create .ssh directory
     file:
       path: ./.ssh/
