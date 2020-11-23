@@ -17,10 +17,10 @@
       src: ./.ssh/id_rsa.pub
       dest: '{{ inventory_hostname }}-id_rsa.pub'
       flat: yes
-  - name: Update .ssh/authorized_keys
+  - name: Update .ssh/authorized_keys for '{{ ansible_user_id }}' user
     authorized_key:
       user: '{{ ansible_user_id }}'
       state: present
       key: "{{ lookup('file', '{{ item }}') }}"
     with_fileglob:
-      - "*.-id_rsa.pub"
+      - "*.pub"
