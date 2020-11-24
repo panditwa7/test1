@@ -34,7 +34,8 @@
   replace:
     dest: '{{ version.stdout }}/Install_Platform.sh'
     regexp: '(^[^#].*read choice.*)'
-    replace: '# \1 \n choice="n"'
+    #replace: '# \1 \n choice="n"'
+    replace: '# \1 \n exit 0'
     backup: no    
 
 - name: Update the cps ini file for ONM Bond

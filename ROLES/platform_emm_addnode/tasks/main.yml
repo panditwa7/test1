@@ -30,7 +30,8 @@
   replace:
     dest: '{{ version.stdout }}/Install_Platform.sh'
     regexp: '(^[^#].*read choice.*)'
-    replace: '# \1 \n choice="n"'
+    #replace: '# \1 \n choice="n"'
+    replace: '# \1 \n exit 0'
     backup: no
 #- name: Update hosts file
 #  shell: grep -q {{ hostname }} /etc/hosts  || (sudo chmod 666 /etc/hosts; sudo echo "{{ bonding_interface_ip_ONM }} {{ hostname }}" >> /etc/hosts; sudo chmod 644 /etc/hosts)
