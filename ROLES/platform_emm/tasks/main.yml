@@ -149,4 +149,4 @@
   when: task_result.changed
 
 - name: wait some minutes for the cluster to be started
-  command: sleep 240 
+  command: sleep 300 

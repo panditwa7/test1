@@ -99,5 +99,5 @@
     test_command: uptime	
   when: task_result.changed
 
-  - name: wait some minutes for the cluster to be started
-    command: sleep 180
+- name: wait some minutes for the cluster to be started
+  command: sleep 180
