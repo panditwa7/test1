@@ -129,7 +129,7 @@
   when: IO_Fencing_Type == 'CPS'
 
 - name: Execute the EMM platform script with screen command - check logs in /var/adm/MM_LOGS/Platform - or connect with "screen -x DEVOPS" in "{{ hostname.stdout }}"
-  shell: screen -S DEVOPS sh ./install_updated.sh {{ deployment }} {{ storage }} '{{ other_options }}' 
+  shell: screen -S DEVOPS sh ./install_updated.sh {{ deployment }} {{ storage }} '{{ other_options }}' ; sleep 1
   register: task_result
   args:
     chdir: '{{ version.stdout }}'
