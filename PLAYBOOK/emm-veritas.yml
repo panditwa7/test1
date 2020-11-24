@@ -1,9 +1,6 @@
 ---
 - hosts: emm_master,emm_worker
-  #sudo: yes
-  #remote_user: "{{user}}"
-  #vars_files:
-    #- ../ENV_INFO/emm.yml
+  gather_facts: no
   roles:
     - role: ../ROLES/veritas_emm
-      ignore_errors: yes
+      ignore_errors: no

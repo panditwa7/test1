@@ -1,5 +1,6 @@
 ---
 - hosts: emm_master
+  gather_facts: no
   roles:
     - role: ../ROLES/app_FEM
-      ignore_errors: yes
+      ignore_errors: no

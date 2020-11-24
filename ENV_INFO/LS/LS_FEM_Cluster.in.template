@@ -1,0 +1,22 @@
+################################
+# REMOVE COMMENTS BEFORE SAVING#
+################################
+
+
+2						# Fixed Parameter (Do not change)
+1						# Fixed Parameter (Do not change)
+1						# 1: STANDALONE, 2: CLUSTER
+1						# Fixed Parameter (Do not change)
+1 						# Fixed Parameter (Do not change)
+<logical server name> 	# Add Server name below
+<Forwarding port> 	  	# Add Forward Port below
+<database port>			# Add DB port below
+<database password>		# Add DB User (mmsuper/report) password 
+<database password>		# Re-Type User (mmsuper/report) password 
+<manager VIP>			# Enter Manager IP
+<MMStorage path>		# Enter Absolute FM Server Storage Path
+<MMDB path>				# Enter Absolute Database Storage path
+<logical server VIP>	# Enter FM Server IP
+y						# Fixed Parameter (Do not change)
+    
+x						# Do not remove

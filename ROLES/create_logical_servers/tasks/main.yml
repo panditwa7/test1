@@ -5,35 +5,26 @@
   - name: Get EM20 Installation Tool version
     shell: ls -td {{ working_dir }}/CXP* | head -1
     register: version
+  - name: Cleanup LS directory if already exists
+    file:
+      path: "{{ version.stdout }}/LS"
+      state: absent
   - name: Copy Logical Servers configuration
     copy: src="../ENV_INFO/LS" dest={{ version.stdout }}/
   - name: Get .in files
     shell: ls ./LS/*.in
+    register: in_file  
     args:
       chdir: '{{ version.stdout }}'
-    register: in_file
-  - name: Create additional Logical Servers - check logs in /var/adm/MM_LOGS
-    shell: "cat {{ item }} | sudo -E ./MM_UTILITY"
+  - name: Create additional Logical Servers - check logs in /var/adm/MM_LOGS - or connect with "screen -x DEVOPS" in master node
+    shell: screen -S DEVOPS sh -c "cat {{ item }} | sudo -E ./MM_UTILITY"
     with_items: '{{ in_file.stdout_lines}}'
     args:
       chdir: '{{ version.stdout }}'
     environment:
       ACTIVITY_TYPE: '{{ ACTIVITY_TYPE }}'
+    ignore_errors: yes
   - name: copy script to add cluster nodes to FM and OM service groups
     copy: src="AddingNodestoSG.sh" dest={{ version.stdout }}/ mode=755
   - name: Execute script
     shell: sudo {{ version.stdout }}/AddingNodestoSG.sh
-  - name: Copy Additional Components configuration
-    copy: src="../ENV_INFO/CMP" dest={{ version.stdout }}/
-  - name: Get .in files
-    shell: ls ./CMP/*.in
-    args:
-      chdir: '{{ version.stdout }}'
-    register: in_file
-  - name: Create additional Components - check logs in /var/adm/MM_LOGS
-    shell: "cat {{ item }} | sudo -E ./MM_UTILITY"
-    with_items: '{{ in_file.stdout_lines}}'
-    args:
-      chdir: '{{ version.stdout }}'
-    environment:
-      ACTIVITY_TYPE: '{{ ACTIVITY_TYPE }}'

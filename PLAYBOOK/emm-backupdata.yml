@@ -1,4 +1,0 @@
-- hosts: emm_master
-  roles:
-    - role: ../ROLES/backupdata
-      ignore_errors: yes

@@ -1,0 +1,13 @@
+---
+# vars file for worker emm
+bonding_interface_primary_ONM: <bonding_interface_primary_ONM>
+bonding_interface_standby_ONM: <bonding_interface_standby_ONM>
+bonding_interface_ip_ONM: <bonding_interface_ip_ONM>
+netmask_ONM: <netmask_ONM>
+default_gateway_ip_ONM: <default_gateway_ip_ONM>
+NTP_Server_IP: <NTP_Server_IP>
+Clus_Node_IP: <Clus_Node_IP>
+HeartBeat_Link_1: <HeartBeat_Link_1>
+HeartBeat_Link_2: <HeartBeat_Link_2>
+# install manager component y/n
+manager: <y/n>

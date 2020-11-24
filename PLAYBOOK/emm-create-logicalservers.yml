@@ -1,4 +1,5 @@
 - hosts: emm_master
+  gather_facts: no
   roles:
     - role: ../ROLES/create_logical_servers
-      ignore_errors: yes
+      ignore_errors: no

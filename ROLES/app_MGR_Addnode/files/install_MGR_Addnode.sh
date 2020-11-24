@@ -2,6 +2,4 @@
 #cd ./$version/
 sudo ./Install_App.sh -P MGR -C ADDTOSG -M LOCAL << EOF
 ..
-y
-y
 EOF

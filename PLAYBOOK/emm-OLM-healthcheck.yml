@@ -1,5 +1,6 @@
 ---
 - hosts: emm_master
+  gather_facts: no
   tasks:
   - name: OnlineServer status
     shell: sudo /usr/bin/MMControl status | grep OnlineServer
@@ -13,13 +14,13 @@
   - name: om_db_Tracer status
     shell: sudo /usr/bin/MMControl status | grep om_db_Tracer
     register: om_db_Tracer
-  
+
   - name: healthcheck status
-    debug:
-      msg: "OLM App installaed successfully"
-    when: 
-      - OnlineServer.stdout is search('ONLINE')
-      - om_db_SERVER.stdout is search('ONLINE')
-      - Tracer.stdout is search('ONLINE')
-      - om_db_Tracer.stdout is search('ONLINE')
-     
+    assert:
+      that:
+        - OnlineServer.stdout is search('ONLINE')
+        - om_db_SERVER.stdout is search('ONLINE')
+        - Tracer.stdout is search('ONLINE')
+        - om_db_Tracer.stdout is search('ONLINE')
+      success_msg: "OLM App installed successfully"
+      fail_msg: "OLM App is NOT working fine, please check before proceeding."

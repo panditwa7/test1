@@ -1,13 +1,18 @@
 ---
   - hosts: emm_master
+    gather_facts: no
     tasks:
-    - name: healthcheck EMM master Group
+    - name: healthcheck EM Master Group
       shell: sudo /opt/VRTSvcs/bin/hastatus -sum
       register: status
+
     - name: healthcheck status
-      debug:
-        msg: "EMM master is working fine"
-      when: status.stdout is search('RUNNING')
+      assert:
+        that:
+          - status.stdout is search('RUNNING')
+        success_msg: "EM Master is working fine"
+        fail_msg: "EM Master is NOT working fine, please check before proceeding."
+
     - name: IMPORTANT MESSAGE
       debug:
         msg: "Remember to configure MANUALLY the password-less connectiviy between EMM Nodes"

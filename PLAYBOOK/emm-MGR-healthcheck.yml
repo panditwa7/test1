@@ -1,5 +1,6 @@
 ---
 - hosts: emm_master
+  gather_facts: no
   tasks:
   - name: CLI status
     shell: sudo /usr/bin/MMControl status | grep CLI
@@ -20,12 +21,13 @@
     shell: sudo /usr/bin/MMControl status | grep Tomcat
     register: Tomcat
   - name: healthcheck status
-    debug:
-      msg: "MGR App installaed successfully"
-    when: 
-      - clistatus.stdout is search('ONLINE')
-      - NodeManager.stdout is search('ONLINE')
-      - Manager.stdout is search('ONLINE')
-      - Database.stdout is search('ONLINE')
-      - Sentinel.stdout is search('ONLINE')
-      - Tomcat.stdout is search('ONLINE')
+    assert:
+      that:
+        - clistatus.stdout is search('ONLINE')
+        - NodeManager.stdout is search('ONLINE')
+        - Manager.stdout is search('ONLINE')
+        - Database.stdout is search('ONLINE')
+        - Sentinel.stdout is search('ONLINE')
+        - Tomcat.stdout is search('ONLINE')
+      success_msg: "MGR App installed successfully"
+      fail_msg: "MGR App is NOT working fine, please check before proceeding."

@@ -1,10 +1,7 @@
 ---
 - hosts: EMM_CPS,emm_master,emm_worker
   become: yes
-  #sudo: yes
-  #remote_user: "{{user}}"
-  #vars_files:
-  #  - ../ENV_INFO/emm.yml
+  gather_facts: no
   roles:
     - role: ../ROLES/apply_ospatches
       ignore_errors: no

@@ -14,7 +14,7 @@
   shell: sh ./emm_install_veritas.sh {{ veritas }}
   args:
     chdir: '{{ version.stdout }}'
-  ignore_errors: yes
+  #ignore_errors: yes
   ignore_unreachable: no
   
 - name: Verifying Veritas InfoScale Software Deployment

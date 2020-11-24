@@ -2,6 +2,7 @@
 # tasks file for master
 - name: Load enviroment file
   include_vars: ../ENV_INFO/emm.yml
+
 - name: Get hostname
   shell: hostname
   register: hostname
@@ -9,15 +10,32 @@
   include_vars:
       dir: ../../../ENV_INFO/
       files_matching: "{{ hostname.stdout }}"
+
 - name: Get EM20 Installation Tool version
   shell: ls -td {{ working_dir }}/CXP* | head -1
   register: version
+
 - name: Go to template path & create platform ini
   shell:
       chdir: '{{ version.stdout }}/templates/Linux'
       cmd: cp -p {{ platform_template }}.eric {{ platform_template }}
-- name: Copy the platform script
-  copy: src=Install_Platform.sh dest={{ version.stdout }}/ backup=yes
+
+#- name: Copy the platform script
+#  copy: src=Install_Platform.sh dest={{ version.stdout }}/ backup=yes
+- name: Comment out Edittemplate in Install_Platform.sh to skip user iteraction
+  replace: 
+    dest: '{{ version.stdout }}/Install_Platform.sh'
+    regexp: '(^[^#].*Edittemplate.*)'
+    replace: '# \1 \n log "Devops: Edit template commented out"'
+    backup: yes
+- name: Updating Install_Platform.sh to reboot from Ansible
+  replace:
+    dest: '{{ version.stdout }}/Install_Platform.sh'
+    regexp: '(^[^#].*read choice.*)'
+    #replace: '# \1 \n choice="n"'
+    replace: '# \1 \n exit 0'
+    backup: no    
+
 - name: Update the cps ini file for ONM Bond
   ini_file:
       path: '{{ version.stdout }}/templates/Linux/{{ platform_template }}'
@@ -63,19 +81,72 @@
       no_extra_spaces: yes
   with_dict: {NTP_Server_IP: "{{ NTP_Server_IP | default() }}"}
   when: " not item.value == '' "
+
 - name: Copy automation script
   copy: src=install_updated.sh dest={{ version.stdout }}/
-- name: Temporary change permissions of /etc directory
+
+- name: Delete io_fencing_disk from automation script if Fencing is CPS
+  lineinfile:
+    dest: "{{ version.stdout }}/install_updated.sh"
+    regexp: "io_fencing_disk"
+    state: absent
+  when: IO_Fencing_Type == 'CPS'
+- name: Update fencing disk names in automation script if Fencing is DISK
+  lineinfile:
+    dest: "{{ version.stdout }}/install_updated.sh"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: 'io_fencing_disk1', line: '{{ io_fencing_disk1 }}' }
+    - { regexp: 'io_fencing_disk2', line: '{{ io_fencing_disk2 }}' }
+    - { regexp: 'io_fencing_disk3', line: '{{ io_fencing_disk3 }}' }
+  when: IO_Fencing_Type == 'DISK'
+
+- name: Delete mmstorage and mmdb disks from automation script if external file system is NFS
+  lineinfile:
+    dest: "{{ version.stdout }}/install_updated.sh"
+    regexp: "mm.*_disk"
+    state: absent
+  when: other_options is search('NFS')
+- name: Update mm disk names in automation script if external system in VRTS
+  lineinfile:
+    dest: "{{ version.stdout }}/install_updated.sh"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: 'mmstorage_disk', line: '{{ mmstorage_disk }}' }
+    - { regexp: 'mmdb_disk', line: '{{ mmdb_disk }}' }
+  when: other_options is search('VRTS')
+
+- name: Temporary change permissions of /etc directory if CPS IO Fencing to be able to copy cp_server_ip file
   shell: sudo chmod 777 /etc/
+  when: IO_Fencing_Type == 'CPS'
 - name: Copy the cp_server_ip file with the CPS IPs (required by libfunc_cps_platform.sh)
   copy: src=../../../ENV_INFO/cp_server_ip dest=/etc/cp_server_ip
+  when: IO_Fencing_Type == 'CPS'
 - name: Restore permissions of /etc directory
   shell: sudo chmod 755 /etc/
-- name: Execute the EMM platform script - check logs in /var/adm/MM_LOGS/Platform
-  shell: sh ./install_updated.sh {{ deployment }} {{ storage }} '{{ other_options }}' 
-  #shell: sleep 500s
+  when: IO_Fencing_Type == 'CPS'
+
+- name: Execute the EMM platform script with screen command - check logs in /var/adm/MM_LOGS/Platform - or connect with "screen -x DEVOPS" in "{{ hostname.stdout }}"
+  shell: screen -S DEVOPS sh ./install_updated.sh {{ deployment }} {{ storage }} '{{ other_options }}' ; sleep 1
+  register: task_result
   args:
     chdir: '{{ version.stdout }}'
-  ignore_errors: true
-  ignore_unreachable: true
-  
+  #ignore_errors: true
+  #ignore_unreachable: true
+
+- name: Rebooting the system
+  block:
+  - name: Reboot system
+    command: sudo shutdown -r +1 "Rebooting Server via Ansible"
+  - name: Wait for the server to come up
+    wait_for_connection:
+      connect_timeout: 120
+      timeout: 180
+      delay: 120
+      sleep: 20
+  when: task_result.changed
+
+- name: wait some minutes for the cluster to be started
+  command: sleep 300 

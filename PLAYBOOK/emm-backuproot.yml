@@ -1,5 +1,0 @@
----
-- hosts: emm_master,emm_worker,EMM_CPS
-  roles:
-    - role: ../ROLES/backuproot
-      ignore_errors: yes

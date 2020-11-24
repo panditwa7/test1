@@ -1,0 +1,11 @@
+---
+# vars file for platform_cps
+bonding_interface_primary_ONM: ens224
+bonding_interface_ip_ONM: 192.168.50.6
+netmask_ONM: 255.255.255.0
+default_gateway_ip_ONM: 192.168.50.1
+Clus_Node_IP: 192.168.50.5
+HeartBeat_Link_1: ens193
+HeartBeat_Link_2: ens161
+# install manager component y/n
+manager: y

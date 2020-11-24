@@ -1,9 +1,16 @@
 ---
 # vars file for mgr
+#MANAGER_PG_DB_USER: "mmsuper"
+#MANAGER_PG_DB_PASSWD: "<MANAGER_PG_DB_PASSWD>"
+#MANAGER_PG_DB_Port: "<MANAGER_PG_DB_Port>"
+#Manager_IP: <Manager_IP>
+#Manager_Netmask: <Manager_Netmask>
+#LIC_IP: <LIC_IP>
+#LIC_Netmask: <LIC_Netmask>
 MANAGER_PG_DB_USER: "mmsuper"
-MANAGER_PG_DB_PASSWD: "mediation"
+MANAGER_PG_DB_PASSWD: "mmsuper"
 MANAGER_PG_DB_Port: "5445"
-Manager_IP: 10.225.41.125
-Manager_Netmask: 255.255.255.0
-LIC_IP: 10.225.41.130
+Manager_IP: 192.168.50.22 
+Manager_Netmask: 255.255.255.0 
+LIC_IP: 192.168.50.23
 LIC_Netmask: 255.255.255.0
