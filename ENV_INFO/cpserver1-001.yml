@@ -1,8 +1,0 @@
----
-# vars file for platform_cps
-bonding_interface_primary_ONM: ens224
-bonding_interface_ip_ONM: 192.168.50.4
-netmask_ONM: 255.255.255.0
-default_gateway_ip_ONM: 192.168.50.1
-cps_virtual_IP: 192.168.50.19
-other_hosts_ONM: 192.168.50.5

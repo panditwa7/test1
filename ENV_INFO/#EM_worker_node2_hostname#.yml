@@ -1,5 +1,6 @@
 ---
 # vars file for worker emm
+# Check Installation Templates in EM Installation Instructions for further details.
 bonding_interface_primary_ONM: <bonding_interface_primary_ONM>
 bonding_interface_standby_ONM: <bonding_interface_standby_ONM>
 bonding_interface_ip_ONM: <bonding_interface_ip_ONM>

@@ -1,57 +1,50 @@
 ---
 # vars file
-# Working directory in EM:
-# Note: for EM20 it is recommended to give relative path from sudo user home directory
-#working_dir: <path to working directory to be created by pipeline in EM nodes>
-working_dir: /install/
 
+# Working directory in EM:
+# Note: for EM20 it is recommended to give relative path from sudo user home directory to avoid problems with permissions
+working_dir: <path to working directory to be created by pipeline in EM nodes>
 
 ################################
 # Parameters for SW upload to EM VMs:
-# Uncomment if EM SW has been downloaded manually from SWGW and uploaded to Artifactory:
+# Uncomment below parameters if EM SW has been downloaded manually from SWGW and uploaded to Artifactory:
 #artifactory_url: <artifactory_url>
 #artifactory_folder: <artifact_folder>
 #artifactory_key: <artifactory_key>
 
-# Uncomment if EM SW has been downloaded manually from SWGW and uploaded to a folder in DDS
+# Uncomment below parameters if EM SW has been downloaded manually from SWGW and uploaded to a folder in DDS
 emm_media_src_dir: <path to existing directory in DDS having the EM SW>
 
-# EM20 SW
+# EM20 SW: zip files as downloaded from SWGS
 #redhat_sw: <filename of ISO 1 - Red Hat SW in zip format>
 #infoscale_sw: <filename of ISO 2 - Veritas SW in zip format>
 #threepp_sw: <filename of ISO 3 - 3PP SW in zip format>
 #appl_sw: <filename of Application ISO in zip format>
 #tool_sw: <filename of Tools .tar file>
 
-#old_kernel: <rpm of old kernel (rpm -qa |grep kernel), it will be removed after OS patch installation>
-#old_kernel: <old_kernel>
-redhat_sw: CXP9036931_1-R1B.zip
-infoscale_sw: CXP9036931_2-R1C.zip
-threepp_sw: CXP9036931_3-R1B.zip
-appl_sw: CXP9036928-R1F.zip
-tool_sw: CXP9036929-R2N.zip
-old_kernel: kernel-3.10.0-1062.el7.x86_64
+# rpm of old kernel (rpm -qa |grep kernel), pipeline will be removed at the end of OS patch installation, i.e old_kernel: kernel-3.10.0-1062.el7.x86_64
+old_kernel: <old_kernel>
 
 ################################
 # Parameters for Installation/Upgrades
-# Configuration template, select the one applicable:
+# Configuration template, select the one applicable. Check EM Installation Instructions for further details.
 #platform_template: platform_networkbond.ini
 #platform_template: platform_cluster.ini
 platform_template: platform_cluster_nfs.ini
 
-# Deployment options: CLUSTER/STDALONE, select the one applicable:
+# Deployment options: CLUSTER/STDALONE, select the one applicable. Check EM Installation Instructions for further details.
 #deployment: STDALONE
 deployment: CLUSTER
 
-# Veritas installation: ENTERPRISE/AVAILABILITY, select the one applicable:
+# Veritas installation: ENTERPRISE/AVAILABILITY, select the one applicable. Check EM Installation Instructions for further details.
 veritas: ENTERPRISE
 #veritas: AVAILABILITY
 
-# storage type: external/internal, select the one applicable:
+# storage type: external/internal, select the one applicable:. Check EM Installation Instructions for further details.
 #storage: internal
 storage: external
 
-# Other options for Platform installation, will be appended to Install_Platform.sh, select the one applicable:
+# Other options for Platform installation, will be appended to Install_Platform.sh, select the one applicable. Check EM Installation Instructions for further details.
 # Note: -C will be taken from deployment variable, and -E from storage variable
 #other_options: ""
 other_options: "-F NFS"
@@ -60,7 +53,7 @@ other_options: "-F NFS"
 #other_options: "-F VRTS -O NODG -L debug"
 #other_options: "-F VRTS -O NODG"
 
-# Other options for Platform installation when adding node to existing cluster, will be appended to Install_Platform.sh, select the one applicable:
+# Other options for Platform installation when adding node to existing cluster, will be appended to Install_Platform.sh, select the one applicable. Check EM Installation Instructions for further details.
 # Note: -C ADDNODE is handled internally in playbook, and -E is taken from storage variable
 other_options_addnode: "-F NFS"
 #other_options_addnode: "-F VRTS"
@@ -74,11 +67,11 @@ io_fencing_disk1: <io_fencing_disk1 name>
 io_fencing_disk2: <io_fencing_disk2 name>
 io_fencing_disk3: <io_fencing_disk3 name>
 
-# Other options for Application installation, will be appended to Install_App.sh, select the one applicable:
+# Other options for Application installation, will be appended to Install_App.sh, select the one applicable. Check EM Installation Instructions for further details.
 app_other_options: ""
 #app_other_options: "-I DEFAULT"
 #app_other_options: "-U UPGRADE"
 
-# Enviroment variable required to install additional logical servers and additional applications (DRRF, DRViewer ...) in Upgrade scenario, select the one applicable:
+# Enviroment variable required to install additional logical servers and additional applications (DRRF, DRViewer ...) in Upgrade scenario, select the one applicable. Check EM Installation Instructions for further details.
 ACTIVITY_TYPE: ""
 #ACTIVITY_TYPE: UPGRADE
