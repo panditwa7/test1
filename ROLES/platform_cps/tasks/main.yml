@@ -19,7 +19,7 @@
 - name: Go to template path & create cps ini
   shell:
     chdir: '{{ version.stdout }}/templates/Linux'
-    cmd: cp -p platform_cps.ini.eric platform_cps.ini
+    cmd: cp platform_cps.ini.eric platform_cps.ini; sudo chmod 777 platform_cps.ini
 
 #- name: Copy the platform script
 #  copy: src=Install_Platform.sh dest={{ version.stdout }}/ backup=yes

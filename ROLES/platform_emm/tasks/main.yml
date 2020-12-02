@@ -18,7 +18,7 @@
 - name: Go to template path & create platform ini
   shell:
       chdir: '{{ version.stdout }}/templates/Linux'
-      cmd: cp -p {{ platform_template }}.eric {{ platform_template }}
+      cmd: cp {{ platform_template }}.eric {{ platform_template }}; sudo chmod 777 {{ platform_template }}
 
 #- name: Copy the platform script
 #  copy: src=Install_Platform.sh dest={{ version.stdout }}/ backup=yes
