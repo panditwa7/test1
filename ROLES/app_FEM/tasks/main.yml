@@ -31,7 +31,7 @@
   - name: Copy automation script
     copy: src=install_FEM.sh dest={{ version.stdout }}/install_FEM.sh mode=u+rwx
   - name: Execute the FEM app installation script - check logs in /var/adm/MM_LOGS/App
-    shell: ./install_FEM.sh {{ deployment }} '{{ app_other_options }}'
+    shell: screen -S DEVOPS ./install_FEM.sh {{ deployment }} '{{ app_other_options }}'
     args:
       chdir: '{{ version.stdout }}'
       
