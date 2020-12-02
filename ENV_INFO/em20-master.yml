@@ -1,0 +1,18 @@
+---
+# vars file for master emm
+bonding_interface_primary_ONM: ens224
+bonding_interface_ip_ONM: 192.168.50.15
+netmask_ONM: 255.255.255.0
+default_gateway_ip_ONM: 192.168.50.1
+Cluster_ID: 251
+Cluster_Name: EM20_devops
+HeartBeat_Link_1: ens256
+HeartBeat_Link_2: ens161
+IO_Fencing_Type: CPS
+NFS_Server_Version_for_MMDB: nfs4
+NFS_Share_IP_for_MMDB: 10.61.100.4
+MMDB_NFS_Share_Name: /data1
+NFS_Server_Version_for_MMStorage: nfs4
+NFS_Share_IP_for_MMStorage: 10.61.100.4
+MMStorage_NFS_Share_Name: /data
+other_hosts_ONM: 192.168.50.13

@@ -3,7 +3,7 @@
 # Working directory in EM:
 # Note: for EM20 it is recommended to give relative path from sudo user home directory
 #working_dir: <path to working directory to be created by pipeline in EM nodes>
-working_dir: /install/
+working_dir: ./install/
 
 
 ################################
@@ -14,7 +14,7 @@ working_dir: /install/
 #artifactory_key: <artifactory_key>
 
 # Uncomment if EM SW has been downloaded manually from SWGW and uploaded to a folder in DDS
-emm_media_src_dir: <path to existing directory in DDS having the EM SW>
+emm_media_src_dir: /em20/
 
 # EM20 SW
 #redhat_sw: <filename of ISO 1 - Red Hat SW in zip format>
