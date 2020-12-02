@@ -19,6 +19,12 @@
       regexp: '(^[^#].*Edittemplate.*)'
       replace: '# \1 \n log "Devops: Edit template commented out"'      
       backup: yes
+  - name: avoid terminal checks
+    replace:
+      dest: '{{ version.stdout }}/lib/Linux/libfunc_common_App.sh'
+      regexp: '(.*)\[ -t 1 \](.*)'
+      replace: '\1[ -t 9 ]\2'
+      backup: yes
   - name: Update ini file for Interface IP
     ini_file:
       path: '{{ version.stdout }}/templates/Linux/config_template_FEM.ini'
