@@ -39,7 +39,7 @@ stages:
   #allow_failure: true
   when: manual
 
-.uploadsoftwaretocps:
+uploadsoftwaretocps:
   stage: uploadsoftwaretocps
   tags:
     - em-aip
@@ -49,7 +49,7 @@ stages:
   allow_failure: true
   when: manual
 
-.uploadsoftwaretoemm:
+uploadsoftwaretoemm:
   stage: uploadsoftwaretoemm
   tags:
     - em-aip
