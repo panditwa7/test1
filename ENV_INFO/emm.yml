@@ -29,7 +29,7 @@ redhat_sw: CXP9036931_1-R1B.zip
 infoscale_sw: CXP9036931_2-R1C.zip
 threepp_sw: CXP9036931_3-R1B.zip
 appl_sw: CXP9036928-R1F.zip
-tool_sw: CXP9036929-R2N.zip
+tool_sw: CXP9036929-R1Z.zip
 old_kernel: kernel-3.10.0-1062.el7.x86_64
 
 ################################

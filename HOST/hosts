@@ -8,7 +8,6 @@ ansible_connection=ssh
 
 [emm_master]
 emmuser@10.223.141.223
-root@10.223.140.32
 [emm_master:vars]
 ansible_password=Mmuser1!
 ansible_connection=ssh
