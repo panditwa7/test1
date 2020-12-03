@@ -19,7 +19,7 @@
 - name: Go to template path & create cps ini
   shell:
     chdir: '{{ version.stdout }}/templates/Linux'
-    cmd: cp -p platform_cps.ini.eric platform_cps.ini
+    cmd: cp platform_cps.ini.eric platform_cps.ini; sudo chmod 777 platform_cps.ini
 
 #- name: Copy the platform script
 #  copy: src=Install_Platform.sh dest={{ version.stdout }}/ backup=yes
@@ -90,13 +90,15 @@
   register: task_result
 
 - name: Rebooting the system
-  reboot:
-    msg: "Rebooting the system {{ hostname.stdout }}"
-    connect_timeout: 5
-    reboot_timeout: 240
-    pre_reboot_delay: 0
-    post_reboot_delay: 30
-    test_command: uptime	
+  block:
+  - name: Reboot system
+    command: sudo /usr/sbin/shutdown -r +1 "Rebooting Server via Ansible"
+  - name: Wait for the server to come up
+    wait_for_connection:
+      connect_timeout: 120
+      timeout: 180
+      delay: 120
+      sleep: 20
   when: task_result.changed
 
 - name: wait some minutes for the cluster to be started

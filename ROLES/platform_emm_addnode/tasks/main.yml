@@ -15,7 +15,7 @@
 - name: Go to template path & create platform nfs ini
   shell:
     chdir: '{{ version.stdout }}/templates/Linux'
-    cmd: cp -p platform_addnode.ini.eric platform_addnode.ini
+    cmd: cp platform_addnode.ini.eric platform_addnode.ini; sudo chmod 777 platform_addnode.ini
 #- name: Update the hostname
 #  shell: sudo hostnamectl set-hostname {{ hostname }}
 #- name: Copy the platform script
