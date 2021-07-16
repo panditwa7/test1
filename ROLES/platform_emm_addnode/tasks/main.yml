@@ -8,7 +8,7 @@
 - name: include vars specific to hostname
   include_vars:
     dir: ../../../ENV_INFO/
-    files_matching: "{{ hostname.stdout }}"
+    files_matching: "{{ hostname.stdout }}.yml"
 - name: Get EM20 Installation Tool version
   shell: ls -td {{ working_dir }}/CXP* | head -1
   register: version
