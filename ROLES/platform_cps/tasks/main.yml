@@ -10,7 +10,7 @@
 - name: include vars specific to hostname
   include_vars:
     dir: ../../../ENV_INFO/
-    files_matching: "{{ hostname.stdout }}"
+    files_matching: "{{ hostname.stdout }}.yml"
 
 - name: Get EM20 Installation Tool version
   shell: ls -td {{ working_dir}}/CXP* | head -1
@@ -81,7 +81,8 @@
   copy: src=install_updated.sh dest={{ version.stdout }}/
 
 - name: Execute the CPS platform script - check logs in /var/adm/MM_LOGS/Platform - or connect with "screen -x DEVOPS" in "{{ hostname.stdout }}"
-  shell: screen -S DEVOPS sh ./install_updated.sh
+  #shell: screen -S DEVOPS sh ./install_updated.sh
+  shell: sh ./install_updated.sh
   #shell: sleep 500s
   args:
     chdir: '{{ version.stdout }}'

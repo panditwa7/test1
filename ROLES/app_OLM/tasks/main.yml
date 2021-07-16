@@ -37,7 +37,8 @@
 - name: Copy automation script
   copy: src=install_OLM.sh dest={{ version.stdout }}/install_OLM.sh mode=u+rwx
 - name: Execute the OLM app installation script - check logs in /var/adm/MM_LOGS/App - or connect with "screen -x DEVOPS" in system
-  shell: screen -S DEVOPS sh ./install_OLM.sh {{ deployment }} '{{ app_other_options }}'
+  #shell: screen -S DEVOPS sh ./install_OLM.sh {{ deployment }} '{{ app_other_options }}'
+  shell: sh ./install_OLM.sh {{ deployment }} '{{ app_other_options }}'
   args:
     chdir: '{{ version.stdout }}'
     
