@@ -1,0 +1,22 @@
+---
+- hosts: OPENSTACK
+  gather_facts: false
+  vars_files:
+    - ../ENV_INFO/env.yml
+
+
+  tasks:
+
+    - name: Image creation for EM
+      shell: |
+        source {{ sourcepath }}{{ cloud }}
+        openstack image create --disk-format {{ emdiskformate }} --container-format bare --public --file {{ imagefilepathem }} {{ emimage }}
+      register: em_image_output
+    - debug: var=cps_image_output.stdout_lines
+
+    - name: Checking image list for em
+      shell: |
+        source {{ sourcepath }}{{ cloud }}
+        openstack image list
+      register: em_image__list_output
+    - debug: var=em_image__list_output.stdout_lines

@@ -1,8 +1,0 @@
----
-- hosts: emm_worker
-  # serial = 1 to add workers sequencially, and not in parallel which will cause VCS conflicts
-  serial: 1
-  gather_facts: no
-  roles:
-    - role: ../ROLES/platform_emm_addnode
-      ignore_errors: no

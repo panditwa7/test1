@@ -1,6 +1,0 @@
----
-- hosts: emm_master
-  gather_facts: no
-  roles:
-    - role: ../ROLES/platform_emm
-      ignore_errors: no

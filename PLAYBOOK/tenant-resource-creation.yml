@@ -1,0 +1,52 @@
+---
+- hosts: OPENSTACK
+  gather_facts: false
+  vars_files:
+    - ../ENV_INFO/env.yml
+
+  tasks:
+#    - name: Verify tenant resource templates
+#      shell: |
+#        source {{ sourcepath }}{{ cloud }}
+#        openstack stack create -e {{ envinfrafile }} --timeout 1  --dry-run -t {{ infrafile }} {{ stackname }}
+#      register: verify_template_output
+#    - debug: var=verify_template_output.stdout_lines
+
+    - name: Tenant resource creation
+      shell: |
+        source {{ sourcepath }}{{ cloud }}
+        openstack stack create -e {{ envinfrafile }} --timeout 1 -t {{ infrafile }} {{ stackname }}
+        sleep 30s
+        openstack stack show {{ stackname }}
+      register: tenant_resource__creation_output
+    #- debug: var=tenant_resource__creation_output.stdout_lines
+
+    - name: Retry a task until a certain condition is met
+      shell: |
+        source {{ sourcepath }}{{ cloud }}
+        openstack stack show {{ stackname }} | grep -w "stack_status" | cut -d"|" -f3 | tr -d [:blank:]
+      register: tenant_resource__creation_output
+      until: "tenant_resource__creation_output.stdout == 'CREATE_COMPLETE' or tenant_resource__creation_output.stdout == 'CREATE_FAILED'"
+      retries: 100
+      delay: 10
+      when: '"CREATE_IN_PROGRESS" in tenant_resource__creation_output.stdout' 
+
+    - name: "check CREATE_FAILED"
+      when: '"CREATE_FAILED" in tenant_resource__creation_output.stdout'
+      fail: msg="Aborting pipeline"
+
+    - name: verify stack status
+      shell: |
+        source {{ sourcepath }}{{ cloud }}
+        openstack stack list
+      register: tenant_list_output
+    - debug: var=tenant_list_output.stdout_lines
+
+
+    - name: Downloading keypair
+      shell: |
+        source {{ sourcepath }}{{ cloud }}
+        openstack stack show {{ stackname}}| sed -n '/KEY/,/KEY/p'| cut -d "|" -f3|sed 's/^ *//g'| sed '/^$/d'| sed 's/ //g'| sed "s/output_value:'//g" > {{ pemkey }}
+        chmod 0600 {{ pemkey }}
+      register: download_key_output
+    - debug: var=download_key_output.stdout_lines

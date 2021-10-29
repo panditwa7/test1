@@ -1,6 +1,0 @@
----
-- hosts: emm_master
-  gather_facts: no
-  roles:
-    - role: ../ROLES/app_MGR
-      ignore_errors: no

@@ -1,6 +1,0 @@
----
-- hosts: emm_master,emm_worker
-  gather_facts: no
-  roles:
-    - role: ../ROLES/emm_upload_software
-      ignore_errors: no

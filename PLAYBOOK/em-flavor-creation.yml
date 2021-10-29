@@ -1,0 +1,20 @@
+---
+- hosts: OPENSTACK
+  gather_facts: false
+  vars_files:
+    - ../ENV_INFO/env.yml
+
+  tasks:
+    - name: Flavor Creation for EM
+      shell: |
+        source {{ sourcepath }}{{ cloud }}
+        openstack flavor create --ram {{ ramem }} --disk {{ diskem }} --vcpu {{ cpuem }} --property hw_rng:allowed=True {{ emflavorname }}
+      register: creation_em_output
+    - debug: var=creation_em_output.stdout_lines
+
+    - name: em flavor check list
+      shell: |
+        source {{ sourcepath }}{{ cloud }}
+        openstack flavor list
+      register: em_image_list_output
+    - debug: var=em_image_list_output.stdout_lines

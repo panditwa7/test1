@@ -1,6 +1,0 @@
----
-- hosts: EMM_CPS
-  gather_facts: no
-  roles:
-    - role: ../ROLES/veritas_cps
-      ignore_errors: no

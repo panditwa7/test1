@@ -1,5 +1,0 @@
-- hosts: emm_master,emm_worker
-  gather_facts: no
-  roles:
-    - role: ../ROLES/system_hardening
-      ignore_errors: no

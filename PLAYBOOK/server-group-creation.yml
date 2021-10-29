@@ -1,0 +1,61 @@
+---
+- hosts: OPENSTACK
+  gather_facts: false
+  vars_files:
+    - ../ENV_INFO/env.yml
+
+  tasks:
+#    - name: verify template for server group creation
+#      shell: |
+#        source {{ sourcepath }}{{ cloud }}
+#        openstack stack create -e {{ groupenvdeploy }} --timeout 1 --dry-run -t {{ serverdeploy }} {{ servergroupstack }}
+#      register: server_group_template_verify_output
+#    - debug: var=server_group_template_verify_output.stdout_lines
+
+
+    - name: server group creation
+      shell: |
+        source {{ sourcepath }}{{ cloud }}
+        openstack stack create -e {{ groupenvdeploy }} --timeout 1 -t {{ serverdeploy }} {{ servergroupstack }}
+        sleep 30s
+        openstack stack show {{ servergroupstack }}
+      register: server_group_creation_output
+    #- debug: var=server_group_creation_output.stdout_lines
+
+    - name: Retry a task until a certain condition is met
+      shell: |
+        source {{ sourcepath }}{{ cloud }}
+        openstack stack show {{ servergroupstack }} | grep -w "stack_status" | cut -d"|" -f3 | tr -d [:blank:]
+      register: server_group_creation_output
+      until: "server_group_creation_output.stdout == 'CREATE_COMPLETE' or server_group_creation_output.stdout == 'CREATE_FAILED'"
+      retries: 100
+      delay: 10
+      when: '"CREATE_IN_PROGRESS" in server_group_creation_output.stdout'
+
+    - name: "check CREATE_FAILED"
+      when: '"CREATE_FAILED" in server_group_creation_output.stdout'
+      fail: msg="Aborting pipeline"
+
+    - name: verify stack list
+      shell: |
+        source {{ sourcepath }}{{ cloud }}
+        openstack stack list 
+      register: stack_list_output
+    - debug: var=stack_list_output.stdout_lines
+
+    - name: reading parameter from a file
+      shell: |
+        source {{ sourcepath }}{{ cloud }}
+        openstack server group list
+        grep -r "name_of_server_group" {{ groupenvdeploy }} | awk '{print $2}' | tr -d "'"> test.txt
+        servergroup=$(cat test.txt)
+        grep -r "uuidOfServerGroup" {{ emvmenv }}  | awk '{print $2}' | tr -d "'"> test1.txt
+        serverid=$(cat test1.txt); echo $serverid
+        openstack server group list | grep {{ servergroupstack }}-$servergroup | cut -d "|" -f 2 |  tr -d "'" > id1.txt
+        sed 's/ //g' id1.txt > id.txt
+        groupid=$(cat id.txt); echo $groupid
+        sed -i "s,$serverid,$groupid,g" {{ emvmenv }}
+      register: parameter_output
+    - debug: var=parameter_output.stdout_lines
+
+
